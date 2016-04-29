@@ -42,12 +42,49 @@ public:
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+private slots:
+    void on_menu_small_button_search_clicked();
+
+    void on_menu_small_button_album_clicked();
+
+    void on_menu_small_button_artist_clicked();
+
+    void on_menu_small_button_list_clicked();
+
+    void on_menu_small_button_menu_clicked();
+
+    void on_menu_small_button_play_clicked();
+
+    void on_menu_small_button_song_clicked();
+
+    void on_menu_full_button_add_album_clicked();
+
+    void on_menu_full_button_add_artist_clicked();
+
+    void on_menu_full_button_add_list_clicked();
+
+    void on_menu_full_button_add_song_clicked();
+
+    void on_menu_full_button_album_clicked();
+
+    void on_menu_full_button_artist_clicked();
+
+    void on_menu_full_button_list_clicked();
+
+    void on_menu_full_button_menu_clicked();
+
+    void on_menu_full_button_play_clicked();
+
+    void on_menu_full_button_search_clicked();
+
+    void on_menu_full_button_song_clicked();
+
 private:
     Ui::MainWindow *ui;
     Dialog * mdialog;
     QFileSystemModel *dirmodel;
     QFileSystemModel *filemodel;
-    void FillForm();
     void MovePageToAlbuns();
     void MovePageToArtists();
     void MovePageToPlayer();
