@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>circle.png</file>
+        <file>circle-1.png</file>
+        <file>interface.png</file>
+        <file>music.png</file>
+        <file>music2.png</file>
+        <file>playlist.png</file>
+        <file>social.png</file>
+        <file>square.png</file>
+        <file>tool.png</file>
+        <file>cross.png</file>
+    </qresource>
+</RCC>
