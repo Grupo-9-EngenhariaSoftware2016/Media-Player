@@ -23,7 +23,7 @@
    <item row="0" column="0" colspan="3">
     <layout class="QGridLayout" name="gridLayout">
      <item row="5" column="0" colspan="4">
-      <widget class="QPushButton" name="bt_add_img_artwork_diag">
+      <widget class="QPushButton" name="dialog_button_add_artwork">
        <property name="text">
         <string>Escolher Imgem do Artista</string>
        </property>
@@ -62,7 +62,7 @@
       </spacer>
      </item>
      <item row="4" column="1" colspan="2">
-      <widget class="QLabel" name="img_artwork_diag">
+      <widget class="QLabel" name="dialog_label_artwork">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -108,7 +108,7 @@
       </spacer>
      </item>
      <item row="0" column="1" colspan="3">
-      <widget class="QLineEdit" name="le_nome">
+      <widget class="QLineEdit" name="dialog_lineEdit_name">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
          <horstretch>0</horstretch>
@@ -124,7 +124,7 @@
       </widget>
      </item>
      <item row="0" column="0">
-      <widget class="QLabel" name="lb_nome">
+      <widget class="QLabel" name="dialog_label_name">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -142,7 +142,7 @@
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QLabel" name="lb_descricao">
+      <widget class="QLabel" name="dialog_label_birth">
        <property name="font">
         <font>
          <pointsize>11</pointsize>
@@ -154,7 +154,7 @@
       </widget>
      </item>
      <item row="2" column="1" colspan="3">
-      <widget class="QLineEdit" name="le_nome_3">
+      <widget class="QLineEdit" name="dialog_lineEdit_nacionality">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
          <horstretch>0</horstretch>
@@ -176,7 +176,7 @@
       </widget>
      </item>
      <item row="2" column="0">
-      <widget class="QLabel" name="lb_descricao_3">
+      <widget class="QLabel" name="dialog_label_nacionality">
        <property name="font">
         <font>
          <pointsize>11</pointsize>
@@ -188,7 +188,7 @@
       </widget>
      </item>
      <item row="1" column="1" colspan="3">
-      <widget class="QDateEdit" name="dateEdit">
+      <widget class="QDateEdit" name="dialog_dateEdit_birth">
        <property name="calendarPopup">
         <bool>true</bool>
        </property>
@@ -209,14 +209,14 @@
    <item row="3" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="bt_cancel">
+      <widget class="QPushButton" name="dialog_button_cancel">
        <property name="text">
         <string>Cancelar</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="bt_save">
+      <widget class="QPushButton" name="dialog_button_save">
        <property name="text">
         <string>Guardar</string>
        </property>
