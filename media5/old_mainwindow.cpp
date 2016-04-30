@@ -4,7 +4,7 @@
 #include <QModelIndex>
 
 #define NO_DB
-
+/*
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -391,7 +391,7 @@ void MainWindow::on_bt_tab_add_clicked()
          ui->pages->setCurrentIndex(3);
     }
 
-}
+}*/
 void MainWindow::on_bt_add_songs_clicked()
 {
     QStringList filename = QFileDialog::getOpenFileNames(this,tr("Open a File"),"","MP3 files (*.mp3)");
@@ -451,11 +451,13 @@ void MainWindow::on_tableWidget_clicked(const QModelIndex &index)
     }
 
 }
+/*
 void MainWindow::on_bt_nwalbum_nwartist_clicked()
 {
     mdialog = new Dialog(this);
     mdialog->show();
-}
+}*/
+
 void MainWindow::on_bt_tab_select_toggled(bool checked)
 {
     if(checked){
