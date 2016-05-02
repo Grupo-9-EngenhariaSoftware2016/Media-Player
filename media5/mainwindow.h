@@ -7,7 +7,9 @@
 #include <QFileInfo>
 #include <QFileSystemModel>
 #include <QFileDialog>
+#include <QList>
 #include "dialog.h"
+#include "classes.h"
 
 namespace Ui {
 class MainWindow;
@@ -19,6 +21,11 @@ class MainWindow : public QMainWindow
 
 public:
     QSqlDatabase mydb;
+    QList <Album*> _albuns;
+    //QList <Playlist*> _playlist;
+    //QList <Autor*> _artists;
+    //QList <Musica*> _songs;
+    //Player *_player;
     void connClose()
     {
         mydb.close();
@@ -69,7 +76,6 @@ private slots:
     void on_page_categories_button_select_toggled(bool checked);
     void on_page_categories_button_random_clicked();
     void on_page_categories_comboBox_order_currentIndexChanged(int index);
-    void on_page_categories_tableWidget_clicked(const QModelIndex &index);
     void on_page_categories_tableWidget_doubleClicked(const QModelIndex &index);
 
     // Page Album Info Handlers
@@ -77,8 +83,8 @@ private slots:
     void on_page_album_info_button_addTo_clicked();
     void on_page_album_info_button_remove_clicked();
     void on_page_album_info_button_exploreArtist_clicked();
-    void on_page_album_info_listView_clicked(const QModelIndex &index);
-    void on_page_album_info_listView_doubleClicked(const QModelIndex &index);
+    void on_page_album_info_button_select_toggled(bool checked);
+    void on_page_album_info_tableWidget_doubleClicked(const QModelIndex &index);
 
     // Page Add Album Handlers
     void on_page_add_album_button_addArtwork_clicked();
@@ -140,15 +146,20 @@ private:
     Dialog * mdialog;
     QFileSystemModel *dirmodel;
     QFileSystemModel *filemodel;
+
     void CheckMenuButton(QString button);
     void ExpandMenu(bool expand);
     void ShowOptionsTab(bool show);
     void ShowProgressTab(bool show);
     void MovePageToAlbuns();
+    void MovePageToAlbumInfo(int index);
     void MovePageToArtists();
+    void MovePageToArtistInfo(int index);
     void MovePageToPlayer();
     void MovePageToSongs();
+    void MovePageToSongInfo(int index);
     void MovePageToPlaylists();
+    void MovePageToPlaylistInfo(int index);
     void MovePageToSearch();
     void MovePageToAddAlbuns();
     void MovePageToAddPlaylist();
