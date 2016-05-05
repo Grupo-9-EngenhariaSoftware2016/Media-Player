@@ -8,7 +8,6 @@
 #include <QFileSystemModel>
 #include <QFileDialog>
 #include <QList>
-#include <QTableWidget>
 #include "dialog.h"
 #include "classes.h"
 
@@ -23,10 +22,10 @@ class MainWindow : public QMainWindow
 public:
     QSqlDatabase mydb;
     QList <Album*> _albuns;
-    QList <Playlist*> _playlist;
-    QList <Autor*> _artists;
-    QList <Musica*> _songs;
-    Player _player;
+    //QList <Playlist*> _playlist;
+    //QList <Autor*> _artists;
+    //QList <Musica*> _songs;
+    //Player *_player;
     void connClose()
     {
         mydb.close();
@@ -110,7 +109,6 @@ private slots:
     void on_page_artist_button_play_clicked();
     void on_page_artist_button_addTo_clicked();
     void on_page_artist_button_remove_clicked();
-    void on_page_artist_button_select_toggled(bool checked);
     void on_page_artist_tableWidget_albuns_doubleClicked(const QModelIndex &index);
 
     // Page Playlist Handlers
@@ -149,22 +147,10 @@ private:
     QFileSystemModel *dirmodel;
     QFileSystemModel *filemodel;
 
-    QString getArtistsFrom(Album *album);
-    QString getArtistsFrom(Playlist *playlist);
-    QString getArtistsFrom(int *displayed, Musica *song);
-    QList <Album*> getAlbunsFromArtist(Autor *artist);
-    QList <Musica*> getSongsFromArtist(Autor *artist);
-
     void CheckMenuButton(QString button);
     void ExpandMenu(bool expand);
     void ShowOptionsTab(bool show);
     void ShowProgressTab(bool show);
-
-    void AddAlbumLineToTable(QTableWidget *table, Album *album);
-    void AddSongLineToTable(QTableWidget *table, Musica *song);
-    void AddArtistLineToTable(QTableWidget *table, Autor *artist);
-    void AddPlaylistLineToTable(QTableWidget *table, Playlist *playlist);
-
     void MovePageToAlbuns();
     void MovePageToAlbumInfo(int index);
     void MovePageToArtists();
