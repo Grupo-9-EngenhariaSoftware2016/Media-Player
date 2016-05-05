@@ -1150,7 +1150,7 @@ QPushButton:checked{ background-color: pink; }</string>
        <string notr="true">background-color:white;</string>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="page_categories">
        <layout class="QGridLayout" name="gridLayout_4">
@@ -1689,13 +1689,37 @@ QPushButton:checked{ background-color: pink; }</string>
           <property name="frameShape">
            <enum>QFrame::NoFrame</enum>
           </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAsNeeded</enum>
+          </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
           <property name="alternatingRowColors">
            <bool>true</bool>
           </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::ExtendedSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+          <property name="textElideMode">
+           <enum>Qt::ElideLeft</enum>
+          </property>
+          <property name="showGrid">
+           <bool>false</bool>
+          </property>
+          <attribute name="horizontalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
           <attribute name="horizontalHeaderHighlightSections">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderVisible">
            <bool>false</bool>
           </attribute>
          </widget>

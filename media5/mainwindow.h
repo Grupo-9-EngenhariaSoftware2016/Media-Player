@@ -154,6 +154,7 @@ private:
     QString getArtistsFrom(int *displayed, Musica *song);
     QList <Album*> getAlbunsFromArtist(Autor *artist);
     QList <Musica*> getSongsFromArtist(Autor *artist);
+    Album* getAlbumWith(Musica* song);
 
     void CheckMenuButton(QString button);
     void ExpandMenu(bool expand);
