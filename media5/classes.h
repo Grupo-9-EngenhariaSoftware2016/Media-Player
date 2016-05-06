@@ -4,6 +4,7 @@
 #include <QList>
 #include <QString>
 #include <QDate>
+#include <algorithm>
 
 using namespace std;
 
@@ -73,6 +74,7 @@ private:
     QString _diretoria;
     QString _genero;
     QString _imagem;
+    int _ano;
     QList <Autor*> *_autor;
     QList <Musica*> *_musica;
 public:
@@ -92,6 +94,8 @@ public:
     bool hasAutor(Autor *autor);
     QString getImagem();
     int setImagem(QString imagem);
+    int getAno();
+    int setAno(int ano);
     int getMusicas(QList <Musica*> *musicas);
     int setMusicas(QList <Musica*> *musicas);
 
@@ -122,6 +126,7 @@ public:
     int getSize();
     int setDescricao(QString descricao);
     int getMusicas(QList <Musica*> *musicas);
+    Musica *getMusica(int indice);
     int setMusicas(QList <Musica*> *musicas);
 
 	int apagar();
@@ -138,6 +143,9 @@ class Player
 {
 private:
 	Playlist* _lista;
+    QList <int> _ordem;
+    int _aTocar;
+    bool _aleatorio;
 public:
 	Player();
 	~Player();
@@ -148,10 +156,13 @@ public:
 	int parar();
 	int seguinte();
 	int anterior();
+    int aleatorio(bool aleatorio);
     int adicionar(QList <Musica*> *musicas);
+    int adicionar(Musica *musicas);
     int remover(QList <Musica*> *musicas);
     int removerTodas();
     bool isEmpty();
+    bool isRandom();
 	
 };
 

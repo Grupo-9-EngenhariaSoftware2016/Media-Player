@@ -27,6 +27,8 @@ public:
     QList <Autor*> _artists;
     QList <Musica*> _songs;
     Player _player;
+    QString _imageURL;
+
     void connClose()
     {
         mydb.close();
@@ -161,6 +163,7 @@ private:
     void ShowOptionsTab(bool show);
     void ShowProgressTab(bool show);
 
+    void FormatTableFor(QTableWidget *table, QString format);
     void AddAlbumLineToTable(QTableWidget *table, Album *album);
     void AddSongLineToTable(QTableWidget *table, Musica *song);
     void AddArtistLineToTable(QTableWidget *table, Autor *artist);
@@ -172,7 +175,6 @@ private:
     void MovePageToArtistInfo(int index);
     void MovePageToPlayer();
     void MovePageToSongs();
-    void MovePageToSongInfo(int index);
     void MovePageToPlaylists();
     void MovePageToPlaylistInfo(int index);
     void MovePageToSearch();

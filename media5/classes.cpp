@@ -203,6 +203,7 @@ Album::Album()
     _diretoria = "";
     _genero = "";
     _imagem = "";
+    _ano = 0;
     _autor = new QList <Autor*>;
     _musica = new QList <Musica*>;
 }
@@ -270,6 +271,17 @@ int Album::setImagem(QString imagem)
 {
     _imagem = imagem;
 
+    return 0;
+}
+
+int Album::getAno()
+{
+    return _ano;
+}
+
+int Album::setAno(int ano)
+{
+    _ano = ano;
     return 0;
 }
 
@@ -437,6 +449,14 @@ int Playlist::getMusicas(QList<Musica *> *musicas)
     return 0;
 }
 
+Musica* Playlist::getMusica(int indice)
+{
+    if(indice > _musica->size())
+        return NULL;
+
+    return _musica->value(indice);
+}
+
 int Playlist::setMusicas(QList<Musica *> *musicas)
 {
     for(QList <Musica*>::iterator current = musicas->begin();
@@ -490,6 +510,8 @@ Player::Player()
     _lista = new Playlist;
     _lista->setNome("Lista de Reprodução");
     _lista->setDescricao("Lista de reprodução de player");
+    _aTocar = 0;
+    _aleatorio = false;
 }
 
 Player::~Player()
@@ -532,6 +554,24 @@ int Player::anterior()
     return 0;
 }
 
+int Player::aleatorio(bool aleatorio){
+    if(_aleatorio != aleatorio)
+    {
+        _aleatorio = aleatorio;
+    }
+
+    if(_aleatorio){
+        for(int i = 0; i < _ordem.size(); i++)
+        {
+            _ordem.swap(i,rand()%_ordem.size());
+        }
+    }else{
+        std::sort(&_ordem.first(),&_ordem.last());
+    }
+
+    return 0;
+}
+
 int Player::adicionar(QList <Musica*> *musica)
 {
     if(musica->isEmpty())
@@ -542,7 +582,15 @@ int Player::adicionar(QList <Musica*> *musica)
         ++current)
     {
         _lista->adicionar(*current);
+        _ordem.append(_lista->getSize());
     }
+    return 0;
+}
+
+int Player::adicionar(Musica *musicas)
+{
+    _lista->adicionar(musicas);
+    _ordem.append(_lista->getSize());
     return 0;
 }
 
@@ -573,6 +621,7 @@ int Player::removerTodas()
     {
         _lista->remover(*current);
     }
+    _ordem.clear();
 
     delete todas;
     return 0;
@@ -581,4 +630,9 @@ int Player::removerTodas()
 bool Player::isEmpty()
 {
     return _lista->getSize() == 0;
+}
+
+bool Player::isRandom()
+{
+    return _aleatorio;
 }
