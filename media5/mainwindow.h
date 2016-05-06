@@ -132,6 +132,7 @@ private slots:
     void on_player_button_play_clicked();
     void on_player_button_stop_clicked();
     void on_player_button_next_clicked();
+    void on_player_button_shuffle_toggled(bool checked);
 
     // Tab Progress Handlers
     void on_progress_button_previous_clicked();

@@ -42,6 +42,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->page_album_info_button_select->setCheckable(true);
     ui->page_artist_button_select->setCheckable(true);
 
+    ui->player_button_play->setCheckable(true);
+    ui->player_button_shuffle->setCheckable(true);
+
     // Hide tab for add album
     ui->page_add_album_tabs->tabBar()->hide();
 
@@ -88,7 +91,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
         //newAlbum
         text = "";
-        QTextStream(&text) << "C:\\Users\\Eduardo Rodrigues\\Pictures\\wallhaven-76260.jpg";
+        QTextStream(&text) << "";
         newAlbum->setImagem(text);
         text = "";
         QTextStream(&text) << "Vamos la! " << i;
@@ -434,7 +437,7 @@ void MainWindow::FormatTableFor(QTableWidget *table, QString format)
     case 1:
         // Set labels para a tabela de elementos
         tableLabels << tr("Imagem") << tr("Nome") << tr("Nº de Álbuns") << tr("Nº de Musicas");
-        table->verticalHeader()->setDefaultSectionSize(25);
+        table->verticalHeader()->setDefaultSectionSize(50);
         break;
 
     case 2:
@@ -466,7 +469,11 @@ void MainWindow::AddAlbumLineToTable(QTableWidget *table, Album *album)
 
     // Artwork
     artwork = new QLabel;
-    artwork->setPixmap(QPixmap(album->getImagem()).scaled(50,50));
+    QPixmap pxmap = QPixmap(album->getImagem());
+    if(!pxmap.isNull())
+        artwork->setPixmap(QPixmap(album->getImagem()).scaled(50,50));
+    else
+        artwork->setPixmap(QPixmap(":/music.png"));
     artwork->setAlignment(Qt::AlignCenter);
     artwork->setStyleSheet("background-color: rgba(255, 255, 255, 10);");
     table->setCellWidget(newRow, 0, artwork);
@@ -527,13 +534,19 @@ void MainWindow::AddArtistLineToTable(QTableWidget *table, Autor *artist)
     QString text;
     int newRow = table->rowCount();
     QTableWidgetItem *item;
+    QLabel *photo;
     table->insertRow(newRow);
 
     // Photo
-    item = new QTableWidgetItem;
-    item->setData(Qt::WhatsThisRole,_artists.indexOf(artist));
-    item->setData(Qt::DisplayRole,artist->getImagem());
-    table->setItem(newRow, 0, item);
+    photo = new QLabel;
+    QPixmap pxmap = QPixmap(artist->getImagem());
+    if(!pxmap.isNull())
+        photo->setPixmap(QPixmap(artist->getImagem()).scaled(50,50));
+    else
+        photo->setPixmap(QPixmap(":/social.png"));
+    photo->setAlignment(Qt::AlignCenter);
+    photo->setStyleSheet("background-color: rgba(255, 255, 255, 10);");
+    table->setCellWidget(newRow, 0, photo);
 
     // Name
     item = new QTableWidgetItem;
@@ -869,7 +882,13 @@ void MainWindow::MovePageToAddSongs()
 void MainWindow::NewArtist()
 {
     mdialog = new Dialog(this);
-    mdialog->show();
+    mdialog->exec();
+
+    if(mdialog->result() == 1)
+    {
+        _artists.append(mdialog->getNewArtist());
+        MovePageToArtists();
+    }
 }
 
 //==============================================================
@@ -1014,7 +1033,8 @@ void MainWindow::on_page_categories_button_random_clicked()
         _albuns[rand() % ui->page_categories_tableWidget->rowCount()]->getMusicas(&newList);
 
         _player.adicionar(&newList);
-        _player.aleatorio(true);
+        if(!ui->player_button_shuffle->isChecked())
+            ui->player_button_shuffle->setChecked(true);
         _player.play();
         MovePageToPlayer();
 
@@ -1024,7 +1044,8 @@ void MainWindow::on_page_categories_button_random_clicked()
         _player.removerTodas();
 
         _player.adicionar(&_songs);
-        _player.aleatorio(true);
+        if(!ui->player_button_shuffle->isChecked())
+            ui->player_button_shuffle->setChecked(true);
         _player.play();
         MovePageToPlayer();
 
@@ -1037,7 +1058,8 @@ void MainWindow::on_page_categories_button_random_clicked()
         newList = getSongsFromArtist(_artists[rand() % ui->page_categories_tableWidget->rowCount()]);
 
         _player.adicionar(&newList);
-        _player.aleatorio(true);
+        if(!ui->player_button_shuffle->isChecked())
+            ui->player_button_shuffle->setChecked(true);
         _player.play();
         MovePageToPlayer();
 
@@ -1050,7 +1072,8 @@ void MainWindow::on_page_categories_button_random_clicked()
         _playlist[rand() % ui->page_categories_tableWidget->rowCount()]->getMusicas(&newList);
 
         _player.adicionar(&newList);
-        _player.aleatorio(true);
+        if(!ui->player_button_shuffle->isChecked())
+            ui->player_button_shuffle->setChecked(true);
         _player.play();
         MovePageToPlayer();
     }
@@ -1116,7 +1139,7 @@ void MainWindow::on_page_categories_tableWidget_doubleClicked(const QModelIndex 
     }else if (ui->menu_full_button_song->isChecked()){
         _player.removerTodas();
         _player.adicionar(_songs[index.data(Qt::WhatsThisRole).toInt()]);
-        _player.aleatorio(false);
+        ui->player_button_shuffle->setChecked(false);
         _player.play();
     }
 }
@@ -1139,7 +1162,8 @@ void MainWindow::on_page_album_info_button_play_clicked()
     }
 
     _player.adicionar(&newList);
-    _player.aleatorio(false);
+//    if(ui->player_button_shuffle->isChecked())
+//        ui->player_button_shuffle->setChecked(false);
     _player.play();
     MovePageToPlayer();
 }
@@ -1182,7 +1206,8 @@ void MainWindow::on_page_album_info_tableWidget_doubleClicked(const QModelIndex 
 {
     _player.removerTodas();
     _player.adicionar(_songs[index.data(Qt::WhatsThisRole).toInt()]);
-    _player.aleatorio(false);
+    if(ui->player_button_shuffle->isChecked())
+        ui->player_button_shuffle->setChecked(false);
     _player.play();
 }
 
@@ -1191,9 +1216,9 @@ void MainWindow::on_page_album_info_tableWidget_doubleClicked(const QModelIndex 
 
 void MainWindow::on_page_add_album_button_addArtwork_clicked()
 {
-    QString filename = QFileDialog::getOpenFileName(this,tr("Open a File"),"","Image files (*.jpg)");
+    QString filename = QFileDialog::getOpenFileName(this,tr("Open a File"),"","Image files (*.jpg , *.png)");
 
-    if(!filename.isEmpty())
+    if(!filename.isNull())
         _imageURL = filename;
         ui->page_add_album_label_artwork->setPixmap(QPixmap(filename));
 }
@@ -1262,7 +1287,8 @@ void MainWindow::on_page_search_tableWidget_musics_doubleClicked(const QModelInd
 {
     _player.removerTodas();
     _player.adicionar(_songs[index.data(Qt::WhatsThisRole).toInt()]);
-    _player.aleatorio(false);
+    if(ui->player_button_shuffle->isChecked())
+        ui->player_button_shuffle->setChecked(false);
     _player.play();
 }
 
@@ -1319,6 +1345,8 @@ void MainWindow::on_page_playlist_button_play_clicked()
     }
 
     _player.adicionar(&newList);
+    if(ui->player_button_shuffle->isChecked())
+        ui->player_button_shuffle->setChecked(false);
     _player.play();
 }
 
@@ -1338,7 +1366,8 @@ void MainWindow::on_page_playlist_tableWidget_doubleClicked(const QModelIndex &i
     {
         _player.removerTodas();
         _player.adicionar(_songs[index.data(Qt::WhatsThisRole).toInt()]);
-        _player.aleatorio(false);
+        if(ui->player_button_shuffle->isChecked())
+            ui->player_button_shuffle->setChecked(false);
         _player.play();
     }
 }
@@ -1387,6 +1416,11 @@ void MainWindow::on_player_button_stop_clicked()
 void MainWindow::on_player_button_next_clicked()
 {
 
+}
+
+void MainWindow::on_player_button_shuffle_toggled(bool checked)
+{
+    _player.aleatorio(checked);
 }
 
 //==============================================================

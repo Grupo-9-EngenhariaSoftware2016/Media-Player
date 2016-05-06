@@ -682,7 +682,7 @@ QPushButton:checked{ background-color: pink; }</string>
       <widget class="QWidget" name="player_tab">
        <layout class="QGridLayout" name="gridLayout_5">
         <item row="0" column="12" rowspan="3">
-         <widget class="QPushButton" name="player_button_1">
+         <widget class="QPushButton" name="player_button_shuffle">
           <property name="text">
            <string/>
           </property>
@@ -759,8 +759,9 @@ QPushButton:checked{ background-color: pink; }</string>
           <property name="icon">
            <iconset resource="icons/img.qrc">
             <normaloff>:/circle-1.png</normaloff>
-            <disabledoff>:/circle.png</disabledoff>
-            <activeoff>:/circle.png</activeoff>:/circle-1.png</iconset>
+            <normalon>:/circle.png</normalon>
+            <disabledoff>:/circle-1.png</disabledoff>
+            <activeoff>:/circle-1.png</activeoff>:/circle-1.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -1150,7 +1151,7 @@ QPushButton:checked{ background-color: pink; }</string>
        <string notr="true">background-color:white;</string>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_categories">
        <layout class="QGridLayout" name="gridLayout_4">

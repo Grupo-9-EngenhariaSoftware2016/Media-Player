@@ -11,6 +11,8 @@ using namespace std;
 class Autor
 {
 private:
+    QDate _dataAdicao;
+    int _idBD;
     QString _imagem;
     QString _nome;
     QString _nacionalidade;
@@ -19,6 +21,10 @@ public:
     Autor();
     ~Autor();
 
+    QDate getDataAdicao();
+    int setDataAdicao(QDate data);
+    int getIdBD();
+    int setIdBD(int id);
     QString getImagem();
     int setImagem(QString imagem);
     QString getNome();
@@ -39,6 +45,8 @@ public:
 class Musica
 {
 private:
+    QDate _dataAdicao;
+    int _idBD;
     QString _nome;
     QString _diretoria;
     QList <Autor*>* _autor;
@@ -48,6 +56,10 @@ public:
     Musica();
     ~Musica();
 
+    QDate getDataAdicao();
+    int setDataAdicao(QDate data);
+    int getIdBD();
+    int setIdBD(int id);
     QString getNome();
     int setNome(QString nome);
     QString getDiretoria();
@@ -69,6 +81,8 @@ public:
 class Album
 {
 private:
+    QDate _dataAdicao;
+    int _idBD;
     QString _nome;
     QString _descricao;
     QString _diretoria;
@@ -81,6 +95,10 @@ public:
 	Album();
 	~Album();
 
+    QDate getDataAdicao();
+    int setDataAdicao(QDate data);
+    int getIdBD();
+    int setIdBD(int id);
     QString getNome();
     int setNome(QString nome);
     QString getDescricao();
@@ -113,6 +131,8 @@ public:
 class Playlist
 {
 private:
+    QDate _dataAdicao;
+    int _idBD;
     QString _nome;
     QString _descricao;
     QList <Musica*>* _musica;
@@ -120,6 +140,10 @@ public:
 	Playlist();
 	~Playlist();
 
+    QDate getDataAdicao();
+    int setDataAdicao(QDate data);
+    int getIdBD();
+    int setIdBD(int id);
     QString getNome();
     int setNome(QString nome);
     QString getDescricao();

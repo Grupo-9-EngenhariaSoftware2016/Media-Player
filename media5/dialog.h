@@ -6,6 +6,7 @@
 #include <QtGui>
 #include <QFileSystemModel>
 #include <QFileDialog>
+#include "classes.h"
 
 namespace Ui {
 class Dialog;
@@ -18,6 +19,7 @@ class Dialog : public QDialog
 public:
     explicit Dialog(QWidget *parent = 0);
     ~Dialog();
+    Autor * getNewArtist();
 
 private slots:
 
@@ -29,6 +31,8 @@ private:
     Ui::Dialog *ui;
     QFileSystemModel *dirmodel;
     QFileSystemModel *filemodel;
+    QString _photo;
+    Autor *_newArtist;
 };
 
 #endif // DIALOG_H

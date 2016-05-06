@@ -15,6 +15,28 @@ Autor::~Autor()
 
 }
 
+QDate Autor::getDataAdicao()
+{
+    return _dataAdicao;
+}
+
+int Autor::setDataAdicao(QDate data)
+{
+    _dataAdicao = data;
+    return 0;
+}
+
+int Autor::getIdBD()
+{
+    return _idBD;
+}
+
+int Autor::setIdBD(int id)
+{
+    _idBD = id;
+    return 0;
+}
+
 QString Autor::getImagem()
 {
     return _imagem;
@@ -101,6 +123,28 @@ Musica::Musica()
 Musica::~Musica()
 {
     delete _autor;
+}
+
+QDate Musica::getDataAdicao()
+{
+    return _dataAdicao;
+}
+
+int Musica::setDataAdicao(QDate data)
+{
+    _dataAdicao = data;
+    return 0;
+}
+
+int Musica::getIdBD()
+{
+    return _idBD;
+}
+
+int Musica::setIdBD(int id)
+{
+    _idBD = id;
+    return 0;
 }
 
 QString Musica::getNome()
@@ -212,6 +256,28 @@ Album::~Album()
 {
     delete _autor;
     delete _musica;
+}
+
+QDate Album::getDataAdicao()
+{
+    return _dataAdicao;
+}
+
+int Album::setDataAdicao(QDate data)
+{
+    _dataAdicao = data;
+    return 0;
+}
+
+int Album::getIdBD()
+{
+    return _idBD;
+}
+
+int Album::setIdBD(int id)
+{
+    _idBD = id;
+    return 0;
 }
 
 QString Album::getNome()
@@ -402,6 +468,28 @@ Playlist::Playlist()
 Playlist::~Playlist()
 {
     delete _musica;
+}
+
+QDate Playlist::getDataAdicao()
+{
+    return _dataAdicao;
+}
+
+int Playlist::setDataAdicao(QDate data)
+{
+    _dataAdicao = data;
+    return 0;
+}
+
+int Playlist::getIdBD()
+{
+    return _idBD;
+}
+
+int Playlist::setIdBD(int id)
+{
+    _idBD = id;
+    return 0;
 }
 
 QString Playlist::getNome()
