@@ -20,10 +20,10 @@ public:
     ~Dialog();
 
 private slots:
-    void on_pushButton_clicked();
-    void on_bt_cancel_clicked();
 
-    void on_bt_add_img_artwork_diag_clicked();
+    void on_dialog_button_add_artwork_clicked();
+    void on_dialog_button_cancel_clicked();
+    void on_dialog_button_save_clicked();
 
 private:
     Ui::Dialog *ui;

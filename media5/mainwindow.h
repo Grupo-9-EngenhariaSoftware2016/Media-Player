@@ -44,53 +44,116 @@ public:
     ~MainWindow();
 
 private slots:
+    // Menu Handlers
     void on_menu_small_button_search_clicked();
-
     void on_menu_small_button_album_clicked();
-
     void on_menu_small_button_artist_clicked();
-
     void on_menu_small_button_list_clicked();
-
     void on_menu_small_button_menu_clicked();
-
     void on_menu_small_button_play_clicked();
-
     void on_menu_small_button_song_clicked();
-
     void on_menu_full_button_add_album_clicked();
-
     void on_menu_full_button_add_artist_clicked();
-
     void on_menu_full_button_add_list_clicked();
-
     void on_menu_full_button_add_song_clicked();
-
     void on_menu_full_button_album_clicked();
-
     void on_menu_full_button_artist_clicked();
-
     void on_menu_full_button_list_clicked();
-
     void on_menu_full_button_menu_clicked();
-
     void on_menu_full_button_play_clicked();
-
     void on_menu_full_button_search_clicked();
-
     void on_menu_full_button_song_clicked();
+
+    // Page Categories Handlers
+    void on_page_categories_button_add_clicked();
+    void on_page_categories_button_select_toggled(bool checked);
+    void on_page_categories_button_random_clicked();
+    void on_page_categories_comboBox_order_currentIndexChanged(int index);
+    void on_page_categories_tableWidget_clicked(const QModelIndex &index);
+    void on_page_categories_tableWidget_doubleClicked(const QModelIndex &index);
+
+    // Page Album Info Handlers
+    void on_page_album_info_button_play_clicked();
+    void on_page_album_info_button_addTo_clicked();
+    void on_page_album_info_button_remove_clicked();
+    void on_page_album_info_button_exploreArtist_clicked();
+    void on_page_album_info_listView_clicked(const QModelIndex &index);
+    void on_page_album_info_listView_doubleClicked(const QModelIndex &index);
+
+    // Page Add Album Handlers
+    void on_page_add_album_button_addArtwork_clicked();
+    void on_page_add_album_button_addMusic_clicked();
+    void on_page_add_album_button_addFolder_clicked();
+    void on_page_add_album_button_remove_clicked();
+    void on_page_add_album_button_addArtistTo_clicked();
+    void on_page_add_album_button_addArtistToAll_clicked();
+    void on_page_add_album_button_removeArtistFrom_clicked();
+    void on_page_add_album_button_newArtist_clicked();
+
+    // Page Add Music Handlers
+    void on_page_add_music_button_addFolder_clicked();
+    void on_page_add_music_button_addMusic_clicked();
+
+    // Page Search Handlers
+    void on_page_search_tableWidget_artists_doubleClicked(const QModelIndex &index);
+    void on_page_search_tableWidget_albuns_doubleClicked(const QModelIndex &index);
+    void on_page_search_tableWidget_musics_doubleClicked(const QModelIndex &index);
+
+    // Page Artist Handlers
+    void on_page_artist_button_play_clicked();
+    void on_page_artist_button_addTo_clicked();
+    void on_page_artist_button_remove_clicked();
+    void on_page_artist_tableWidget_albuns_doubleClicked(const QModelIndex &index);
+
+    // Page Playlist Handlers
+    void on_page_playlist_button_play_clicked();
+    void on_page_playlist_button_addMusic_clicked();
+    void on_page_playlist_button_remove_clicked();
+    void on_page_playlist_tableWidget_doubleClicked(const QModelIndex &index);
+
+    // Page Add Playlist Handlers
+    void on_page_add_playlist_button_search_clicked();
+    void on_page_add_playlist_button_add_clicked();
+    void on_page_add_playlist_button_remove_clicked();
+
+    // Tab Player Handlers
+    void on_player_slider_sliderReleased();
+    void on_player_button_previous_clicked();
+    void on_player_button_play_clicked();
+    void on_player_button_stop_clicked();
+    void on_player_button_next_clicked();
+
+    // Tab Progress Handlers
+    void on_progress_button_previous_clicked();
+    void on_progress_button_next_clicked();
+    void on_progress_button_cancel_clicked();
+    void on_progress_button_save_clicked();
+
+    // Tab Options Handlers
+    void on_options_button_play_clicked();
+    void on_options_button_edit_clicked();
+    void on_options_button_remove_clicked();
+    void on_options_button_information_clicked();
 
 private:
     Ui::MainWindow *ui;
     Dialog * mdialog;
     QFileSystemModel *dirmodel;
     QFileSystemModel *filemodel;
+    void CheckMenuButton(QString button);
+    void ExpandMenu(bool expand);
+    void ShowOptionsTab(bool show);
+    void ShowProgressTab(bool show);
     void MovePageToAlbuns();
     void MovePageToArtists();
     void MovePageToPlayer();
     void MovePageToSongs();
     void MovePageToPlaylists();
     void MovePageToSearch();
+    void MovePageToAddAlbuns();
+    void MovePageToAddPlaylist();
+    void MovePageToAddSongs();
+    void NewArtist();
 };
 
 #endif // MAINWINDOW_H

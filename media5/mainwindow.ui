@@ -677,7 +677,7 @@ QPushButton:checked{ background-color: pink; }</string>
        <string notr="true">background-color:rgb(36, 172, 235);</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="player_tab">
        <layout class="QGridLayout" name="gridLayout_5">
@@ -1150,7 +1150,7 @@ QPushButton:checked{ background-color: pink; }</string>
        <string notr="true">background-color:white;</string>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>7</number>
       </property>
       <widget class="QWidget" name="page_categories">
        <layout class="QGridLayout" name="gridLayout_4">
@@ -1733,7 +1733,7 @@ QPushButton:checked{ background-color: pink; }</string>
         <item row="1" column="0" rowspan="2">
          <widget class="QTabWidget" name="page_add_album_tabs">
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <property name="tabBarAutoHide">
            <bool>false</bool>
@@ -2001,7 +2001,7 @@ QPushButton:checked{ background-color: pink; }</string>
                </widget>
               </item>
               <item row="2" column="4">
-               <widget class="QPushButton" name="page_add_album_button_addAuthorTo">
+               <widget class="QPushButton" name="page_add_album_button_addArtistTo">
                 <property name="text">
                  <string>Adicionar Autor a Musica</string>
                 </property>
@@ -2044,17 +2044,17 @@ QPushButton:checked{ background-color: pink; }</string>
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QLineEdit" name="page_add_album_lineEdit_searchAuthors"/>
+               <widget class="QLineEdit" name="page_add_album_lineEdit_searchArtists"/>
               </item>
               <item row="3" column="4">
-               <widget class="QPushButton" name="page_add_album_button_addAuthorToAll">
+               <widget class="QPushButton" name="page_add_album_button_addArtistToAll">
                 <property name="text">
                  <string>Associar mesmo Autor a todas as Musicas</string>
                 </property>
                </widget>
               </item>
               <item row="4" column="4">
-               <widget class="QPushButton" name="page_add_album_button_removeAuthorFrom">
+               <widget class="QPushButton" name="page_add_album_button_removeArtistFrom">
                 <property name="text">
                  <string>Remover Autor da Música</string>
                 </property>
@@ -2080,14 +2080,14 @@ QPushButton:checked{ background-color: pink; }</string>
                </spacer>
               </item>
               <item row="6" column="0" colspan="2">
-               <widget class="QPushButton" name="page_add_album_button_newAuthor">
+               <widget class="QPushButton" name="page_add_album_button_newArtist">
                 <property name="text">
                  <string>Adicionar Novo</string>
                 </property>
                </widget>
               </item>
               <item row="2" column="0" rowspan="4" colspan="2">
-               <widget class="QTableWidget" name="page_add_album_tableWidget_authors"/>
+               <widget class="QTableWidget" name="page_add_album_tableWidget_artists"/>
               </item>
              </layout>
             </item>
@@ -2151,7 +2151,7 @@ QPushButton:checked{ background-color: pink; }</string>
            </widget>
           </item>
           <item row="3" column="4">
-           <widget class="QTableWidget" name="page_add_music_tableWidget_authors">
+           <widget class="QTableWidget" name="page_add_music_tableWidget_artists">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
               <horstretch>0</horstretch>
@@ -2248,7 +2248,7 @@ QPushButton:checked{ background-color: pink; }</string>
          </spacer>
         </item>
         <item row="2" column="0">
-         <widget class="QLabel" name="page_search_label_authors">
+         <widget class="QLabel" name="page_search_label_artists">
           <property name="font">
            <font>
             <pointsize>12</pointsize>
@@ -2276,7 +2276,7 @@ QPushButton:checked{ background-color: pink; }</string>
          </spacer>
         </item>
         <item row="5" column="0" colspan="2">
-         <widget class="QTableWidget" name="page_search_tableWidget_authors"/>
+         <widget class="QTableWidget" name="page_search_tableWidget_artists"/>
         </item>
         <item row="7" column="0" colspan="2">
          <widget class="QTableWidget" name="page_search_tableWidget_albuns"/>
@@ -2293,37 +2293,21 @@ QPushButton:checked{ background-color: pink; }</string>
           <property name="verticalSpacing">
            <number>0</number>
           </property>
-          <item row="2" column="1" colspan="7">
-           <widget class="QLabel" name="page_artist_label_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+          <item row="0" column="1" colspan="6">
+           <spacer name="verticalSpacer_16">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
             </property>
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-             </font>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
             </property>
-            <property name="text">
-             <string/>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>10</height>
+             </size>
             </property>
-           </widget>
-          </item>
-          <item row="5" column="1" colspan="3">
-           <widget class="QPushButton" name="page_artist_button_play">
-            <property name="text">
-             <string>Reproduzir</string>
-            </property>
-            <property name="icon">
-             <iconset resource="icons/img.qrc">
-              <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
-            </property>
-            <property name="flat">
-             <bool>true</bool>
-            </property>
-           </widget>
+           </spacer>
           </item>
           <item row="1" column="1" colspan="7">
            <widget class="QLabel" name="page_artist_label_name">
@@ -2345,6 +2329,20 @@ QPushButton:checked{ background-color: pink; }</string>
             </property>
            </widget>
           </item>
+          <item row="5" column="1" colspan="3">
+           <widget class="QPushButton" name="page_artist_button_play">
+            <property name="text">
+             <string>Reproduzir</string>
+            </property>
+            <property name="icon">
+             <iconset resource="icons/img.qrc">
+              <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
           <item row="5" column="6">
            <widget class="QPushButton" name="page_artist_button_1">
             <property name="text">
@@ -2359,26 +2357,10 @@ QPushButton:checked{ background-color: pink; }</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="1" colspan="6">
-           <spacer name="verticalSpacer_16">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>10</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="5" column="5">
-           <widget class="QPushButton" name="page_artist_button_remove">
+          <item row="5" column="4">
+           <widget class="QPushButton" name="page_artist_button_addTo">
             <property name="text">
-             <string>Eliminar</string>
+             <string>Adicionar a</string>
             </property>
             <property name="icon">
              <iconset resource="icons/img.qrc">
@@ -2407,6 +2389,20 @@ QPushButton:checked{ background-color: pink; }</string>
             </property>
            </widget>
           </item>
+          <item row="5" column="5">
+           <widget class="QPushButton" name="page_artist_button_remove">
+            <property name="text">
+             <string>Eliminar</string>
+            </property>
+            <property name="icon">
+             <iconset resource="icons/img.qrc">
+              <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
           <item row="4" column="1" colspan="7">
            <spacer name="verticalSpacer_14">
             <property name="orientation">
@@ -2422,20 +2418,6 @@ QPushButton:checked{ background-color: pink; }</string>
              </size>
             </property>
            </spacer>
-          </item>
-          <item row="5" column="4">
-           <widget class="QPushButton" name="page_artist_button_addTo">
-            <property name="text">
-             <string>Adicionar a</string>
-            </property>
-            <property name="icon">
-             <iconset resource="icons/img.qrc">
-              <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
-            </property>
-            <property name="flat">
-             <bool>true</bool>
-            </property>
-           </widget>
           </item>
           <item row="3" column="1">
            <widget class="QLabel" name="page_artist_label_1">
@@ -2480,6 +2462,24 @@ QPushButton:checked{ background-color: pink; }</string>
             </property>
            </spacer>
           </item>
+          <item row="2" column="1" colspan="7">
+           <widget class="QLabel" name="page_artist_label_2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
         <item>
@@ -2503,7 +2503,46 @@ QPushButton:checked{ background-color: pink; }</string>
          </widget>
         </item>
         <item>
-         <widget class="QTableView" name="page_artist_tableView_albuns"/>
+         <widget class="QTableWidget" name="page_artist_tableWidget_albuns">
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+          <property name="textElideMode">
+           <enum>Qt::ElideLeft</enum>
+          </property>
+          <property name="showGrid">
+           <bool>false</bool>
+          </property>
+          <property name="rowCount">
+           <number>1</number>
+          </property>
+          <property name="columnCount">
+           <number>1</number>
+          </property>
+          <attribute name="horizontalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="verticalHeaderHighlightSections">
+           <bool>false</bool>
+          </attribute>
+          <row/>
+          <column/>
+         </widget>
         </item>
        </layout>
       </widget>

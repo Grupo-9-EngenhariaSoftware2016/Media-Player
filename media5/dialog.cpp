@@ -24,7 +24,27 @@ Dialog::~Dialog()
     delete ui;
 }
 
-void Dialog::on_pushButton_clicked()
+void Dialog::on_dialog_button_add_artwork_clicked()
+{
+    QString filename = QFileDialog::getOpenFileName(this,tr("Open a File"),"","Image files (*.jpg)");
+
+    if(!filename.isEmpty())
+        ui->dialog_label_artwork->setPixmap(QPixmap(filename));
+}
+
+void Dialog::on_dialog_button_cancel_clicked()
+{
+    this->close();
+}
+
+//==============================================================
+//==============================================================
+//==============================================================
+//                POINT OF NOT DONE YET
+//==============================================================
+//==============================================================
+//==============================================================
+void Dialog::on_dialog_button_save_clicked()
 {
     // Add Songs
     // Adicao por botao
@@ -55,16 +75,4 @@ void Dialog::on_pushButton_clicked()
 //      QStringList fileList = _fnames.entryList();
 //      QString filenames = fileList.join(", ");
 //      QMessageBox::information(this,tr("File Name"),filenames);
-}
-
-
-void Dialog::on_bt_cancel_clicked()
-{
-    this->close();
-}
-
-void Dialog::on_bt_add_img_artwork_diag_clicked()
-{
-    QString filename = QFileDialog::getOpenFileName(this,tr("Open a File"),"","Image files (*.jpg)");
-    ui->img_artwork_diag->setPixmap(QPixmap(filename));
 }
