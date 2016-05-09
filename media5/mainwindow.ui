@@ -677,12 +677,14 @@ QPushButton:checked{ background-color: pink; }</string>
        <string notr="true">background-color:rgb(36, 172, 235);</string>
       </property>
       <property name="currentIndex">
+
        <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="player_tab">
        <layout class="QGridLayout" name="gridLayout_5">
         <item row="0" column="12" rowspan="3">
-         <widget class="QPushButton" name="player_button_1">
+         <widget class="QPushButton" name="player_button_shuffle">
           <property name="text">
            <string/>
           </property>
@@ -759,8 +761,9 @@ QPushButton:checked{ background-color: pink; }</string>
           <property name="icon">
            <iconset resource="icons/img.qrc">
             <normaloff>:/circle-1.png</normaloff>
-            <disabledoff>:/circle.png</disabledoff>
-            <activeoff>:/circle.png</activeoff>:/circle-1.png</iconset>
+            <normalon>:/circle.png</normalon>
+            <disabledoff>:/circle-1.png</disabledoff>
+            <activeoff>:/circle-1.png</activeoff>:/circle-1.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -1150,7 +1153,9 @@ QPushButton:checked{ background-color: pink; }</string>
        <string notr="true">background-color:white;</string>
       </property>
       <property name="currentIndex">
+
        <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_categories">
        <layout class="QGridLayout" name="gridLayout_4">
@@ -1317,6 +1322,12 @@ QPushButton:checked{ background-color: pink; }</string>
           <property name="showGrid">
            <bool>false</bool>
           </property>
+          <property name="rowCount">
+           <number>0</number>
+          </property>
+          <property name="columnCount">
+           <number>0</number>
+          </property>
           <attribute name="horizontalHeaderVisible">
            <bool>false</bool>
           </attribute>
@@ -1341,16 +1352,6 @@ QPushButton:checked{ background-color: pink; }</string>
           <attribute name="verticalHeaderStretchLastSection">
            <bool>false</bool>
           </attribute>
-          <row>
-           <property name="text">
-            <string>sdfdsfdsf</string>
-           </property>
-          </row>
-          <column>
-           <property name="text">
-            <string>sdsdfdsfds</string>
-           </property>
-          </column>
          </widget>
         </item>
         <item row="2" column="7">
@@ -1563,7 +1564,7 @@ QPushButton:checked{ background-color: pink; }</string>
            </widget>
           </item>
           <item row="5" column="6">
-           <widget class="QPushButton" name="page_album_info_button_1">
+           <widget class="QPushButton" name="page_album_info_button_exploreArtist">
             <property name="text">
              <string>Explorar artista</string>
             </property>
@@ -1656,9 +1657,9 @@ QPushButton:checked{ background-color: pink; }</string>
          </widget>
         </item>
         <item row="2" column="2" alignment="Qt::AlignRight">
-         <widget class="QPushButton" name="page_album_info_button_exploreArtist">
+         <widget class="QPushButton" name="page_album_info_button_select">
           <property name="text">
-           <string>Explorar artista</string>
+           <string>Selecionar</string>
           </property>
           <property name="icon">
            <iconset resource="icons/img.qrc">
@@ -1666,13 +1667,6 @@ QPushButton:checked{ background-color: pink; }</string>
           </property>
           <property name="flat">
            <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0" colspan="3">
-         <widget class="QListView" name="page_album_info_listView">
-          <property name="styleSheet">
-           <string notr="true">background</string>
           </property>
          </widget>
         </item>
@@ -1691,6 +1685,49 @@ QPushButton:checked{ background-color: pink; }</string>
            </size>
           </property>
          </spacer>
+        </item>
+        <item row="3" column="0" colspan="3">
+         <widget class="QTableWidget" name="page_album_info_tableWidget">
+          <property name="styleSheet">
+           <string notr="true">background</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAsNeeded</enum>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::ExtendedSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+          <property name="textElideMode">
+           <enum>Qt::ElideLeft</enum>
+          </property>
+          <property name="showGrid">
+           <bool>false</bool>
+          </property>
+          <attribute name="horizontalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderHighlightSections">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -2344,9 +2381,9 @@ QPushButton:checked{ background-color: pink; }</string>
            </widget>
           </item>
           <item row="5" column="6">
-           <widget class="QPushButton" name="page_artist_button_1">
+           <widget class="QPushButton" name="page_artist_button_select">
             <property name="text">
-             <string>Explorar artista</string>
+             <string>Selecionar</string>
             </property>
             <property name="icon">
              <iconset resource="icons/img.qrc">
@@ -2523,10 +2560,10 @@ QPushButton:checked{ background-color: pink; }</string>
            <bool>false</bool>
           </property>
           <property name="rowCount">
-           <number>1</number>
+           <number>0</number>
           </property>
           <property name="columnCount">
-           <number>1</number>
+           <number>0</number>
           </property>
           <attribute name="horizontalHeaderVisible">
            <bool>false</bool>
@@ -2540,8 +2577,6 @@ QPushButton:checked{ background-color: pink; }</string>
           <attribute name="verticalHeaderHighlightSections">
            <bool>false</bool>
           </attribute>
-          <row/>
-          <column/>
          </widget>
         </item>
        </layout>
@@ -2723,10 +2758,10 @@ QPushButton:checked{ background-color: pink; }</string>
            <bool>false</bool>
           </property>
           <property name="rowCount">
-           <number>1</number>
+           <number>0</number>
           </property>
           <property name="columnCount">
-           <number>1</number>
+           <number>0</number>
           </property>
           <attribute name="horizontalHeaderVisible">
            <bool>false</bool>
@@ -2752,8 +2787,6 @@ QPushButton:checked{ background-color: pink; }</string>
           <attribute name="verticalHeaderHighlightSections">
            <bool>false</bool>
           </attribute>
-          <row/>
-          <column/>
          </widget>
         </item>
        </layout>
