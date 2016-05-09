@@ -29,7 +29,7 @@ void Dialog::on_dialog_button_add_artwork_clicked()
     QString filename = QFileDialog::getOpenFileName(this,tr("Open a File"),"","Image files (*.jpg)");
 
     if(!filename.isEmpty())
-        ui->dialog_label_artwork->setPixmap(QPixmap(filename));
+    {ui->dialog_label_artwork->setPixmap(QPixmap(filename));}
 }
 
 void Dialog::on_dialog_button_cancel_clicked()

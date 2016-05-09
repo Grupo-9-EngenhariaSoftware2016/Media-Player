@@ -8,17 +8,19 @@ QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = media4
+TARGET = media5
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
     dialog.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    database.cpp
 
 HEADERS  += \
     dialog.h \
-    mainwindow.h
+    mainwindow.h \
+    database.h
 
 FORMS    += mainwindow.ui \
     dialog.ui

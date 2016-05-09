@@ -2,6 +2,10 @@
 #include "ui_mainwindow.h"
 #include "dialog.h"
 #include <QModelIndex>
+#include <QtDebug>
+#include <database.h>
+#include <QDir>
+#include <QFile>
 
 #define NO_DB
 
@@ -9,14 +13,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     ui->setupUi(this);
 
-    if(!connOpen())
-    {
-         ui->statusBar->showMessage(" - Coneccao a DB - INVALIDA");
-    }
-    else
-    {
-         ui->statusBar->showMessage(" - Coneccao a DB - Valida");
-    }
+
 
     // DIR for musics and images
 
@@ -55,7 +52,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 MainWindow::~MainWindow()
 {
     QMainWindow::centralWidget();
-    mydb.close();
     delete ui;
 }
 
@@ -241,7 +237,7 @@ void MainWindow::MovePageToAlbuns()
     ui->page_categories_tableWidget->setItem(2, 1, new QTableWidgetItem("Nome do Album2"));
     ui->page_categories_tableWidget->setItem(2, 2, new QTableWidgetItem("Artista2"));
 
-    ui->statusBar->showMessage( QString::number(ui->menu_small_button_album->isChecked()));
+    //ui->statusBar->showMessage( QString::number(ui->menu_small_button_album->isChecked()));
 #endif
 }
 
@@ -617,7 +613,12 @@ void MainWindow::on_page_add_album_button_addArtwork_clicked()
 
 void MainWindow::on_page_add_album_button_addMusic_clicked()
 {
+    QString filename = QFileDialog::getOpenFileName(this,tr("Open a File"),"","MP3 files (*.mp3)");
 
+    ui->page_add_album_tableWidget_toAddMusics->clear();
+    ui->page_add_album_tableWidget_toAddMusics->setRowCount(3);
+    ui->page_add_album_tableWidget_toAddMusics->setColumnCount(3);
+    ui->page_add_album_tableWidget_toAddMusics->setItem(0, 0, new QTableWidgetItem(filename));
 }
 
 void MainWindow::on_page_add_album_button_addFolder_clicked()
@@ -777,12 +778,12 @@ void MainWindow::on_player_button_next_clicked()
 
 void MainWindow::on_progress_button_previous_clicked()
 {
-
+    ui->page_add_album_tabs->setCurrentIndex(0); //so para testar
 }
 
 void MainWindow::on_progress_button_next_clicked()
 {
-
+    ui->page_add_album_tabs->setCurrentIndex(1); // so para testar
 }
 
 void MainWindow::on_progress_button_cancel_clicked()
@@ -793,6 +794,97 @@ void MainWindow::on_progress_button_cancel_clicked()
 void MainWindow::on_progress_button_save_clicked()
 {
 
+    Database db;
+
+    if(db.connOpen()){
+         ui->statusBar->showMessage(" - Coneccao a DB - Valida");
+    }else{
+         ui->statusBar->showMessage(" - Coneccao a DB - Invalida");
+    }
+
+    QString nome,descricao,genero,ano;
+    nome=ui->page_add_album_lineEdit_name->text();
+    ano=ui->page_add_album_lineEdit_year->text();
+    descricao=ui->page_add_album_textEdit_description->toPlainText();
+    genero=ui->page_add_album_lineEdit_gender->text();
+
+
+    // Criar Filtragem de dados antes de executar a query para a DB
+
+    // se passar com sucesso criar directoria
+
+    // obter indice a adicionar
+    int last_id,new_id;
+
+    QSqlQuery last_album_id;
+    last_album_id.prepare("select ID_Album from Album order by ID_Album DESC Limit 1;"); //
+
+    if(last_album_id.exec())
+    {
+        last_album_id.next();
+        last_id= last_album_id.value(0).toInt();
+        qDebug() << "Ultimo ID=" << last_id;
+    }
+
+    new_id=last_id+1; // ID do proximo elemento a adicionar
+
+    //Criar Diretoria para o Novo Album
+    QString diretoria = QDir::currentPath() +"/debug/album/ID_"+ QString::number(new_id) + nome;
+
+    // Adicionar Info à DB
+    QSqlQuery add_album;
+    add_album.prepare("insert into Album (Nome,Ano,Genero,Diretoria,Descricao) values ('"+nome+"','"+ano+"','"+genero+"','"+diretoria+"','"+descricao+"') ;");
+
+    if(add_album.exec())
+    {
+        qDebug() << "Novo Album Adicionado";
+        QDir dir(diretoria);
+
+        if(!dir.exists())
+        {
+            qDebug() << "Criar " << diretoria << "diretoria.";
+            dir.mkpath(diretoria);
+        }
+        else
+        {
+            qDebug() << diretoria << " ja existe!";
+        }
+    }
+
+
+    // Caso existam - Adicionar musicas
+
+    // Extrair Info de musicas da tabela (neste caso so a 1ª)
+    QString old_dir_music = ui->page_add_album_tableWidget_toAddMusics->item(0,0)->text();
+    QString new_dir_music= diretoria+"/nome.mp3";
+
+
+    //Copiar para a pasta do album
+    QFile::copy(old_dir_music, new_dir_music);
+    qDebug() << "Diretoria da musica:" << old_dir_music << "-> Nova Diretoria= " << new_dir_music;
+
+    // Guardar informacao da musica - uma musica por enquanto
+    QSqlQuery add_music;
+
+    //http://doc.qt.io/qt-5/sql-sqlstatements.html
+    add_music.prepare("INSERT INTO Musica (Nome,Diretoria,ID_Album)"
+                      "VALUES (:Nome, :Diretoria, :ID_Album)");
+
+    add_music.bindValue(":Nome", "Teste_Musica");
+    add_music.bindValue(":Diretoria", "Diretoria_teste");
+    add_music.bindValue(":ID_Album", new_id);
+
+    if(add_music.exec())
+    {
+        qDebug() << "Musica adicionada";
+    }
+    else
+       {qDebug() << "Musica-Nao adiciona";}
+    // Copiar musica para pasta
+
+    // Copiar grupos de musica para a pasta
+
+    db.connClose();
 }
 
 //==============================================================
