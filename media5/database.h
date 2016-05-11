@@ -4,7 +4,6 @@
 #include <QtDebug>
 #include <QFileInfo>
 #include <QDir>
-#include "classes.h"
 
 class Database
 {
@@ -15,13 +14,27 @@ public:
 
     Database();
 
-    bool connOpen();
-    void connClose();
+    bool connOpen()
+    {
+        mydb=QSqlDatabase::addDatabase("QSQLITE");
+        mydb.setDatabaseName(QDir::currentPath() +"/debug/database.db");
 
-    bool addAlbum(Album *newAlbum);
-    bool addSong(Musica *newSong);
-    bool addArtist(Autor *newArtist);
-    bool addPlaylist(Playlist *newPlaylist);
+        if(!mydb.open()){
+            qDebug() << ("Falha a abrir a DB");
+            return false;
+        }else{
+            qDebug() << ("Abriu a DB");
+            return true;
+        }
+    }
+
+    void connClose()
+    {
+        mydb.close();
+        mydb.removeDatabase(QSqlDatabase::defaultConnection);
+    }
+
+
 };
 
 #endif // DATABASE_H
