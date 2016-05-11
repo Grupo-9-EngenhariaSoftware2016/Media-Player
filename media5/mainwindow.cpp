@@ -1468,8 +1468,7 @@ void MainWindow::on_progress_button_save_clicked()
         // Tudo certo para criar album
     	Database db;
         Album *newAlbum;
-        int last_id,new_id;
-        QString diretoria, text;
+        QString diretoria;
 
 	    if(db.connOpen()){
 	         ui->statusBar->showMessage(" - Coneccao a DB - Valida");
@@ -1479,85 +1478,43 @@ void MainWindow::on_progress_button_save_clicked()
              newAlbum->setGenero(ui->page_add_album_lineEdit_gender->text());
              newAlbum->setAno(ui->page_add_album_lineEdit_year->text().toInt());
              newAlbum->setImagem(_imageURL);
-             //newAlbum->setMusicas();
-             //newAlbum->setAutores();
+             if(ui->page_add_album_tableWidget_toAddMusics->rowCount() != 0)
+             {
+                 //newAlbum->setMusicas();
+             }
+             if(ui->page_add_album_tableWidget_artists->rowCount() != 0)
+             {
+                 //newAlbum->setAutores();
+             }
              newAlbum->setDescricao(ui->page_add_album_textEdit_description->toPlainText());
 
-             // obter indice a adicionar
-             QSqlQuery last_album_id;
-             last_album_id.prepare("select ID_Album from Album order by ID_Album DESC Limit 1;");
-
-             if(last_album_id.exec())
-             {
-                 last_album_id.next();
-                 last_id= last_album_id.value(0).toInt();
-                 qDebug() << "Ultimo ID=" << last_id;
-             }
-
-             new_id=last_id+1; // ID do proximo elemento a adicionar
+             db.addAlbum(newAlbum);
 
              //Criar Diretoria para o Novo Album
-             diretoria = QDir::currentPath() +"/debug/album/ID_"+ QString::number(new_id) + newAlbum->getNome();
+             diretoria = QDir::currentPath() +"/debug/album/ID_"+ QString::number(newAlbum->getIdBD()) + newAlbum->getNome();
 
-             // Adicionar Info à DB
-             QSqlQuery add_album;
-             text = "";
-             QTextStream(&text) << "insert into Album (Nome,Ano,Genero,Diretoria,Descricao) values ('";
-             QTextStream(&text) << newAlbum->getNome() << "','";
-             QTextStream(&text) << newAlbum->getAno() << "','";
-             QTextStream(&text) << newAlbum->getGenero() << "','";
-             QTextStream(&text) << newAlbum->getDiretoria() << "','";
-             QTextStream(&text) << newAlbum->getDescricao() << "') ;";
-             add_album.prepare(text);
+             QDir dir(diretoria);
 
-             if(add_album.exec())
+             if(!dir.exists())
              {
-                 qDebug() << "Novo Album Adicionado";
-                 QDir dir(diretoria);
-
-                 if(!dir.exists())
-                 {
-                     qDebug() << "Criar " << diretoria << "diretoria.";
-                     dir.mkpath(diretoria);
-                 }
-                 else
-                 {
-                     qDebug() << diretoria << " ja existe!";
-                 }
+                 qDebug() << "Criar " << diretoria << "diretoria.";
+                 dir.mkpath(diretoria);
+             }
+             else
+             {
+                 qDebug() << diretoria << " ja existe!";
              }
 
-             // Caso existam - Adicionar musicas
-
              // Extrair Info de musicas da tabela (neste caso so a 1ª)
-             QString old_dir_music = ui->page_add_album_tableWidget_toAddMusics->item(0,0)->text();
-             QString new_dir_music= diretoria+"/nome.mp3";
+             //QString old_dir_music = ui->page_add_album_tableWidget_toAddMusics->item(0,0)->text();
+             //QString new_dir_music= diretoria+"/nome.mp3";
 
 
              //Copiar para a pasta do album
-             QFile::copy(old_dir_music, new_dir_music);
-             qDebug() << "Diretoria da musica:" << old_dir_music << "-> Nova Diretoria= " << new_dir_music;
+             //QFile::copy(old_dir_music, new_dir_music);
+             //qDebug() << "Diretoria da musica:" << old_dir_music << "-> Nova Diretoria= " << new_dir_music;
 
-             // Guardar informacao da musica - uma musica por enquanto
-             QSqlQuery add_music;
-
-             //http://doc.qt.io/qt-5/sql-sqlstatements.html
-             add_music.prepare("INSERT INTO Musica (Nome,Diretoria,ID_Album)"
-                               "VALUES (:Nome, :Diretoria, :ID_Album)");
-
-             add_music.bindValue(":Nome", "Teste_Musica");
-             add_music.bindValue(":Diretoria", "Diretoria_teste");
-             add_music.bindValue(":ID_Album", new_id);
-
-             if(add_music.exec())
-             {
-                 qDebug() << "Musica adicionada";
-             }
-             else
-                {qDebug() << "Musica-Nao adiciona";}
-
-             // Copiar musica para pasta
-
-             // Copiar grupos de musica para a pasta
+             //db.addSong(newSong);
 
              db.connClose();
 
