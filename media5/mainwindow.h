@@ -29,26 +29,6 @@ public:
     Player _player;
     QString _imageURL;
 
-    void connClose()
-    {
-        mydb.close();
-        mydb.removeDatabase(QSqlDatabase::defaultConnection);
-    }
-    bool connOpen()
-    {
-        mydb=QSqlDatabase::addDatabase("QSQLITE");
-        mydb.setDatabaseName(QDir::currentPath() +"/database/database.db");
-
-        if(!mydb.open())
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
