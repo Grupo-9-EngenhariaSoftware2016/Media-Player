@@ -18,7 +18,13 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-
+    QSqlDatabase mydb;
+    QList <Album*> _albuns;
+    QList <Playlist*> _playlist;
+    QList <Autor*> _artists;
+    QList <Musica*> _songs;
+    Player _player;
+    QString _imageURL;
 
 public:
     explicit MainWindow(QWidget *parent = 0);
