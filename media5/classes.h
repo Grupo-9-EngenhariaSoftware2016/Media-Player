@@ -4,8 +4,6 @@
 #include <QList>
 #include <QString>
 #include <QDate>
-#include <QMetaDataWriterControl>
-#include <QMetaDataReaderControl>
 #include <algorithm>
 
 using namespace std;
