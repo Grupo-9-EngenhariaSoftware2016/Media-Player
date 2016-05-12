@@ -28,6 +28,7 @@ public:
     QList <Musica*> _songs;
     Player _player;
     QString _imageURL;
+    QList <Musica*> _newSongList;
 
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -147,6 +148,7 @@ private:
     void FormatTableFor(QTableWidget *table, QString format);
     void AddAlbumLineToTable(QTableWidget *table, Album *album);
     void AddSongLineToTable(QTableWidget *table, Musica *song);
+    void AddNewSongLineToTable(QTableWidget *table, Musica *newSong);
     void AddArtistLineToTable(QTableWidget *table, Autor *artist);
     void AddPlaylistLineToTable(QTableWidget *table, Playlist *playlist);
 

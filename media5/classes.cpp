@@ -173,16 +173,12 @@ int Musica::setDiretoria(QString diretoria)
 
 int Musica::getAutor(QList <Autor*> *autores)
 {
-    if(!autores->isEmpty())
-        return -1;
-
     for(QList <Autor*>::iterator current = _autor->begin();
         current != _autor->end();
         ++current)
     {
         autores->append(*current);
     }
-
 
     return 0;
 }
@@ -196,6 +192,21 @@ int Musica::setAutor(QList <Autor*> *autores)
         _autor->append(*current);
     }
 
+    return 0;
+}
+
+int Musica::addAutor(Autor *autor)
+{
+    _autor->append(autor);
+    return 0;
+}
+
+int Musica::removeAutor(Autor *autor)
+{
+    if(this->hasAutor(autor))
+    {
+        _autor->removeOne(autor);
+    }
     return 0;
 }
 
@@ -228,8 +239,20 @@ int Musica::setFaixa(int faixa)
     return 0;
 }
 
+int Musica::retrieveInfo(QString dir)
+{
+    /*
+     * Método para leitura de tags id3
+     * */
+
+    return 0;
+}
+
 int Musica::apagar()
 {
+    /*
+     * Método para remover ficheiro
+     * */
     return 0;
 }
 
@@ -353,16 +376,12 @@ int Album::setAno(int ano)
 
 int Album::getAutores(QList <Autor*> *autores)
 {
-    if(!autores->isEmpty())
-        return -1;
-
     for(QList <Autor*>::iterator current = _autor->begin();
         current != _autor->end();
         ++current)
     {
         autores->append(*current);
     }
-
 
     return 0;
 }
@@ -386,16 +405,12 @@ bool Album::hasAutor(Autor *autor)
 
 int Album::getMusicas(QList<Musica *> *musicas)
 {
-    if(!musicas->isEmpty())
-        return -1;
-
     for(QList <Musica*>::iterator current = _musica->begin();
         current != _musica->end();
         ++current)
     {
         musicas->append(*current);
     }
-
 
     return 0;
 }
@@ -523,9 +538,6 @@ int Playlist::getSize()
 
 int Playlist::getMusicas(QList<Musica *> *musicas)
 {
-    if(!musicas->isEmpty())
-        return -1;
-
     for(QList <Musica*>::iterator current = _musica->begin();
         current != _musica->end();
         ++current)
@@ -539,7 +551,7 @@ int Playlist::getMusicas(QList<Musica *> *musicas)
 
 Musica* Playlist::getMusica(int indice)
 {
-    if(indice > _musica->size())
+    if(indice > _musica->size() || indice < 0)
         return NULL;
 
     return _musica->value(indice);
@@ -609,9 +621,6 @@ Player::~Player()
 
 int Player::getMusicas(QList <Musica*> *lista)
 {
-    if(!lista->isEmpty())
-        return -1;
-
     _lista->getMusicas(lista);
 
     return 0;
