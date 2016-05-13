@@ -2,11 +2,7 @@
 #include "ui_mainwindow.h"
 #include "dialog.h"
 #include "classes.h"
-#include <QModelIndex>
-#include <QtDebug>
 #include <database.h>
-#include <QDir>
-#include <QFile>
 
 #define NO_DB
 
@@ -1567,21 +1563,17 @@ void MainWindow::on_page_add_album_button_addArtwork_clicked()
 
 void MainWindow::on_page_add_album_button_addMusic_clicked()
 {
-    QStringList songs;
 	QString filename = QFileDialog::getOpenFileName(this,tr("Open a File"),"","MP3 files (*.mp3)");
 
-    if(!filename.isEmpty())
+    if(!filename.isNull())
     {
-        songs = filename.split(",",QString::SkipEmptyParts);
-
         Musica *newSong;
-        for(int i = 0; i < songs.size(); i++)
-        {
-            newSong = new Musica;
-            newSong->setDiretoria(songs[i]);
-            newSong->retrieveInfo(newSong->getDiretoria());
-            _newSongList.append(newSong);
-        }
+
+        newSong = new Musica;
+        newSong->setDiretoria(filename);
+        newSong->retrieveInfo(newSong->getDiretoria());
+        _newSongList.append(newSong);
+
     }
 
     Refresh();
@@ -1604,7 +1596,7 @@ void MainWindow::on_page_add_album_button_addFolder_clicked()
         if(!filenames[i].isEmpty())
         {
             newSong = new Musica;
-            newSong->setDiretoria(filenames[i]);
+            newSong->setDiretoria(folderName + "/" + filenames[i]);
             newSong->retrieveInfo(newSong->getDiretoria());
             _newSongList.append(newSong);
         }
@@ -1696,7 +1688,7 @@ void MainWindow::on_page_add_music_button_addFolder_clicked()
         if(!filenames[i].isEmpty())
         {
             newSong = new Musica;
-            newSong->setDiretoria(filenames[i]);
+            newSong->setDiretoria(folderName + "/" + filenames[i]);
             newSong->retrieveInfo(newSong->getDiretoria());
             _newSongList.append(newSong);
         }
@@ -1707,24 +1699,24 @@ void MainWindow::on_page_add_music_button_addFolder_clicked()
 
 void MainWindow::on_page_add_music_button_addMusic_clicked()
 {
-    QStringList songs;
     QString filename = QFileDialog::getOpenFileName(this,tr("Open a File"),"","MP3 files (*.mp3)");
 
     if(!filename.isEmpty())
     {
-        songs = filename.split(",",QString::SkipEmptyParts);
-
         Musica *newSong;
-        for(int i = 0; i < songs.size(); i++)
-        {
-            newSong = new Musica;
-            newSong->setDiretoria(songs[i]);
-            newSong->retrieveInfo(newSong->getDiretoria());
-            _newSongList.append(newSong);
-        }
+
+        newSong = new Musica;
+        newSong->setDiretoria(filename);
+        newSong->retrieveInfo(newSong->getDiretoria());
+        _newSongList.append(newSong);
     }
 
     Refresh();
+}
+
+void MainWindow::on_page_add_music_comboBox_albuns_currentIndexChanged(int index)
+{
+    ui->page_add_music_comboBox_albuns->setCurrentIndex(index);
 }
 
 //==============================================================

@@ -288,7 +288,7 @@ int Musica::criar(QString diretoria)
     if(db.connOpen())
     {
         file_name = _diretoria.right(_diretoria.size() - _diretoria.lastIndexOf("/"));
-        new_dir = diretoria + "/" + file_name;
+        new_dir = diretoria + file_name;
 
         if(QFile::copy(_diretoria, new_dir))
         {
