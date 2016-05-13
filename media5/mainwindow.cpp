@@ -1072,6 +1072,10 @@ void MainWindow::Refresh()
         }
         FormatTableFor(ui->page_add_music_tableWidget_musics,"NewSong");
         ui->page_add_music_tableWidget_musics->setFrameShape(QFrame::StyledPanel);
+        for(int i = 0; i < _newSongList.size(); i++)
+        {
+            AddNewSongLineToTable(ui->page_add_music_tableWidget_musics,_newSongList[i]);
+        }
 
     }else if(ui->pages->currentIndex() == 4) // Search
     {
@@ -1094,17 +1098,33 @@ void MainWindow::Refresh()
         {
             if(search.isEmpty())
             {
-                AddAlbumLineToTable(ui->page_search_tableWidget_albuns, _albuns[i]);
-                AddArtistLineToTable(ui->page_search_tableWidget_artists, _artists[i]);
                 AddSongLineToTable(ui->page_search_tableWidget_musics, _songs[i]);
+
+            }else{
+                if(_songs[i]->procurar(search))
+                    AddSongLineToTable(ui->page_search_tableWidget_musics, _songs[i]);
+            }
+        }
+        for(int i = 0; i < _artists.size(); i++)
+        {
+            if(search.isEmpty())
+            {
+                AddArtistLineToTable(ui->page_search_tableWidget_artists, _artists[i]);
+
+            }else{
+                if(_artists[i]->procurar(search))
+                    AddArtistLineToTable(ui->page_search_tableWidget_artists, _artists[i]);
+            }
+        }
+        for(int i = 0; i < _albuns.size(); i++)
+        {
+            if(search.isEmpty())
+            {
+                AddAlbumLineToTable(ui->page_search_tableWidget_albuns, _albuns[i]);
 
             }else{
                 if(_albuns[i]->procurar(search))
                     AddAlbumLineToTable(ui->page_search_tableWidget_albuns, _albuns[i]);
-                if(_artists[i]->procurar(search))
-                    AddArtistLineToTable(ui->page_search_tableWidget_artists, _artists[i]);
-                if(_songs[i]->procurar(search))
-                    AddSongLineToTable(ui->page_search_tableWidget_musics, _songs[i]);
             }
         }
 
@@ -1985,7 +2005,7 @@ void MainWindow::on_progress_button_save_clicked()
         MovePageToSongs();
     }else if(ui->menu_small_button_list->isChecked())
     {
-        _newPlaylist->setNome(ui->page_add_playlist_lineEdit_name);
+        _newPlaylist->setNome(ui->page_add_playlist_lineEdit_name->text());
         _newPlaylist->setDescricao(ui->page_add_playlist_plainText_description->toPlainText());
         _newPlaylist->setDataAdicao(QDate::currentDate());
         _playlist.append(_newPlaylist);

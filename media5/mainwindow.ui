@@ -84,7 +84,7 @@
        <string notr="true">background-color:rgb(241, 241, 241)</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="menuTab_full">
        <property name="sizePolicy">
@@ -1151,7 +1151,7 @@ QPushButton:checked{ background-color: pink; }</string>
        <string notr="true">background-color:white;</string>
       </property>
       <property name="currentIndex">
-       <number>7</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_categories">
        <layout class="QGridLayout" name="gridLayout_4">
