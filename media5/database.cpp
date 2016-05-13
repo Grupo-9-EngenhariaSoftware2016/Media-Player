@@ -69,6 +69,11 @@ bool Database::addAlbum(Album *newAlbum)
     return true;
 }
 
+bool Database::removeAlbum(Album *album)
+{
+    return true;
+}
+
 bool Database::addSong(Musica *newSong)
 {
     int new_id;
@@ -105,5 +110,15 @@ bool Database::addSong(Musica *newSong)
         return false;
     }
 
+    return true;
+}
+
+bool Database::addArtist(Autor *newArtist)
+{
+    return true;
+}
+
+bool Database::addPlaylist(Playlist *newPlaylist)
+{
     return true;
 }
