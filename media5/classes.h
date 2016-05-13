@@ -36,7 +36,7 @@ public:
 
     int apagar();
     int play();
-    //int procurar(QString);
+    bool procurar(QString procura);
 
     int criar();
 
@@ -66,15 +66,19 @@ public:
     int setDiretoria(QString diretoria);
     int getAutor(QList <Autor*> *autores);
     int setAutor(QList <Autor*> *autores);
+    int addAutor(Autor *autor);
+    int removeAutor(Autor *autor);
     bool hasAutor(Autor *autor);
     QString getGenero();
     int setGenero(QString genero);
     int getFaixa();
     int setFaixa(int faixa);
+    int retrieveInfo(QString dir);
 
     int apagar();
     int play();
-    //int procurar(QString);
+    int criar(QString diretoria);
+    bool procurar(QString procura);
 
 };
 
@@ -117,14 +121,14 @@ public:
     int getMusicas(QList <Musica*> *musicas);
     int setMusicas(QList <Musica*> *musicas);
 
-	int apagar();
-    int apagar(Musica *musica);
-    int apagar(QList <Musica*> *musicas);
-	int play();
+    int apagar();
+    int remover(Musica *musica);
+    int remover(QList <Musica*> *musicas);
+    int play();
     int adicionar(Musica *musica);
-    //int procurar(QString);
+    bool procurar(QString procura);
 
-	int criar();
+    int criar(QString diretoria);
 	
 };
 
@@ -156,7 +160,7 @@ public:
 	int apagar();
 	int play();
     int adicionar(Musica* musica);
-    //int procurar(QString);
+    bool procurar(QString procura);
     int remover(Musica* musica);
 
 	int criar();
