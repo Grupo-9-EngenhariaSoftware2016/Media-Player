@@ -4,6 +4,8 @@
 #include <QList>
 #include <QString>
 #include <QDate>
+#include <QDir>
+#include <QFile>
 #include <algorithm>
 
 using namespace std;
