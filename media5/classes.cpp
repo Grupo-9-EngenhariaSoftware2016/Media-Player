@@ -1,4 +1,5 @@
 #include "classes.h"
+#include "database.h"
 
 // ================================================
 // Metodos classe Autor
@@ -105,7 +106,25 @@ int Autor::play()
 
 int Autor::criar()
 {
+    Database db;
+
+    if(db.connOpen())
+    {
+        _dataAdicao = QDate::currentDate();
+
+        db.addArtist(this);
+
+        db.connClose();
+    }
     return 0;
+}
+
+bool Autor::procurar(QString procura)
+{
+    if(_nome.contains(procura,Qt::CaseInsensitive))
+        return true;
+
+    return false;
 }
 
 // ================================================
@@ -173,16 +192,12 @@ int Musica::setDiretoria(QString diretoria)
 
 int Musica::getAutor(QList <Autor*> *autores)
 {
-    if(!autores->isEmpty())
-        return -1;
-
     for(QList <Autor*>::iterator current = _autor->begin();
         current != _autor->end();
         ++current)
     {
         autores->append(*current);
     }
-
 
     return 0;
 }
@@ -196,6 +211,21 @@ int Musica::setAutor(QList <Autor*> *autores)
         _autor->append(*current);
     }
 
+    return 0;
+}
+
+int Musica::addAutor(Autor *autor)
+{
+    _autor->append(autor);
+    return 0;
+}
+
+int Musica::removeAutor(Autor *autor)
+{
+    if(this->hasAutor(autor))
+    {
+        _autor->removeOne(autor);
+    }
     return 0;
 }
 
@@ -228,14 +258,56 @@ int Musica::setFaixa(int faixa)
     return 0;
 }
 
+int Musica::retrieveInfo(QString dir)
+{
+    /*
+     * Método para leitura de tags id3
+     * */
+
+    return 0;
+}
+
 int Musica::apagar()
 {
+    /*
+     * Método para remover ficheiro
+     * */
     return 0;
 }
 
 int Musica::play()
 {
     return 0;
+}
+
+int Musica::criar(QString diretoria)
+{
+    Database db;
+    QString file_name, new_dir;
+
+    if(db.connOpen())
+    {
+        file_name = _diretoria.right(_diretoria.size() - _diretoria.lastIndexOf("/"));
+        new_dir = diretoria + file_name;
+
+        if(QFile::copy(_diretoria, new_dir))
+        {
+            _diretoria = new_dir;
+            _dataAdicao = QDate::currentDate();
+            db.addSong(this);
+        }
+
+        db.connClose();
+    }
+    return 0;
+}
+
+bool Musica::procurar(QString procura)
+{
+    if(_nome.contains(procura,Qt::CaseInsensitive))
+        return true;
+
+    return false;
 }
 
 // ================================================
@@ -353,16 +425,12 @@ int Album::setAno(int ano)
 
 int Album::getAutores(QList <Autor*> *autores)
 {
-    if(!autores->isEmpty())
-        return -1;
-
     for(QList <Autor*>::iterator current = _autor->begin();
         current != _autor->end();
         ++current)
     {
         autores->append(*current);
     }
-
 
     return 0;
 }
@@ -386,16 +454,12 @@ bool Album::hasAutor(Autor *autor)
 
 int Album::getMusicas(QList<Musica *> *musicas)
 {
-    if(!musicas->isEmpty())
-        return -1;
-
     for(QList <Musica*>::iterator current = _musica->begin();
         current != _musica->end();
         ++current)
     {
         musicas->append(*current);
     }
-
 
     return 0;
 }
@@ -414,16 +478,46 @@ int Album::setMusicas(QList<Musica *> *musicas)
 
 int Album::apagar()
 {
+    Database db;
+
+    for(int i = 0; i < _musica->size(); i++)
+    {
+        if(_musica->value(i)->apagar() == 0)
+            _musica->removeAt(i);
+        else
+            return -1;
+    }
+
+    if(db.connOpen())
+    {
+        db.removeAlbum(this);
+
+        db.connClose();
+        return 0;
+    }
+
+    return -2;
+}
+
+int Album::remover(Musica *musica)
+{
+    if(!_musica->contains(musica))
+        return -1;
+
+    _musica->removeOne(musica);
+
     return 0;
 }
 
-int Album::apagar(Musica *musica)
+int Album::remover(QList <Musica*> *musicas)
 {
-    return 0;
-}
+    for(int i = 0; i < musicas->size(); i++)
+    {
+        if(!_musica->contains(musicas->value(i)))
+            return -1;
 
-int Album::apagar(QList <Musica*> *musicas)
-{
+        _musica->removeOne(musicas->value(i));
+    }
     return 0;
 }
 
@@ -450,9 +544,34 @@ int Album::adicionar(Musica *musica)
     return 0;
 }
 
-int Album::criar()
+int Album::criar(QString diretoria)
 {
+    Database db;
+    _diretoria = diretoria;
+    QDir dir(_diretoria);
+
+    if(!dir.exists())
+    {
+        qDebug() << "Criar " << _diretoria << "diretoria.";
+        dir.mkpath(_diretoria);
+    }
+    else
+    {
+        qDebug() << _diretoria << " ja existe!";
+    }
+
+    _dataAdicao = QDate::currentDate();
+    db.addAlbum(this);
+
     return 0;
+}
+
+bool Album::procurar(QString procura)
+{
+    if(_nome.contains(procura,Qt::CaseInsensitive))
+        return true;
+
+    return false;
 }
 
 // ================================================
@@ -523,9 +642,6 @@ int Playlist::getSize()
 
 int Playlist::getMusicas(QList<Musica *> *musicas)
 {
-    if(!musicas->isEmpty())
-        return -1;
-
     for(QList <Musica*>::iterator current = _musica->begin();
         current != _musica->end();
         ++current)
@@ -539,7 +655,7 @@ int Playlist::getMusicas(QList<Musica *> *musicas)
 
 Musica* Playlist::getMusica(int indice)
 {
-    if(indice > _musica->size())
+    if(indice > _musica->size() || indice < 0)
         return NULL;
 
     return _musica->value(indice);
@@ -590,6 +706,14 @@ int Playlist::criar()
     return 0;
 }
 
+bool Playlist::procurar(QString procura)
+{
+    if(_nome.contains(procura,Qt::CaseInsensitive))
+        return true;
+
+    return false;
+}
+
 // ================================================
 // Metodos classe Player
 
@@ -609,9 +733,6 @@ Player::~Player()
 
 int Player::getMusicas(QList <Musica*> *lista)
 {
-    if(!lista->isEmpty())
-        return -1;
-
     _lista->getMusicas(lista);
 
     return 0;
