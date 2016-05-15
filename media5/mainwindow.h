@@ -24,42 +24,13 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    QSqlDatabase mydb;
+
     QList <Album*> _albuns;
     QList <Playlist*> _playlist;
     QList <Autor*> _artists;
     QList <Musica*> _songs;
     Player _player;
     QString _imageURL;
-
-    QSqlDatabase mydb;
-    QList <Album*> _albuns;
-    QList <Playlist*> _playlist;
-    QList <Autor*> _artists;
-    QList <Musica*> _songs;
-    Player _player;
-    QString _imageURL;
-
-    void connClose()
-    {
-        mydb.close();
-        mydb.removeDatabase(QSqlDatabase::defaultConnection);
-    }
-    bool connOpen()
-    {
-        mydb=QSqlDatabase::addDatabase("QSQLITE");
-        mydb.setDatabaseName(QDir::currentPath() +"/database/database.db");
-
-        if(!mydb.open())
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-
 
 public:
     explicit MainWindow(QWidget *parent = 0);

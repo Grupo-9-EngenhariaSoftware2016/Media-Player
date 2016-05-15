@@ -177,11 +177,6 @@ MainWindow::~MainWindow()
 {
     QMainWindow::centralWidget();
 
-<<<<<<< HEAD
-    mydb.close();
-
-=======
->>>>>>> origin/Bruno
     while (!_albuns.isEmpty())
         _albuns.removeLast();
     while (!_playlist.isEmpty())
@@ -933,10 +928,6 @@ void MainWindow::NewArtist()
 
     if(mdialog->result() == 1)
     {
-<<<<<<< HEAD
-        _artists.append(mdialog->getNewArtist());
-        MovePageToArtists();
-=======
         artist = mdialog->getNewArtist();
         artist->setDataAdicao(QDate::currentDate());
         _artists.append(artist);
