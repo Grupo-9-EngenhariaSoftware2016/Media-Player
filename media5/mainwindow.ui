@@ -677,8 +677,6 @@ QPushButton:checked{ background-color: pink; }</string>
        <string notr="true">background-color:rgb(36, 172, 235);</string>
       </property>
       <property name="currentIndex">
-
-       <number>2</number>
        <number>0</number>
       </property>
       <widget class="QWidget" name="player_tab">
@@ -1153,9 +1151,7 @@ QPushButton:checked{ background-color: pink; }</string>
        <string notr="true">background-color:white;</string>
       </property>
       <property name="currentIndex">
-
        <number>2</number>
-       <number>0</number>
       </property>
       <widget class="QWidget" name="page_categories">
        <layout class="QGridLayout" name="gridLayout_4">
