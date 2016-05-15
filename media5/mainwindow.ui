@@ -1153,7 +1153,11 @@ QPushButton:checked{ background-color: pink; }</string>
        <string notr="true">background-color:white;</string>
       </property>
       <property name="currentIndex">
+<<<<<<< HEAD
        <number>1</number>
+=======
+
+>>>>>>> parent of c74409b... Database Update
        <number>2</number>
        <number>0</number>
       </property>
