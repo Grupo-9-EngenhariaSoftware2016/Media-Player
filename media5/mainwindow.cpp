@@ -4,9 +4,7 @@
 #include "classes.h"
 #include <database.h>
 
-
-//#define NO_DB
-#define DB_ON
+#define NO_DB
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -120,55 +118,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 #endif // NO_DB
 
-#ifdef DB_ON
-
-    Database db;
-    db.connOpen();
-
-    Autor *newArtist;
-    Musica *newSong;
-    Album *newAlbum;
-    Playlist *newPlaylist;
-
-
-    //
-    // Leitura dos dados da DB a guardar na classe
-    //
-
-    QSqlQuery album_list, music_list;
-
-    if(album_list.exec("select * from Album;"))
-    {
-        while(album_list.next())
-        {   
-            newAlbum = new Album;
-            newAlbum->setIdBD(album_list.value(0).toInt());
-            newAlbum->setNome(album_list.value(1).toString());
-            newAlbum->setDescricao(album_list.value(2).toString());
-            newAlbum->setDiretoria(album_list.value(3).toString());
-            newAlbum->setImagem(album_list.value(4).toString());
-            newAlbum->setAno(album_list.value(5).toInt());
-            newAlbum->setGenero(album_list.value(6).toString());
-            _albuns.append(newAlbum);
-        }
-
-    }
-
-    if(music_list.exec("select * from Musica;"))
-    {
-        while(music_list.next())
-        {
-          newSong = new Musica;
-          newSong->setIdBD(music_list.value(0).toInt());
-          newSong->setFaixa(music_list.value(3).toInt());
-          newSong->setNome(music_list.value(1).toString());
-          newSong->setDiretoria(music_list.value(2).toString());
-          _songs.append(newSong);
-        }
-    }
-
-
-#endif // DB_ON
     ExpandMenu(false);
     MovePageToAlbuns();
 }
@@ -926,12 +875,12 @@ void MainWindow::NewArtist()
     mdialog = new Dialog(this);
     mdialog->exec();
 
-    if(mdialog->result() == 1)
-    {
-        artist = mdialog->getNewArtist();
-        artist->setDataAdicao(QDate::currentDate());
-        _artists.append(artist);
-    }
+//    if(mdialog->result() == 1)
+//    {
+//        artist = mdialog->getNewArtist();
+//        artist->setDataAdicao(QDate::currentDate());
+//        _artists.append(artist);
+//    }
 }
 
 void MainWindow::Refresh()
@@ -1649,6 +1598,7 @@ void MainWindow::on_page_add_album_button_addArtwork_clicked()
 void MainWindow::on_page_add_album_button_addMusic_clicked()
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
     QString dir_filename = QFileDialog::getOpenFileName(this,tr("Open a File"),"","MP3 files (*.mp3)");
     QDir Dname =dir_filename;
     QString name=Dname.dirName();
@@ -1676,6 +1626,14 @@ void MainWindow::on_page_add_album_button_addMusic_clicked()
 
     Refresh();
 >>>>>>> refs/remotes/origin/Eduardo
+=======
+    QString filename = QFileDialog::getOpenFileName(this,tr("Open a File"),"","MP3 files (*.mp3)");
+
+    ui->page_add_album_tableWidget_toAddMusics->clear();
+    ui->page_add_album_tableWidget_toAddMusics->setRowCount(3);
+    ui->page_add_album_tableWidget_toAddMusics->setColumnCount(3);
+    ui->page_add_album_tableWidget_toAddMusics->setItem(0, 0, new QTableWidgetItem(filename));
+>>>>>>> parent of c74409b... Database Update
 }
 
 void MainWindow::on_page_add_album_button_addFolder_clicked()
@@ -1988,68 +1946,73 @@ void MainWindow::on_progress_button_save_clicked()
     }else{
         Album *newAlbum = new Album;
 
-        newAlbum->setNome(ui->page_add_album_lineEdit_name->text());
-        newAlbum->setGenero(ui->page_add_album_lineEdit_gender->text());
-        newAlbum->setAno(ui->page_add_album_lineEdit_year->text().toInt());
-        newAlbum->setImagem(_imageURL);
-        //newAlbum->setMusicas();
-        //newAlbum->setAutores();
 
-        newAlbum->setDescricao(ui->page_add_album_textEdit_description->toPlainText());
+    Database db;
 
-        _albuns.append(newAlbum);
+    if(db.connOpen()){
+         ui->statusBar->showMessage(" - Coneccao a DB - Valida");
+    }else{
+         ui->statusBar->showMessage(" - Coneccao a DB - Invalida");
+    }
 
-        /*
-         * TO-DO:
-         *
-         * Adicionar na base de dados
-         *
-        * */
+    QString nome,descricao,genero,ano;
+    nome=ui->page_add_album_lineEdit_name->text();
+    ano=ui->page_add_album_lineEdit_year->text();
+    descricao=ui->page_add_album_textEdit_description->toPlainText();
+    genero=ui->page_add_album_lineEdit_gender->text();
 
-        Database db;
 
-        if(db.connOpen())
+    // Criar Filtragem de dados antes de executar a query para a DB
+
+    // se passar com sucesso criar directoria
+
+    // obter indice a adicionar
+    int last_id,new_id;
+
+    QSqlQuery last_album_id;
+    last_album_id.prepare("select ID_Album from Album order by ID_Album DESC Limit 1;"); //
+
+    if(last_album_id.exec())
+    {
+        last_album_id.next();
+        last_id= last_album_id.value(0).toInt();
+        qDebug() << "Ultimo ID=" << last_id;
+    }
+
+    new_id=last_id+1; // ID do proximo elemento a adicionar
+
+    //Criar Diretoria para o Novo Album
+    QString diretoria = QDir::currentPath() +"/debug/album/ID_"+ QString::number(new_id) + nome;
+
+    // Adicionar Info à DB
+    QSqlQuery add_album;
+    add_album.prepare("insert into Album (Nome,Ano,Genero,Diretoria,Descricao) values ('"+nome+"','"+ano+"','"+genero+"','"+diretoria+"','"+descricao+"') ;");
+
+    if(add_album.exec())
+    {
+        qDebug() << "Novo Album Adicionado";
+        QDir dir(diretoria);
+
+        if(!dir.exists())
         {
-            ui->statusBar->showMessage(" - Coneccao a DB - Valida");
-        }else{
-            ui->statusBar->showMessage(" - Coneccao a DB - Invalida");
+            qDebug() << "Criar " << diretoria << "diretoria.";
+            dir.mkpath(diretoria);
         }
-
-        QString nome,descricao,genero,ano;
-        nome      = ui->page_add_album_lineEdit_name->text();
-        ano       = ui->page_add_album_lineEdit_year->text();
-        descricao = ui->page_add_album_textEdit_description->toPlainText();
-        genero    = ui->page_add_album_lineEdit_gender->text();
-
-
-        // Criar Filtragem de dados antes de executar a query para a DB
-
-        // se passar com sucesso criar directoria
-
-
-        int last_id;             // obter indice a adicionar
-        QSqlQuery last_album_id;
-        if(last_album_id.exec("select ID_Album from Album order by ID_Album DESC Limit 1;"))
+        else
         {
-            last_album_id.next();
-            last_id = last_album_id.value(0).toInt();
+            qDebug() << diretoria << " ja existe!";
         }
+    }
 
-        int new_id=last_id+1; // ID do proximo elemento a adicionar
 
-        //Criar Diretoria para o Novo Album
-        QString diretoria = QDir::currentPath() +"/debug/album/ID_"+ QString::number(new_id) + nome;
-        QString dir_img= diretoria +"/"+ "art" + ".jpg";
+    // Caso existam - Adicionar musicas
 
-        // Adicionar Info à DB
-        QSqlQuery add_album;
-        add_album.prepare("insert into Album (Nome,Ano,Genero,Diretoria,Descricao) values ('"+nome+"','"+ano+"','"+genero+"','"+diretoria+"','"+descricao+"') ;");
+    // Extrair Info de musicas da tabela (neste caso so a 1ª)
+    QString old_dir_music = ui->page_add_album_tableWidget_toAddMusics->item(0,0)->text();
+    QString new_dir_music= diretoria+"/nome.mp3";
 
-        if(add_album.exec())
-        {
-            qDebug() << "Novo Album Adicionado";
-            QDir dir(diretoria);
 
+<<<<<<< HEAD
             if(!dir.exists())
             {
                 qDebug() << "Criar " << diretoria << "diretoria.";
@@ -2168,51 +2131,54 @@ void MainWindow::on_progress_button_save_clicked()
 	         ui->statusBar->showMessage(" - Coneccao a DB - Invalida");
 >>>>>>> origin/Bruno
         }
+=======
+    //Copiar para a pasta do album
+    QFile::copy(old_dir_music, new_dir_music);
+    qDebug() << "Diretoria da musica:" << old_dir_music << "-> Nova Diretoria= " << new_dir_music;
+>>>>>>> parent of c74409b... Database Update
 
-        // Caso existam - Adicionar musicas
+    // Guardar informacao da musica - uma musica por enquanto
+    QSqlQuery add_music;
 
-        // Extrair Info de musicas da tabela
-        int n_rows = ui->page_add_album_tableWidget_toAddMusics->rowCount();
+    //http://doc.qt.io/qt-5/sql-sqlstatements.html
+    add_music.prepare("INSERT INTO Musica (Nome,Diretoria,ID_Album)"
+                      "VALUES (:Nome, :Diretoria, :ID_Album)");
 
-        if(n_rows>0)
-        {
-            QString old_dir_music,new_dir_music,name_music;
-            QSqlQuery add_music;                    // Guardar informacao da musica - uma musica por enquanto
+    add_music.bindValue(":Nome", "Teste_Musica");
+    add_music.bindValue(":Diretoria", "Diretoria_teste");
+    add_music.bindValue(":ID_Album", new_id);
 
-            for(int i =0; i < n_rows;i++)
-            {
-                name_music=ui->page_add_album_tableWidget_toAddMusics->item(i,0)->text();
-                old_dir_music = ui->page_add_album_tableWidget_toAddMusics->item(i,1)->text();
-                new_dir_music= diretoria +"/"+ name_music + ".mp3";
+    if(add_music.exec())
+    {
+        qDebug() << "Musica adicionada";
+    }
+    else
+       {qDebug() << "Musica-Nao adiciona";}
+    // Copiar musica para pasta
 
-                //http://doc.qt.io/qt-5/sql-sqlstatements.html
-                add_music.prepare("INSERT INTO Musica (Nome,Diretoria,ID_Album)"
-                                  "VALUES (:Nome, :Diretoria, :ID_Album)");
+    // Copiar grupos de musica para a pasta
 
-                add_music.bindValue(":Nome", name_music);
-                add_music.bindValue(":Diretoria", new_dir_music);
-                add_music.bindValue(":ID_Album", new_id);
-
-                if(add_music.exec())
-                {
-                    qDebug() << "Musica adicionada";
-                    QFile::copy(old_dir_music, new_dir_music);   //Copiar para a pasta do album
-                    qDebug() << "Diretoria da musica:" << old_dir_music << "-> Nova Diretoria= " << new_dir_music;
-
-                }
-                else
-                {
-                    qDebug() << "Musica-Nao adiciona";
-                }
-            }
-
-
-        }
+    db.connClose();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    newAlbum->setNome(ui->page_add_album_lineEdit_name->text());
+    newAlbum->setGenero(ui->page_add_album_lineEdit_gender->text());
+    newAlbum->setAno(ui->page_add_album_lineEdit_year->text().toInt());
+    newAlbum->setImagem(_imageURL);
+    //newAlbum->setMusicas();
+    //newAlbum->setAutores();
+    newAlbum->setDescricao(ui->page_add_album_textEdit_description->toPlainText());
+>>>>>>> parent of c74409b... Database Update
 
-        db.connClose();
+    _albuns.append(newAlbum);
 
+    /*
+     * TO-DO:
+     *
+     * Adicionar na base de dados
+    * */
 
         MovePageToAlbuns();
 =======
