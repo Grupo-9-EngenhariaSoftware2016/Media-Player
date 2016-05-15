@@ -1151,7 +1151,11 @@ QPushButton:checked{ background-color: pink; }</string>
        <string notr="true">background-color:white;</string>
       </property>
       <property name="currentIndex">
+<<<<<<< HEAD
        <number>2</number>
+=======
+       <number>3</number>
+>>>>>>> refs/remotes/origin/Eduardo
       </property>
       <widget class="QWidget" name="page_categories">
        <layout class="QGridLayout" name="gridLayout_4">

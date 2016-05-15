@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include <QtSql>
 #include <QtDebug>
+#include <QModelIndex>
+#include <QDir>
+#include <QFile>
 #include <QFileInfo>
 #include <QFileSystemModel>
 #include <QFileDialog>
@@ -154,6 +157,8 @@ private slots:
     void on_options_button_edit_clicked();
     void on_options_button_remove_clicked();
     void on_options_button_information_clicked();
+
+    void on_page_add_music_comboBox_albuns_currentIndexChanged(int index);
 
 private:
     Ui::MainWindow *ui;
