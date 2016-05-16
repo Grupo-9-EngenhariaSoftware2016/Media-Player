@@ -41,6 +41,12 @@ public:
     ~MainWindow();
 
 private slots:
+    // Refresh Handlers
+    void on_player_positionChanged(qint64 position);
+    void on_player_durationChanged(qint64 duration);
+    void on_player_mutedChanged(bool muted);
+    void on_player_stateChanged(QMediaPlayer::State state);
+
     // Menu Handlers
     void on_menu_small_button_search_clicked();
     void on_menu_small_button_album_clicked();
@@ -92,6 +98,7 @@ private slots:
     // Page Add Music Handlers
     void on_page_add_music_button_addFolder_clicked();
     void on_page_add_music_button_addMusic_clicked();
+    void on_page_add_music_comboBox_albuns_currentIndexChanged(int index);
 
     // Page Search Handlers
     void on_page_search_tableWidget_artists_doubleClicked(const QModelIndex &index);
@@ -120,8 +127,9 @@ private slots:
 
     // Tab Player Handlers
     void on_player_slider_sliderReleased();
+    void on_player_slider_valueChanged(int value);
     void on_player_button_previous_clicked();
-    void on_player_button_play_clicked();
+    void on_player_button_play_toggled(bool checked);
     void on_player_button_stop_clicked();
     void on_player_button_next_clicked();
     void on_player_button_shuffle_toggled(bool checked);
@@ -137,8 +145,6 @@ private slots:
     void on_options_button_edit_clicked();
     void on_options_button_remove_clicked();
     void on_options_button_information_clicked();
-
-    void on_page_add_music_comboBox_albuns_currentIndexChanged(int index);
 
 private:
     Ui::MainWindow *ui;
