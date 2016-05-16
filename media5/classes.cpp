@@ -127,7 +127,7 @@ int Autor::criar()
 
 bool Autor::procurar(QString procura)
 {
-    if(_nome.contains("*"+procura+"*",Qt::CaseInsensitive))
+    if(_nome.contains(procura,Qt::CaseInsensitive))
         return true;
 
     return false;
@@ -352,7 +352,7 @@ int Musica::criar(QString diretoria)
 
 bool Musica::procurar(QString procura)
 {
-    if(_nome.contains("*"+procura+"*",Qt::CaseInsensitive))
+    if(_nome.contains(procura,Qt::CaseInsensitive))
         return true;
 
     return false;
@@ -623,7 +623,7 @@ int Album::criar(QString diretoria)
 
 bool Album::procurar(QString procura)
 {
-    if(_nome.contains("*"+procura+"*",Qt::CaseInsensitive))
+    if(_nome.contains(procura,Qt::CaseInsensitive))
         return true;
 
     return false;
@@ -777,7 +777,7 @@ int Playlist::criar()
 
 bool Playlist::procurar(QString procura)
 {
-    if(_nome.contains("*"+procura+"*",Qt::CaseInsensitive))
+    if(_nome.contains(procura,Qt::CaseInsensitive))
         return true;
 
     return false;
@@ -881,6 +881,16 @@ int Player::repetir(bool repetir)
     return 0;
 }
 
+int Player::silencio(bool silencio)
+{
+    if(_silencio != silencio)
+    {
+        _silencio = silencio;
+        _mediaPlayer->setMuted(true);
+    }
+    return 0;
+}
+
 int Player::adicionar(QList <Musica*> *musica)
 {
     Musica *song;
@@ -950,6 +960,11 @@ bool Player::isAleatorio()
 bool Player::isRepeat()
 {
     return _repeat;
+}
+
+bool Player::isSilencio()
+{
+    return _silencio;
 }
 
 bool Player::isATocar()

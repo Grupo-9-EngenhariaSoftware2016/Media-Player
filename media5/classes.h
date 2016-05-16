@@ -183,6 +183,7 @@ private:
     bool _aTocar;
     bool _aleatorio;
     bool _repeat;
+    bool _silencio;
 public:
     QMediaPlayer *_mediaPlayer;
 
@@ -197,6 +198,7 @@ public:
 	int anterior();
     int aleatorio(bool aleatorio);
     int repetir(bool repetir);
+    int silencio(bool silencio);
     int adicionar(QList <Musica*> *musicas);
     int adicionar(Musica *musicas);
     int remover(QList <Musica*> *musicas);
@@ -205,6 +207,7 @@ public:
     bool isAleatorio();
     bool isRepeat();
     bool isATocar();
+    bool isSilencio();
     qint64 getTempo();
     qint64 getPosicao();
     int setPosicao(qint64 posicao);

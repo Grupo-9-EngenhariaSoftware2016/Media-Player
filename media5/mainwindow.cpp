@@ -4,7 +4,7 @@
 #include "classes.h"
 #include <database.h>
 
-//#define NO_DB
+#define NO_DB
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -35,14 +35,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->player_button_play->setCheckable(true);
     ui->player_button_shuffle->setCheckable(true);
+    ui->player_button_repeat->setCheckable(true);
+    ui->player_button_mute->setCheckable(true);
 
     // Hide tab for add album
     ui->page_add_album_tabs->tabBar()->hide();
 
-    connect(_player._mediaPlayer,SIGNAL(positionChanged(qint64)), this, SLOT(on_player_positionChanged(qint64)));
-    connect(_player._mediaPlayer,SIGNAL(durationChanged(qint64)), this, SLOT(on_player_durationChanged(qint64)));
-    connect(_player._mediaPlayer,SIGNAL(mutedChanged(bool)), this, SLOT(on_player_mutedChanged(bool)));
-    connect(_player._mediaPlayer,SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(on_player_stateChanged(QMediaPlayer::State)));
+    connect(_player._mediaPlayer, SIGNAL(positionChanged(qint64)), this, SLOT(on_player_positionChanged(qint64)));
+    connect(_player._mediaPlayer, SIGNAL(durationChanged(qint64)), this, SLOT(on_player_durationChanged(qint64)));
+    connect(_player._mediaPlayer, SIGNAL(mutedChanged(bool)), this, SLOT(on_player_mutedChanged(bool)));
+    connect(_player._mediaPlayer, SIGNAL(playbackModeChanged(QMediaPlaylist::PlaybackMode mode)), this, SLOT(on_player_playbackModeChanged(QMediaPlaylist::PlaybackMode mode)));
+    connect(_player._mediaPlayer, SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(on_player_stateChanged(QMediaPlayer::State)));
 
 #ifdef NO_DB
 
@@ -1240,7 +1243,29 @@ void MainWindow::on_player_durationChanged(qint64 duration)
 
 void MainWindow::on_player_mutedChanged(bool muted)
 {
+    ui->player_button_mute->setChecked(muted);
+}
 
+void MainWindow::on_player_playbackModeChanged(QMediaPlaylist::PlaybackMode mode)
+{
+    switch(mode)
+    {
+    case QMediaPlaylist::Sequential:
+        ui->player_button_repeat->setChecked(false);
+        ui->player_button_shuffle->setChecked(false);
+        break;
+
+    case QMediaPlaylist::Loop:
+        ui->player_button_repeat->setChecked(true);
+        ui->player_button_shuffle->setChecked(false);
+        break;
+
+    case QMediaPlaylist::Random:
+        ui->player_button_repeat->setChecked(false);
+        ui->player_button_shuffle->setChecked(true);
+        break;
+
+    }
 }
 
 void MainWindow::on_player_stateChanged(QMediaPlayer::State state)
@@ -1998,6 +2023,16 @@ void MainWindow::on_player_button_shuffle_toggled(bool checked)
         ui->player_button_shuffle->setChecked(true);
     else
         ui->player_button_shuffle->setChecked(false);
+}
+
+void MainWindow::on_player_button_repeat_clicked()
+{
+    _player.repetir(!_player.isRepeat());
+}
+
+void MainWindow::on_player_button_mute_clicked()
+{
+    _player.silencio(!_player.isSilencio());
 }
 
 //==============================================================

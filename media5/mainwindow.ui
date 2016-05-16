@@ -863,7 +863,7 @@ QPushButton:checked{ background-color: pink; }</string>
          </widget>
         </item>
         <item row="0" column="13" rowspan="3">
-         <widget class="QPushButton" name="player_button_2">
+         <widget class="QPushButton" name="player_button_repeat">
           <property name="text">
            <string/>
           </property>
@@ -903,7 +903,7 @@ QPushButton:checked{ background-color: pink; }</string>
          </widget>
         </item>
         <item row="0" column="14" rowspan="3">
-         <widget class="QPushButton" name="player_button_4">
+         <widget class="QPushButton" name="player_button_mute">
           <property name="text">
            <string/>
           </property>

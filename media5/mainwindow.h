@@ -45,6 +45,7 @@ private slots:
     void on_player_positionChanged(qint64 position);
     void on_player_durationChanged(qint64 duration);
     void on_player_mutedChanged(bool muted);
+    void on_player_playbackModeChanged(QMediaPlaylist::PlaybackMode mode);
     void on_player_stateChanged(QMediaPlayer::State state);
 
     // Menu Handlers
@@ -133,6 +134,8 @@ private slots:
     void on_player_button_stop_clicked();
     void on_player_button_next_clicked();
     void on_player_button_shuffle_toggled(bool checked);
+    void on_player_button_repeat_clicked();
+    void on_player_button_mute_clicked();
 
     // Tab Progress Handlers
     void on_progress_button_previous_clicked();
