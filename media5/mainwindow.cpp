@@ -35,9 +35,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->player_button_play->setCheckable(true);
     ui->player_button_shuffle->setCheckable(true);
+    ui->player_button_repeat->setCheckable(true);
+    ui->player_button_mute->setCheckable(true);
 
     // Hide tab for add album
     ui->page_add_album_tabs->tabBar()->hide();
+
+    connect(_player._mediaPlayer, SIGNAL(positionChanged(qint64)), this, SLOT(on_player_positionChanged(qint64)));
+    connect(_player._mediaPlayer, SIGNAL(durationChanged(qint64)), this, SLOT(on_player_durationChanged(qint64)));
+    connect(_player._mediaPlayer, SIGNAL(mutedChanged(bool)), this, SLOT(on_player_mutedChanged(bool)));
+    connect(_player._mediaPlayer, SIGNAL(playbackModeChanged(QMediaPlaylist::PlaybackMode mode)), this, SLOT(on_player_playbackModeChanged(QMediaPlaylist::PlaybackMode mode)));
+    connect(_player._mediaPlayer, SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(on_player_stateChanged(QMediaPlayer::State)));
 
 #ifdef NO_DB
 
@@ -517,7 +525,7 @@ void MainWindow::FormatTableFor(QTableWidget *table, QString format)
     table->setFrameShape(QFrame::NoFrame);
     table->setFrameShadow(QFrame::Sunken);
     table->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    table->setTextElideMode(Qt::ElideLeft);
+    table->setTextElideMode(Qt::ElideRight);
     table->setAlternatingRowColors(true);
     table->setSelectionBehavior(QAbstractItemView::SelectRows);
     table->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -844,6 +852,9 @@ void MainWindow::MovePageToAddPlaylist()
 
     if(_newPlaylist == NULL)
         _newPlaylist = new Playlist;
+
+    while(!_newSongList.isEmpty())
+        _newSongList.removeLast();
 
     ui->pages->setCurrentIndex(7);
 
@@ -1255,6 +1266,66 @@ void MainWindow::Refresh()
 }
 
 //==============================================================
+// Handlers para actualizações de barra de player
+void MainWindow::on_player_positionChanged(qint64 position)
+{
+    ui->player_slider->setValue(position);
+
+    QTime duration(0, position / 60000, qRound((position % 60000) / 1000.0));
+    ui->player_label_timer->setText(duration.toString(tr("mm:ss")));
+}
+
+void MainWindow::on_player_durationChanged(qint64 duration)
+{
+    ui->player_slider->setRange(0, duration);
+    ui->player_slider->setEnabled(duration > 0);
+    ui->player_slider->setPageStep(duration / 10);
+}
+
+void MainWindow::on_player_mutedChanged(bool muted)
+{
+    ui->player_button_mute->setChecked(muted);
+}
+
+void MainWindow::on_player_playbackModeChanged(QMediaPlaylist::PlaybackMode mode)
+{
+    switch(mode)
+    {
+    case QMediaPlaylist::Sequential:
+        ui->player_button_repeat->setChecked(false);
+        ui->player_button_shuffle->setChecked(false);
+        break;
+
+    case QMediaPlaylist::Loop:
+        ui->player_button_repeat->setChecked(true);
+        ui->player_button_shuffle->setChecked(false);
+        break;
+
+    case QMediaPlaylist::Random:
+        ui->player_button_repeat->setChecked(false);
+        ui->player_button_shuffle->setChecked(true);
+        break;
+
+    }
+}
+
+void MainWindow::on_player_stateChanged(QMediaPlayer::State state)
+{
+    switch(state)
+    {
+    case QMediaPlayer::PlayingState:
+        ui->player_button_play->setChecked(true);
+        break;
+    case QMediaPlayer::PausedState:
+        ui->player_button_play->setChecked(false);
+        break;
+    case QMediaPlayer::StoppedState:
+        ui->player_button_play->setChecked(false);
+        break;
+    }
+}
+
+//==============================================================
 // Handlers para ações de utilizador (Menu)
 void MainWindow::on_menu_small_button_search_clicked()
 {
@@ -1395,6 +1466,7 @@ void MainWindow::on_page_categories_button_random_clicked()
     if(ui->menu_small_button_album->isChecked())
     {
         _player.parar();
+        ui->player_button_play->setChecked(false);
         _player.removerTodas();
 
         QList <Musica*> newList;
@@ -1404,22 +1476,26 @@ void MainWindow::on_page_categories_button_random_clicked()
         if(!ui->player_button_shuffle->isChecked())
             ui->player_button_shuffle->setChecked(true);
         _player.play();
+        ui->player_button_play->setChecked(true);
         MovePageToPlayer();
 
     }else if(ui->menu_small_button_song->isChecked())
     {
         _player.parar();
+        ui->player_button_play->setChecked(false);
         _player.removerTodas();
 
         _player.adicionar(&_songs);
         if(!ui->player_button_shuffle->isChecked())
             ui->player_button_shuffle->setChecked(true);
         _player.play();
+        ui->player_button_play->setChecked(true);
         MovePageToPlayer();
 
     }else if(ui->menu_small_button_artist->isChecked())
     {
         _player.parar();
+        ui->player_button_play->setChecked(false);
         _player.removerTodas();
 
         QList <Musica*> newList;
@@ -1429,11 +1505,13 @@ void MainWindow::on_page_categories_button_random_clicked()
         if(!ui->player_button_shuffle->isChecked())
             ui->player_button_shuffle->setChecked(true);
         _player.play();
+        ui->player_button_play->setChecked(true);
         MovePageToPlayer();
 
     }else if(ui->menu_small_button_list->isChecked())
     {
         _player.parar();
+        ui->player_button_play->setChecked(false);
         _player.removerTodas();
 
         QList <Musica*> newList;
@@ -1443,6 +1521,7 @@ void MainWindow::on_page_categories_button_random_clicked()
         if(!ui->player_button_shuffle->isChecked())
             ui->player_button_shuffle->setChecked(true);
         _player.play();
+        ui->player_button_play->setChecked(true);
         MovePageToPlayer();
     }
 }
@@ -1505,10 +1584,13 @@ void MainWindow::on_page_categories_tableWidget_doubleClicked(const QModelIndex 
     }else if (ui->menu_full_button_list->isChecked()){
         MovePageToPlaylistInfo(index.data(Qt::WhatsThisRole).toInt());
     }else if (ui->menu_full_button_song->isChecked()){
+        _player.parar();
+        ui->player_button_play->setChecked(false);
         _player.removerTodas();
         _player.adicionar(_songs[index.data(Qt::WhatsThisRole).toInt()]);
         ui->player_button_shuffle->setChecked(false);
         _player.play();
+        ui->player_button_play->setChecked(true);
     }
 }
 
@@ -1518,6 +1600,7 @@ void MainWindow::on_page_categories_tableWidget_doubleClicked(const QModelIndex 
 void MainWindow::on_page_album_info_button_play_clicked()
 {
     _player.parar();
+    ui->player_button_play->setChecked(false);
     _player.removerTodas();
 
     QList <Musica*> newList;
@@ -1530,9 +1613,12 @@ void MainWindow::on_page_album_info_button_play_clicked()
     }
 
     _player.adicionar(&newList);
-//    if(ui->player_button_shuffle->isChecked())
-//        ui->player_button_shuffle->setChecked(false);
+
+    if(ui->player_button_shuffle->isChecked())
+        ui->player_button_shuffle->setChecked(false);
+
     _player.play();
+    ui->player_button_play->setChecked(true);
     MovePageToPlayer();
 }
 
@@ -1579,11 +1665,14 @@ void MainWindow::on_page_album_info_button_select_toggled(bool checked)
 
 void MainWindow::on_page_album_info_tableWidget_doubleClicked(const QModelIndex &index)
 {
+    _player.parar();
+    ui->player_button_play->setChecked(false);
     _player.removerTodas();
     _player.adicionar(_songs[index.data(Qt::WhatsThisRole).toInt()]);
     if(ui->player_button_shuffle->isChecked())
         ui->player_button_shuffle->setChecked(false);
     _player.play();
+    ui->player_button_play->setChecked(true);
 }
 
 //==============================================================
@@ -1774,11 +1863,14 @@ void MainWindow::on_page_search_tableWidget_albuns_doubleClicked(const QModelInd
 
 void MainWindow::on_page_search_tableWidget_musics_doubleClicked(const QModelIndex &index)
 {
+    _player.parar();
+    ui->player_button_play->setChecked(false);
     _player.removerTodas();
     _player.adicionar(_songs[index.data(Qt::WhatsThisRole).toInt()]);
     if(ui->player_button_shuffle->isChecked())
         ui->player_button_shuffle->setChecked(false);
     _player.play();
+    ui->player_button_play->setChecked(true);
 }
 
 //==============================================================
@@ -1787,6 +1879,7 @@ void MainWindow::on_page_search_tableWidget_musics_doubleClicked(const QModelInd
 void MainWindow::on_page_artist_button_play_clicked()
 {
     _player.parar();
+    ui->player_button_play->setChecked(false);
     _player.removerTodas();
 
     QList <Musica*> newList;
@@ -1798,9 +1891,12 @@ void MainWindow::on_page_artist_button_play_clicked()
     }
 
     _player.adicionar(&newList);
+
     if(ui->player_button_shuffle->isChecked())
         ui->player_button_shuffle->setChecked(false);
+
     _player.play();
+    ui->player_button_play->setChecked(true);
 }
 
 void MainWindow::on_page_artist_button_addTo_clicked()
@@ -1836,6 +1932,7 @@ void MainWindow::on_page_artist_tableWidget_albuns_doubleClicked(const QModelInd
 void MainWindow::on_page_playlist_button_play_clicked()
 {
     _player.parar();
+    ui->player_button_play->setChecked(false);
     _player.removerTodas();
 
     QList <Musica*> newList;
@@ -1851,6 +1948,7 @@ void MainWindow::on_page_playlist_button_play_clicked()
     if(ui->player_button_shuffle->isChecked())
         ui->player_button_shuffle->setChecked(false);
     _player.play();
+    ui->player_button_play->setChecked(true);
 }
 
 void MainWindow::on_page_playlist_button_addMusic_clicked()
@@ -1867,11 +1965,14 @@ void MainWindow::on_page_playlist_tableWidget_doubleClicked(const QModelIndex &i
 {
     if(!ui->page_playlist_button_play->isVisible())
     {
+        _player.parar();
+        ui->player_button_play->setChecked(false);
         _player.removerTodas();
         _player.adicionar(_songs[index.data(Qt::WhatsThisRole).toInt()]);
         if(ui->player_button_shuffle->isChecked())
             ui->player_button_shuffle->setChecked(false);
         _player.play();
+        ui->player_button_play->setChecked(true);
     }
 }
 
@@ -1916,32 +2017,63 @@ void MainWindow::on_page_add_playlist_lineEdit_search_textChanged(const QString 
 
 void MainWindow::on_player_slider_sliderReleased()
 {
+    if (qAbs(_player._mediaPlayer->position() - ui->player_slider->value()) > 99)
+        _player.setPosicao(ui->player_slider->value());
+}
 
+void MainWindow::on_player_slider_valueChanged(int value)
+{
+    if (qAbs(_player._mediaPlayer->position() - value) > 99)
+        _player.setPosicao(value);
 }
 
 void MainWindow::on_player_button_previous_clicked()
 {
-
+    _player.anterior();
 }
 
-void MainWindow::on_player_button_play_clicked()
+void MainWindow::on_player_button_play_toggled(bool checked)
 {
+    if(checked)
+        _player.play();
+    else
+        _player.pausa();
 
+    if(_player.isATocar())
+        ui->player_button_play->setChecked(true);
+    else
+        ui->player_button_play->setChecked(false);
 }
 
 void MainWindow::on_player_button_stop_clicked()
 {
-
+    _player.parar();
+    ui->player_button_play->setChecked(false);
 }
 
 void MainWindow::on_player_button_next_clicked()
 {
-
+    _player.seguinte();
 }
 
 void MainWindow::on_player_button_shuffle_toggled(bool checked)
 {
     _player.aleatorio(checked);
+
+    if(_player.isAleatorio())
+        ui->player_button_shuffle->setChecked(true);
+    else
+        ui->player_button_shuffle->setChecked(false);
+}
+
+void MainWindow::on_player_button_repeat_clicked()
+{
+    _player.repetir(!_player.isRepeat());
+}
+
+void MainWindow::on_player_button_mute_clicked()
+{
+    _player.silencio(!_player.isSilencio());
 }
 
 //==============================================================
