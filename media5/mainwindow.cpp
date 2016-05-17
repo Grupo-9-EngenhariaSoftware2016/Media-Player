@@ -2266,7 +2266,30 @@ void MainWindow::on_options_button_play_clicked()
 
         }else if(ui->menu_small_button_artist->isChecked()) // Artists
         {
+            _player.parar();
+            _player.removerTodas();
 
+            QList<QTableWidgetItem*> selected;
+            QList<Album*> toPlay;
+            int index;
+            selected = ui->page_categories_tableWidget->selectedItems();
+            while(!selected.isEmpty())
+            {
+                index = selected.first()->data(Qt::WhatsThisRole).toInt();
+                if(!toPlay.contains(_albuns[index]))
+                    toPlay.append(_albuns[index]);
+
+                selected.removeFirst();
+            }
+
+            QList<Musica*> songs;
+            for(int i = 0; i < toPlay.size(); i++)
+            {
+                toPlay[i]->getMusicas(&songs);
+            }
+
+            _player.adicionar(&songs);
+            _player.play();
         }else if(ui->menu_small_button_song->isChecked()) // Songs
         {
 
