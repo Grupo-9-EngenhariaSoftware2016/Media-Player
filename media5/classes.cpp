@@ -10,39 +10,32 @@ Autor::Autor()
     _nacionalidade = "";
     _dataNascimento = QDate::currentDate();
 }
-
 Autor::~Autor()
 {
 
 }
-
 QDate Autor::getDataAdicao()
 {
     return _dataAdicao;
 }
-
 int Autor::setDataAdicao(QDate data)
 {
     _dataAdicao = data;
     return 0;
 }
-
 int Autor::getIdBD()
 {
     return _idBD;
 }
-
 int Autor::setIdBD(int id)
 {
     _idBD = id;
     return 0;
 }
-
 QString Autor::getImagem()
 {
     return _imagem;
 }
-
 int Autor::setImagem(QString imagem)
 {
     if(imagem == NULL)
@@ -51,12 +44,10 @@ int Autor::setImagem(QString imagem)
     _imagem = imagem;
     return 0;
 }
-
 QString Autor::getNome()
 {
     return _nome;
 }
-
 int Autor::setNome(QString nome)
 {
     if(nome == NULL)
@@ -65,12 +56,10 @@ int Autor::setNome(QString nome)
     _nome = nome;
     return 0;
 }
-
 QString Autor::getNacionalidade()
 {
     return _nacionalidade;
 }
-
 int Autor::setNacionalidade(QString nacionalidade)
 {
     if(nacionalidade == NULL)
@@ -79,12 +68,10 @@ int Autor::setNacionalidade(QString nacionalidade)
     _nacionalidade = nacionalidade;
     return 0;
 }
-
 QDate Autor::getDataNascimento()
 {
     return _dataNascimento;
 }
-
 int Autor::setDataNascimento(QDate data)
 {
     if(data.isNull() || !data.isValid())
@@ -93,7 +80,6 @@ int Autor::setDataNascimento(QDate data)
     _dataNascimento.setDate(data.year(),data.month(),data.day());
     return 0;
 }
-
 int Autor::apagar()
 {
     /*
@@ -101,7 +87,6 @@ int Autor::apagar()
      * */
     return 0;
 }
-
 int Autor::play()
 {
     /*
@@ -109,7 +94,6 @@ int Autor::play()
      * */
     return 0;
 }
-
 int Autor::criar()
 {
     Database db;
@@ -124,7 +108,6 @@ int Autor::criar()
     }
     return 0;
 }
-
 bool Autor::procurar(QString procura)
 {
     if(_nome.contains(procura,Qt::CaseInsensitive))
@@ -599,24 +582,24 @@ int Album::adicionar(Musica *musica)
     return 0;
 }
 
-int Album::criar(QString diretoria)
+int Album::criar()
 {
     Database db;
-    _diretoria = diretoria;
-    QDir dir(_diretoria);
-
-    if(!dir.exists())
-    {
-        qDebug() << "Criar " << _diretoria << "diretoria.";
-        dir.mkpath(_diretoria);
-    }
-    else
-    {
-        qDebug() << _diretoria << " ja existe!";
-    }
 
     _dataAdicao = QDate::currentDate();
-    db.addAlbum(this);
+    if(db.addAlbum(this))
+    {
+        if(QDir((_diretoria).exists()))
+        {
+            qDebug() << "Já existe: " << _diretoria;
+        }
+        else
+        {
+            qDebug() << "Criar " << _diretoria << "diretoria.";
+            QDir().mkpath(_diretoria);
+        }
+     }
+
 
     return 0;
 }
