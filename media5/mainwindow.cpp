@@ -2014,13 +2014,14 @@ void MainWindow::on_progress_button_save_clicked()
             newAlbum->setDiretoria(QDir::currentPath() +"/debug/album/ID_");
             newAlbum->criar();
 
+            Database db; db.connOpen();
             for (int i = 0; i < _newSongList.size(); i++)
             {
                 _newSongList[i]->criar(newAlbum->getDiretoria());
                 newAlbum->adicionar(_newSongList[i]);
                 _songs.append(_newSongList[i]);
             }
-
+db.connClose();
             _albuns.append(newAlbum);
 
             MovePageToAlbuns();

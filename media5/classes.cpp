@@ -1,6 +1,8 @@
 #include "classes.h"
 #include "database.h"
 
+bool removeDir(const QString &dirName); //https://john.nachtimwald.com/2010/06/08/qt-remove-directory-and-its-contents/
+
 // ================================================
 // Metodos classe Autor
 
@@ -95,8 +97,12 @@ int Autor::criar()
     if(db.connOpen())
     {
         _dataAdicao = QDate::currentDate();
-
-        db.addArtist(this);
+        QString oldImgDir = this->getImagem();
+        qDebug()<<"\n oldDir:"<< oldImgDir << "\n NEwDir:"<< this->getImagem();
+        if(db.addArtist(this))
+        {
+            QFile::copy(oldImgDir,this->getImagem()); //copiar Imagem para a pasta do album
+        }
 
         db.connClose();
     }
@@ -268,20 +274,17 @@ int Musica::criar(QString diretoria)
     Database db;
     QString file_name, new_dir;
 
-    if(db.connOpen())
+
+    file_name = _diretoria.right(_diretoria.size() - _diretoria.lastIndexOf("/"));
+    new_dir   = diretoria + file_name;
+
+    if(QFile::copy(_diretoria, new_dir))
     {
-        file_name = _diretoria.right(_diretoria.size() - _diretoria.lastIndexOf("/"));
-        new_dir = diretoria + file_name;
-
-        if(QFile::copy(_diretoria, new_dir))
-        {
-            _diretoria = new_dir;
-            _dataAdicao = QDate::currentDate();
-            db.addSong(this);
-        }
-
-        db.connClose();
+        _diretoria = new_dir;
+        _dataAdicao = QDate::currentDate();
+        db.addSong(this);
     }
+
     return 0;
 }
 
@@ -473,6 +476,11 @@ int Album::apagar()
 
     if(db.connOpen())
     {
+        if(removeDir(this->getDiretoria()))
+        {
+            qDebug() << "Album Apagado com Sucesso";
+        }
+
         db.removeAlbum(this);
         db.connClose();
         return 0;
@@ -826,4 +834,28 @@ bool Player::isEmpty()
 bool Player::isRandom()
 {
     return _aleatorio;
+}
+
+bool removeDir(const QString &dirName)
+{
+    bool result = true;
+    QDir dir(dirName);
+
+    if (dir.exists(dirName)) {
+        Q_FOREACH(QFileInfo info, dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System | QDir::Hidden  | QDir::AllDirs | QDir::Files, QDir::DirsFirst)) {
+            if (info.isDir()) {
+                result = removeDir(info.absoluteFilePath());
+            }
+            else {
+                result = QFile::remove(info.absoluteFilePath());
+            }
+
+            if (!result) {
+                return result;
+            }
+        }
+        result = dir.rmdir(dirName);
+    }
+
+    return result;
 }

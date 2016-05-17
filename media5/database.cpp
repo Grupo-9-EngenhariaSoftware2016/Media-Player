@@ -46,7 +46,7 @@ bool Database::addAlbum(Album *newAlbum)
         newAlbum->setIdBD(id);
         newAlbum->setDiretoria(newAlbum->getDiretoria()+QString::number(id)+" - "+ newAlbum->getNome());
         QFileInfo imgfile(newAlbum->getImagem());
-        newAlbum->setImagem(newAlbum->getDiretoria() + "/artwork" + imgfile.suffix());
+        newAlbum->setImagem(newAlbum->getDiretoria() + "/artwork." + imgfile.suffix());
 
         // Adicionar Info à DB
         QSqlQuery add_album;
@@ -83,6 +83,12 @@ bool Database::removeAlbum(Album *album)
 {
     QString id = QString::number(album->getIdBD());
 
+    QSqlQuery deleteSongs;
+    if(deleteSongs.exec("Delete from Musica where ID_Album='"+id+"';"))
+    {
+
+    }
+
     QSqlQuery deleteAlbum;
     if(deleteAlbum.exec("Delete from Album where ID_Album='"+id+"';"))
     {
@@ -105,15 +111,15 @@ bool Database::addSong(Musica *newSong)
     if(last_id.exec("select ID_Album from Album order by ID_Album DESC Limit 1;"))
     {
         last_id.next();
-        int id = last_id.value(0).toInt()+1;
-        newSong->setIdBD(id);
+        int id = last_id.value(0).toInt();
+        qDebug() << id;
 
         // Guardar informacao da musica - uma musica por enquanto
         QSqlQuery add_music;
 
         //http://doc.qt.io/qt-5/sql-sqlstatements.html
         add_music.prepare("INSERT INTO Musica (Nome,Diretoria,Faixa,ID_Album)"
-                          "VALUES (:Nome, :Diretoria,:Faixa,:ID_Album)");
+                          "VALUES (:Nome,:Diretoria,:Faixa,:ID_Album)");
         add_music.bindValue(":Nome",        newSong->getNome());
         add_music.bindValue(":Diretoria",   newSong->getDiretoria());
         add_music.bindValue(":Faixa",       newSong->getFaixa());
@@ -121,6 +127,9 @@ bool Database::addSong(Musica *newSong)
 
         if(add_music.exec())
         {
+            last_id.exec("select ID_Musica from Musica order by ID_Musica DESC Limit 1;");
+            last_id.next();
+            newSong->setIdBD(last_id.value(0).toInt());
             qDebug() << "Musica-Adicionada";
             return true;
         }
@@ -136,32 +145,48 @@ bool Database::addSong(Musica *newSong)
     }
 
 }
+//bool Database::removeSong(Musica *newSong)
+//{
+
+//}
 // ===================================================================
 // Autores
 bool Database::addArtist(Autor *newArtist)
 {
-    QSqlQuery add_autor;
-
-    //http://doc.qt.io/qt-5/sql-sqlstatements.html
-    add_autor.prepare("INSERT INTO Autor (Nome,Nacionalidade,DataNascimento,Imagem,DataAdicao)"
-                      "VALUES (:Nome,:Nacionalidade,:DataNascimento,:Imagem,:DataAdicao)");
-    add_autor.bindValue(":Nome",            newArtist->getNome());
-    add_autor.bindValue(":Nacionalidade",   newArtist->getNacionalidade());
-    add_autor.bindValue(":DataNascimento",  newArtist->getDataNascimento());
-    add_autor.bindValue(":Imagem",          newArtist->getImagem());
-    add_autor.bindValue(":DataAdicao",      newArtist->getDataAdicao());
-
-    if(add_autor.exec())
+    QSqlQuery last_id;
+    if(last_id.exec("select ID_Autor from Autor order by ID_Autor DESC Limit 1;"))
     {
-        qDebug() << "Autor-Adicionado";
-        return true;
+        last_id.next();
+        int id = last_id.value(0).toInt()+1;
+
+        newArtist->setIdBD(id);
+        QFileInfo imgfile(newArtist->getImagem());
+        newArtist->setImagem(QDir::currentPath()+"/debug/autor/id_"+QString::number(id)+"_"+ newArtist->getNome() +"." + imgfile.suffix());
+
+        //http://doc.qt.io/qt-5/sql-sqlstatements.html
+        QSqlQuery add_autor;
+        add_autor.prepare("INSERT INTO Autor (Nome,Nacionalidade,DataNascimento,Imagem,DataAdicao)"
+                          "VALUES (:Nome,:Nacionalidade,:DataNascimento,:Imagem,:DataAdicao)");
+        add_autor.bindValue(":Nome",            newArtist->getNome());
+        add_autor.bindValue(":Nacionalidade",   newArtist->getNacionalidade());
+        add_autor.bindValue(":DataNascimento",  newArtist->getDataNascimento());
+        add_autor.bindValue(":Imagem",          newArtist->getImagem());
+        add_autor.bindValue(":DataAdicao",      newArtist->getDataAdicao());
+
+        if(add_autor.exec())
+        {
+            qDebug() << "Autor-Adicionado";
+            return true;
+        }
+        else
+        {
+            qDebug() << "Autor-Nao Adicionado";
+            return false;
+        }
     }
-    else
-    {
-        qDebug() << "Autor-Nao Adicionado";
-        return false;
-    }
+    return false;
 }
+
 // ===================================================================
 // Playlists
 bool Database::addPlaylist(Playlist *newPlaylist)
