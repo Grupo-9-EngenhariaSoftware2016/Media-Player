@@ -84,10 +84,16 @@ int Autor::setDataNascimento(QDate data)
 }
 int Autor::apagar()
 {
+    /*
+     * Apagar informação na BD
+     * */
     return 0;
 }
 int Autor::play()
 {
+    /*
+     * Obsoleto? isto está a ser feito em mainwindow
+     * */
     return 0;
 }
 int Autor::criar()
@@ -131,6 +137,29 @@ Musica::Musica()
 Musica::~Musica()
 {
     delete _autor;
+}
+
+int Musica::mudarNome(QString nome)
+{
+    /*
+     *  Mudar o nome na BD
+     * */
+
+    QString final = _diretoria;
+    final.chop(final.size() - final.lastIndexOf("/"));
+    final = final + "/" + nome;
+
+    QFile::copy(_diretoria,final);
+    QFile::remove(_diretoria);
+    _diretoria = final;
+    _nome = nome;
+
+    return 0;
+}
+
+int Musica::mudarGenero(QString genero)
+{
+    return 0;
 }
 
 QDate Musica::getDataAdicao()
@@ -251,7 +280,22 @@ int Musica::retrieveInfo(QString dir)
 {
     /*
      * Método para leitura de tags id3
+     * Ainda tenho de instalar a taglib ou lá o que é
+     *
+     * a biblioteca do Qt não funciona com mp3....
      * */
+    QMediaPlayer musica;
+    musica.setMedia(QUrl::fromLocalFile(dir));
+    if(musica.isMetaDataAvailable())
+    {
+        _nome = musica.metaData("Title").toString();
+        _genero = musica.metaData("Genre").toString();
+        _faixa = musica.metaData("TrackNumber").toInt();
+    }else{
+        _nome = QUrl::fromLocalFile(dir).fileName();
+        _genero = "Genero desconhecido";
+        _faixa = 0;
+    }
 
     return 0;
 }
@@ -266,6 +310,9 @@ int Musica::apagar()
 
 int Musica::play()
 {
+    /*
+     * Obsoleto? isto está a ser feito em mainwindow
+     * */
     return 0;
 }
 
@@ -275,8 +322,18 @@ int Musica::criar(QString diretoria)
     QString file_name, new_dir;
 
 
+<<<<<<< HEAD
     file_name = _diretoria.right(_diretoria.size() - _diretoria.lastIndexOf("/"));
     new_dir   = diretoria + file_name;
+=======
+        if(QFile::copy(_diretoria, new_dir))
+        {
+            _diretoria = new_dir;
+            _dataAdicao = QDate::currentDate();
+            db.addSong(this);
+        }else
+            _diretoria = new_dir;
+>>>>>>> refs/remotes/origin/master
 
     if(QFile::copy(_diretoria, new_dir))
     {
@@ -513,6 +570,9 @@ int Album::remover(QList <Musica*> *musicas)
 
 int Album::play()
 {
+    /*
+     * Obsoleto? isto está a ser feito em mainwindow
+     * */
     return 0;
 }
 
@@ -530,6 +590,10 @@ int Album::adicionar(Musica *musica)
         if(!_autor->contains(autores[i]))
             _autor->append(autores[i]);
     }
+
+    /*
+     * Adicionar ligação entre musica e album na BD
+     * */
 
     return 0;
 }
@@ -650,6 +714,11 @@ Musica* Playlist::getMusica(int indice)
     return _musica->value(indice);
 }
 
+int Playlist::getIndiceDe(Musica *musica)
+{
+    return _musica->indexOf(musica);
+}
+
 int Playlist::setMusicas(QList<Musica *> *musicas)
 {
     for(QList <Musica*>::iterator current = musicas->begin();
@@ -664,11 +733,17 @@ int Playlist::setMusicas(QList<Musica *> *musicas)
 
 int Playlist::apagar()
 {
+    /*
+     * Apagar informação na BD
+     * */
     return 0;
 }
 
 int Playlist::play()
 {
+    /*
+     * Obsoleto? isto está a ser feito em mainwindow
+     * */
     return 0;
 }
 
@@ -692,7 +767,13 @@ int Playlist::remover(Musica *musica)
 
 int Playlist::criar()
 {
+<<<<<<< HEAD
 
+=======
+    /*
+     * Introduzir informação na BD
+     * */
+>>>>>>> refs/remotes/origin/master
     return 0;
 }
 
@@ -712,8 +793,12 @@ Player::Player()
     _lista = new Playlist;
     _lista->setNome("Lista de Reprodução");
     _lista->setDescricao("Lista de reprodução de player");
-    _aTocar = 0;
     _aleatorio = false;
+    _repeat = false;
+    _aTocar = false;
+    _mediaPlayer = new QMediaPlayer;
+    _reproducao = new QMediaPlaylist;
+    _mediaPlayer->setPlaylist(_reproducao);
 }
 
 Player::~Player()
@@ -730,58 +815,94 @@ int Player::getMusicas(QList <Musica*> *lista)
 
 int Player::play()
 {
+    _mediaPlayer->play();
+    _aTocar = true;
+
     return 0;
 }
 
 int Player::pausa()
 {
+    _mediaPlayer->pause();
+    _aTocar = false;
+
     return 0;
 }
 
 int Player::parar()
 {
+    _mediaPlayer->stop();
+    _aTocar = false;
+
     return 0;
 }
 
 int Player::seguinte()
 {
+    _reproducao->next();
+
     return 0;
 }
 
 int Player::anterior()
 {
+    _reproducao->previous();
+
     return 0;
 }
 
-int Player::aleatorio(bool aleatorio){
+int Player::aleatorio(bool aleatorio)
+{
     if(_aleatorio != aleatorio)
     {
         _aleatorio = aleatorio;
-    }
-
-    if(_aleatorio){
-        for(int i = 0; i < _ordem.size(); i++)
+        if(_aleatorio)
         {
-            _ordem.swap(i,rand()%_ordem.size());
+            _repeat = false;
+            _reproducao->setPlaybackMode(QMediaPlaylist::Random);
+        }else{
+            _reproducao->setPlaybackMode(QMediaPlaylist::Sequential);
         }
-    }else{
-        std::sort(&_ordem.first(),&_ordem.last());
     }
+    return 0;
+}
 
+int Player::repetir(bool repetir)
+{
+    if(_repeat != repetir)
+    {
+        _repeat = repetir;
+        if(_repeat)
+        {
+            _aleatorio = false;
+            _reproducao->setPlaybackMode(QMediaPlaylist::Loop);
+        }else{
+            _reproducao->setPlaybackMode(QMediaPlaylist::Sequential);
+        }
+    }
+    return 0;
+}
+
+int Player::silencio(bool silencio)
+{
+    if(_silencio != silencio)
+    {
+        _silencio = silencio;
+        _mediaPlayer->setMuted(true);
+    }
     return 0;
 }
 
 int Player::adicionar(QList <Musica*> *musica)
 {
-    if(musica->isEmpty())
-        return -1;
-
+    Musica *song;
     for(QList <Musica*>::iterator current = musica->begin();
         current != musica->end();
         ++current)
     {
-        _lista->adicionar(*current);
-        _ordem.append(_lista->getSize());
+        song = *current;
+        _lista->adicionar(song);
+        _reproducao->addMedia(QUrl::fromLocalFile(song->getDiretoria()));
     }
     return 0;
 }
@@ -789,7 +910,7 @@ int Player::adicionar(QList <Musica*> *musica)
 int Player::adicionar(Musica *musicas)
 {
     _lista->adicionar(musicas);
-    _ordem.append(_lista->getSize());
+    _reproducao->addMedia(QUrl::fromLocalFile(musicas->getDiretoria()));
     return 0;
 }
 
@@ -798,11 +919,14 @@ int Player::remover(QList<Musica *> *musica)
     if(musica->isEmpty())
         return -1;
 
+    int index;
     for(QList <Musica*>::iterator current = musica->begin();
         current != musica->end();
         ++current)
     {
+        index = _lista->getIndiceDe(*current);
         _lista->remover(*current);
+        _reproducao->removeMedia(index);
     }
 
     return 0;
@@ -820,9 +944,8 @@ int Player::removerTodas()
     {
         _lista->remover(*current);
     }
-    _ordem.clear();
+    _reproducao->clear();
 
-    delete todas;
     return 0;
 }
 
@@ -831,11 +954,12 @@ bool Player::isEmpty()
     return _lista->getSize() == 0;
 }
 
-bool Player::isRandom()
+bool Player::isAleatorio()
 {
     return _aleatorio;
 }
 
+<<<<<<< HEAD
 bool removeDir(const QString &dirName)
 {
     bool result = true;
@@ -858,4 +982,35 @@ bool removeDir(const QString &dirName)
     }
 
     return result;
+=======
+bool Player::isRepeat()
+{
+    return _repeat;
+}
+
+bool Player::isSilencio()
+{
+    return _silencio;
+}
+
+bool Player::isATocar()
+{
+    return _aTocar;
+}
+
+qint64 Player::getTempo()
+{
+    return _mediaPlayer->duration();
+}
+
+qint64 Player::getPosicao()
+{
+    return _mediaPlayer->position();
+}
+
+int Player::setPosicao(qint64 posicao)
+{
+    _mediaPlayer->setPosition(posicao);
+    return 0;
+>>>>>>> refs/remotes/origin/master
 }
