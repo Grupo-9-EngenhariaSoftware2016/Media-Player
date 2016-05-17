@@ -2233,6 +2233,14 @@ void MainWindow::on_progress_button_save_clicked()
 
 void MainWindow::on_options_button_play_clicked()
 {
+
+    QList<QTableWidgetItem*> selected;
+    QList<Album*> AlbunsToPlay;
+    QList<Autor*> ArtistsToPlay;
+    QList<Playlist*> PlaylistsToPlay;
+    QList<Musica*> songsToPlay;
+    int index;
+
     switch(ui->pages->currentIndex())
     {
     case 0:
@@ -2242,26 +2250,22 @@ void MainWindow::on_options_button_play_clicked()
             _player.parar();
             _player.removerTodas();
 
-            QList<QTableWidgetItem*> selected;
-            QList<Album*> toPlay;
-            int index;
             selected = ui->page_categories_tableWidget->selectedItems();
             while(!selected.isEmpty())
             {
                 index = selected.first()->data(Qt::WhatsThisRole).toInt();
-                if(!toPlay.contains(_albuns[index]))
-                    toPlay.append(_albuns[index]);
+                if(!AlbunsToPlay.contains(_albuns[index]))
+                    AlbunsToPlay.append(_albuns[index]);
 
                 selected.removeFirst();
             }
 
-            QList<Musica*> songs;
-            for(int i = 0; i < toPlay.size(); i++)
+            for(int i = 0; i < AlbunsToPlay.size(); i++)
             {
-                toPlay[i]->getMusicas(&songs);
+                AlbunsToPlay[i]->getMusicas(&songsToPlay);
             }
 
-            _player.adicionar(&songs);
+            _player.adicionar(&songsToPlay);
             _player.play();
 
         }else if(ui->menu_small_button_artist->isChecked()) // Artists
@@ -2269,47 +2273,130 @@ void MainWindow::on_options_button_play_clicked()
             _player.parar();
             _player.removerTodas();
 
+            selected = ui->page_categories_tableWidget->selectedItems();
+            while(!selected.isEmpty())
+            {
+                index = selected.first()->data(Qt::WhatsThisRole).toInt();
+                if(!ArtistsToPlay.contains(_artists[index]))
+                    ArtistsToPlay.append(_artists[index]);
+
+                selected.removeFirst();
+            }
+
+            for(int i = 0; i < ArtistsToPlay.size(); i++)
+            {
+                songsToPlay.append(getSongsFromArtist(ArtistsToPlay[i]));
+            }
+
+            _player.adicionar(&songsToPlay);
+            _player.play();
+        }else if(ui->menu_small_button_song->isChecked()) // Songs
+        {
+            _player.parar();
+            _player.removerTodas();
+
             QList<QTableWidgetItem*> selected;
-            QList<Album*> toPlay;
+            QList<Musica*> toPlay;
             int index;
             selected = ui->page_categories_tableWidget->selectedItems();
             while(!selected.isEmpty())
             {
                 index = selected.first()->data(Qt::WhatsThisRole).toInt();
-                if(!toPlay.contains(_albuns[index]))
-                    toPlay.append(_albuns[index]);
+                if(!toPlay.contains(_songs[index]))
+                    toPlay.append(_songs[index]);
+
+                selected.removeFirst();
+            }
+
+            _player.adicionar(&toPlay);
+            _player.play();
+        }else if(ui->menu_small_button_list->isChecked()) // Playlists
+        {
+            _player.parar();
+            _player.removerTodas();
+
+            selected = ui->page_categories_tableWidget->selectedItems();
+            while(!selected.isEmpty())
+            {
+                index = selected.first()->data(Qt::WhatsThisRole).toInt();
+                if(!PlaylistsToPlay.contains(_playlist[index]))
+                    PlaylistsToPlay.append(_playlist[index]);
 
                 selected.removeFirst();
             }
 
             QList<Musica*> songs;
-            for(int i = 0; i < toPlay.size(); i++)
+            for(int i = 0; i < PlaylistsToPlay.size(); i++)
             {
-                toPlay[i]->getMusicas(&songs);
+                PlaylistsToPlay[i]->getMusicas(&songsToPlay);
             }
 
-            _player.adicionar(&songs);
+            _player.adicionar(&songsToPlay);
             _player.play();
-        }else if(ui->menu_small_button_song->isChecked()) // Songs
-        {
-
-        }else if(ui->menu_small_button_list->isChecked()) // Playlists
-        {
-
         }
 
         break;
 
     case 1:
         // page_album_info
+        _player.parar();
+        _player.removerTodas();
+
+        selected = ui->page_album_info_tableWidget->selectedItems();
+        while(!selected.isEmpty())
+        {
+            index = selected.first()->data(Qt::WhatsThisRole).toInt();
+            if(!songsToPlay.contains(_songs[index]))
+                songsToPlay.append(_songs[index]);
+
+            selected.removeFirst();
+        }
+
+        _player.adicionar(&songsToPlay);
+        _player.play();
         break;
 
     case 5:
         // page_artist
+        _player.parar();
+        _player.removerTodas();
+
+        selected = ui->page_artist_tableWidget_albuns->selectedItems();
+        while(!selected.isEmpty())
+        {
+            index = selected.first()->data(Qt::WhatsThisRole).toInt();
+            if(!AlbunsToPlay.contains(_albuns[index]))
+                AlbunsToPlay.append(_albuns[index]);
+
+            selected.removeFirst();
+        }
+
+        for(int i = 0; i < AlbunsToPlay.size(); i++)
+        {
+            AlbunsToPlay[i]->getMusicas(&songsToPlay);
+        }
+
+        _player.adicionar(&songsToPlay);
+        _player.play();
         break;
 
     case 6:
         // page_playlist
+        _player.parar();
+        _player.removerTodas();
+
+        selected = ui->page_playlist_tableWidget->selectedItems();
+        while(!selected.isEmpty())
+        {
+            index = selected.first()->data(Qt::WhatsThisRole).toInt();
+            if(!songsToPlay.contains(_songs[index]))
+                songsToPlay.append(_songs[index]);
+
+            selected.removeFirst();
+        }
+
+        _player.adicionar(&songsToPlay);
+        _player.play();
         break;
     }
 }
