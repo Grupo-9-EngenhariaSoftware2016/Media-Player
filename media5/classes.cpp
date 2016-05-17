@@ -522,7 +522,6 @@ int Album::apagar()
     if(db.connOpen())
     {
         db.removeAlbum(this);
-
         db.connClose();
         return 0;
     }
@@ -585,21 +584,27 @@ int Album::adicionar(Musica *musica)
 int Album::criar()
 {
     Database db;
-
+    QString oldImgDir = this->getImagem();
     _dataAdicao = QDate::currentDate();
+
     if(db.addAlbum(this))
     {
-        if(QDir((_diretoria).exists()))
+        if(QDir(_diretoria).exists())
         {
             qDebug() << "Já existe: " << _diretoria;
         }
         else
         {
-            qDebug() << "Criar " << _diretoria << "diretoria.";
-            QDir().mkpath(_diretoria);
-        }
-     }
+        	qDebug() << "Criar " << _diretoria << "diretoria.";
+        	QDir().mkpath(_diretoria);
+    	}
 
+        if(QDir(_diretoria).exists())
+        {
+            QFile::copy(oldImgDir,this->getImagem());
+        }
+
+     }
 
     return 0;
 }
@@ -752,9 +757,6 @@ int Playlist::remover(Musica *musica)
 
 int Playlist::criar()
 {
-    /*
-     * Introduzir informação na BD
-     * */
     return 0;
 }
 
