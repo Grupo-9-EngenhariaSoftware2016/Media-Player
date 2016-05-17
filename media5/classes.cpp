@@ -589,7 +589,7 @@ int Album::criar()
     _dataAdicao = QDate::currentDate();
     if(db.addAlbum(this))
     {
-        if(QDir((_diretoria).exists()))
+        if(QDir(_diretoria).exists())
         {
             qDebug() << "Já existe: " << _diretoria;
         }
