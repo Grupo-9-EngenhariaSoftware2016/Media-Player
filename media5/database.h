@@ -19,7 +19,9 @@ public:
     void connClose();
 
     bool addAlbum(Album *newAlbum);
+    bool UpdateAlbum(Album *newAlbum);
     bool removeAlbum(Album *album);
+
     bool addSong(Musica *newSong);
     bool addArtist(Autor *newArtist);
     bool addPlaylist(Playlist *newPlaylist);

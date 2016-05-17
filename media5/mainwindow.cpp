@@ -1361,10 +1361,11 @@ void MainWindow::on_page_categories_button_add_clicked()
         {
             MovePageToAddAlbuns();
         }
-
+        //Artista
         if(ui->menu_small_button_artist->isChecked() || ui->menu_full_button_artist->isChecked())
         {
             NewArtist();
+            Refresh();
         }
 
         if( ui->menu_small_button_song->isChecked() ||  ui->menu_full_button_song->isChecked())
@@ -1550,7 +1551,9 @@ void MainWindow::on_page_album_info_button_addTo_clicked()
 
 void MainWindow::on_page_album_info_button_remove_clicked()
 {
-
+    _albuns[_showingAlbum]->apagar();
+    _albuns.removeAt(_showingAlbum);
+    MovePageToAlbuns();
 }
 
 void MainWindow::on_page_album_info_button_exploreArtist_clicked()
