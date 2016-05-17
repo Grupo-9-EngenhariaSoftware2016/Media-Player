@@ -135,7 +135,7 @@ public:
     int adicionar(Musica *musica);
     bool procurar(QString procura);
 
-    int criar(QString diretoria);
+    int criar();
 	
 };
 

@@ -31,7 +31,7 @@ Autor* Dialog::getNewArtist()
 
 void Dialog::on_dialog_button_add_artwork_clicked()
 {
-    QString filename = QFileDialog::getOpenFileName(this,tr("Open a File"),"","Image files (*.jpg, *.png)");
+    QString filename = QFileDialog::getOpenFileName(this,tr("Open a File"),"","Image files (*.jpg , *.png)");
 
     if(!filename.isNull())
     {
