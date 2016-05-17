@@ -77,6 +77,11 @@ bool Database::addAlbum(Album *newAlbum)
 }
 bool Database::UpdateAlbum(Album *newAlbum)
 {
+    QSqlQuery update_album;
+//    update_album.prepare("UPDATE Album"
+//                         "SET Nome=:Nome, City='Hamburg'"
+//                         WHERE CustomerName='Alfreds Futterkiste';")
+
     return false;
 }
 bool Database::removeAlbum(Album *album)

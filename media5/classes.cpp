@@ -322,18 +322,17 @@ int Musica::criar(QString diretoria)
     QString file_name, new_dir;
 
 
-<<<<<<< HEAD
     file_name = _diretoria.right(_diretoria.size() - _diretoria.lastIndexOf("/"));
     new_dir   = diretoria + file_name;
-=======
-        if(QFile::copy(_diretoria, new_dir))
-        {
-            _diretoria = new_dir;
-            _dataAdicao = QDate::currentDate();
-            db.addSong(this);
-        }else
-            _diretoria = new_dir;
->>>>>>> refs/remotes/origin/master
+
+    if(QFile::copy(_diretoria, new_dir))
+    {
+        _diretoria = new_dir;
+        _dataAdicao = QDate::currentDate();
+        db.addSong(this);
+    }else
+        _diretoria = new_dir;
+
 
     if(QFile::copy(_diretoria, new_dir))
     {
@@ -767,13 +766,18 @@ int Playlist::remover(Musica *musica)
 
 int Playlist::criar()
 {
-<<<<<<< HEAD
 
-=======
     /*
      * Introduzir informação na BD
-     * */
->>>>>>> refs/remotes/origin/master
+     *
+    */
+    Database db;
+
+    db.connOpen();
+    db.addPlaylist(this);
+    db.connClose();
+
+
     return 0;
 }
 
@@ -959,7 +963,7 @@ bool Player::isAleatorio()
     return _aleatorio;
 }
 
-<<<<<<< HEAD
+
 bool removeDir(const QString &dirName)
 {
     bool result = true;
@@ -982,7 +986,7 @@ bool removeDir(const QString &dirName)
     }
 
     return result;
-=======
+}
 bool Player::isRepeat()
 {
     return _repeat;
@@ -1012,5 +1016,4 @@ int Player::setPosicao(qint64 posicao)
 {
     _mediaPlayer->setPosition(posicao);
     return 0;
->>>>>>> refs/remotes/origin/master
 }
