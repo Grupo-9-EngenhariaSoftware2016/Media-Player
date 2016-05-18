@@ -235,7 +235,7 @@ QString MainWindow::getArtistsFrom(Album *album)
     album->getMusicas(&songs);
 
     if(songs.isEmpty()){
-        QTextStream(&text) << "Nenhum";
+        QTextStream(&text) << "Desconhecido";
     }else{
         for(int i = 0; i < songs.size(); i++)
         {
@@ -248,7 +248,7 @@ QString MainWindow::getArtistsFrom(Album *album)
 
             if(displayedArtists == 0 && i == songs.size())
             {
-                QTextStream(&text) << "Nenhum ";
+                QTextStream(&text) << "Desconhecido";
                 break;
             }
         }
@@ -264,7 +264,7 @@ QString MainWindow::getArtistsFrom(Playlist *playlist)
     playlist->getMusicas(&songs);
 
     if(songs.isEmpty()){
-        QTextStream(&text) << "Nenhum";
+        QTextStream(&text) << "Desconhecido";
     }else{
         for(int i = 0; i < songs.size(); i++)
         {
@@ -277,7 +277,7 @@ QString MainWindow::getArtistsFrom(Playlist *playlist)
 
             if(displayedArtists == 0 && i == songs.size())
             {
-                QTextStream(&text) << "Nenhum ";
+                QTextStream(&text) << "Desconhecido";
                 break;
             }
         }
@@ -519,7 +519,7 @@ void MainWindow::FormatTableFor(QTableWidget *table, QString format)
 
     case 2:
         // Set labels para a tabela de elementos
-        tableLabels << tr("Nome") << tr("Tamanho") << tr("Artistas");
+        tableLabels << tr("Nome") << tr("Tamanho") << tr("Tempo de Reprodução");
         table->verticalHeader()->setDefaultSectionSize(25);
         break;
 
@@ -553,7 +553,7 @@ void MainWindow::FormatTableFor(QTableWidget *table, QString format)
     table->setColumnCount(0);
     table->setColumnCount(tableLabels.size());
     table->setHorizontalHeaderLabels(tableLabels);
-    table->horizontalHeader()->setHidden(true);
+    table->horizontalHeader()->setHidden(false);
     table->horizontalHeader()->setStretchLastSection(true);
     table->verticalHeader()->setHidden(true);
     table->setFrameShape(QFrame::NoFrame);
@@ -776,7 +776,7 @@ void MainWindow::AddPlaylistLineToTable(QTableWidget *table, Playlist *playlist)
     item->setData(Qt::DisplayRole,text);
     table->setItem(newRow, 1, item);
 
-    // Artists
+    // Play Time
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_playlist.indexOf(playlist));
     item->setData(Qt::DisplayRole,getArtistsFrom(playlist));
@@ -912,6 +912,7 @@ void MainWindow::NewArtist()
 {
     mdialog = new Dialog(this);
     Autor *artist;
+    mdialog->setWindowTitle("Criar novo artista");
     mdialog->exec();
 
     if(mdialog->result() == 1)
@@ -1688,6 +1689,7 @@ void MainWindow::on_page_album_info_button_remove_clicked()
     cancel->setText("Cancelar");
     msgBox.addButton(confirm,QMessageBox::AcceptRole);
     msgBox.addButton(cancel,QMessageBox::RejectRole);
+    msgBox.setWindowTitle("Atenção");
     msgBox.exec();
 
     if(msgBox.result() == QMessageBox::AcceptRole)
@@ -1980,7 +1982,29 @@ void MainWindow::on_page_artist_button_addTo_clicked()
 
 void MainWindow::on_page_artist_button_remove_clicked()
 {
+    QMessageBox msgBox;
+    QPushButton *confirm, *cancel;
+    confirm = new QPushButton;
+    cancel = new QPushButton;
+    msgBox.setText("Atenção, está prestes a remover o artista: " + _artists[_showingArtist]->getNome());
+    confirm->setText("Confirmar");
+    cancel->setText("Cancelar");
+    msgBox.addButton(confirm,QMessageBox::AcceptRole);
+    msgBox.addButton(cancel,QMessageBox::RejectRole);
+    msgBox.setWindowTitle("Atenção");
+    msgBox.exec();
 
+    if(msgBox.result() == QMessageBox::AcceptRole)
+    {
+        for(int j = 0; j < _songs.size(); j++)
+        {
+            _songs[j]->removeAutor(_artists[_showingArtist]);
+        }
+
+        _artists.removeOne(ArtistsToRemove[i]);
+        ArtistsToRemove[i]->apagar();
+    }
+    MovePageToArtists();
 }
 
 void MainWindow::on_page_artist_button_select_toggled(bool checked)
@@ -2032,7 +2056,25 @@ void MainWindow::on_page_playlist_button_addMusic_clicked()
 
 void MainWindow::on_page_playlist_button_remove_clicked()
 {
+    QMessageBox msgBox;
+    QPushButton *confirm, *cancel;
+    confirm = new QPushButton;
+    cancel = new QPushButton;
+    msgBox.setText("Atenção, está prestes a remover a playlist: " + _playlist[_showingPlaylist]->getNome());
+    confirm->setText("Confirmar");
+    cancel->setText("Cancelar");
+    msgBox.addButton(confirm,QMessageBox::AcceptRole);
+    msgBox.addButton(cancel,QMessageBox::RejectRole);
+    msgBox.setWindowTitle("Atenção");
+    msgBox.exec();
 
+    if(msgBox.result() == QMessageBox::AcceptRole)
+    {
+        _playlist.removeOne(PlaylistsToRemove[i]);
+        PlaylistsToRemove[i]->apagar();
+
+        MovePageToPlaylists();
+    }
 }
 
 void MainWindow::on_page_playlist_tableWidget_doubleClicked(const QModelIndex &index)
@@ -2463,6 +2505,246 @@ void MainWindow::on_options_button_edit_clicked()
 void MainWindow::on_options_button_remove_clicked()
 {
 
+    QList<QTableWidgetItem*> selected;
+    QList<Album*> AlbunsToRemove;
+    QList<Autor*> ArtistsToRemove;
+    QList<Playlist*> PlaylistsToRemove;
+    QList<Musica*> songsToRemove;
+    int index;
+
+    QMessageBox msgBox;
+    QPushButton *confirm, *cancel;
+    confirm = new QPushButton;
+    cancel = new QPushButton;
+    confirm->setText("Confirmar");
+    cancel->setText("Cancelar");
+    msgBox.addButton(confirm,QMessageBox::AcceptRole);
+    msgBox.addButton(cancel,QMessageBox::RejectRole);
+    msgBox.setWindowTitle("Atenção");
+
+    switch(ui->pages->currentIndex())
+    {
+    case 0:
+        // page_categories
+        if(ui->menu_small_button_album->isChecked()) // Albuns
+        {
+            selected = ui->page_categories_tableWidget->selectedItems();
+            while(!selected.isEmpty())
+            {
+                index = selected.first()->data(Qt::WhatsThisRole).toInt();
+                if(!AlbunsToRemove.contains(_albuns[index]))
+                    AlbunsToRemove.append(_albuns[index]);
+
+                selected.removeFirst();
+            }
+
+            msgBox.setText("Atenção, está prestes a remover " + QString::number(AlbunsToRemove.size()) + " albuns!");
+            msgBox.exec();
+
+            if(msgBox.result() == QMessageBox::AcceptRole)
+            {
+                for(int i = 0; i < AlbunsToRemove.size(); i++)
+                {
+                    songsToRemove.clear();
+                    AlbunsToRemove[i]->getMusicas(&songsToRemove);
+
+                    for(int j = 0; j < songsToRemove.size(); j++)
+                    {
+                        for(int k = 0; k < _playlist.size(); k++)
+                        {
+                            _playlist[k]->remover(songsToRemove[j]);
+                        }
+                    }
+
+                    _albuns.removeOne(AlbunsToRemove[i]);
+                    AlbunsToRemove[i]->apagar();
+                }
+                MovePageToAlbuns();
+            }
+
+        }else if(ui->menu_small_button_artist->isChecked()) // Artists
+        {
+            selected = ui->page_categories_tableWidget->selectedItems();
+            while(!selected.isEmpty())
+            {
+                index = selected.first()->data(Qt::WhatsThisRole).toInt();
+                if(!ArtistsToRemove.contains(_artists[index]))
+                    ArtistsToRemove.append(_artists[index]);
+
+                selected.removeFirst();
+            }
+
+            msgBox.setText("Atenção, está prestes a remover " + QString::number(ArtistsToRemove.size()) + " artistas!");
+            msgBox.exec();
+
+            if(msgBox.result() == QMessageBox::AcceptRole)
+            {
+                for(int i = 0; i < ArtistsToRemove.size(); i++)
+                {
+                    for(int j = 0; j < _songs.size(); j++)
+                    {
+                        _songs[j]->removeAutor(ArtistsToRemove[i]);
+                    }
+
+                    _artists.removeOne(ArtistsToRemove[i]);
+                    ArtistsToRemove[i]->apagar();
+                }
+                MovePageToArtists();
+            }
+        }if(ui->menu_small_button_song->isChecked()) // Songs
+        {
+            selected = ui->page_categories_tableWidget->selectedItems();
+            while(!selected.isEmpty())
+            {
+                index = selected.first()->data(Qt::WhatsThisRole).toInt();
+                if(!songsToRemove.contains(_songs[index]))
+                    songsToRemove.append(_songs[index]);
+
+                selected.removeFirst();
+            }
+
+            msgBox.setText("Atenção, está prestes a remover " + QString::number(songsToRemove.size()) + " musicas!");
+            msgBox.exec();
+
+            if(msgBox.result() == QMessageBox::AcceptRole)
+            {
+                for(int i = 0; i < songsToRemove.size(); i++)
+                {
+                    for(int j = 0; j < _playlist.size(); j++)
+                    {
+                        _playlist[j]->remover(songsToRemove[j]);
+                    }
+                    for(int j = 0; j < _albuns.size(); j++)
+                    {
+                        _albuns[j]->remover(songsToRemove[j]);
+                    }
+
+                    _songs.removeOne(songsToRemove[i]);
+                    songsToRemove[i]->apagar();
+                }
+                MovePageToSongs();
+            }
+        }else if(ui->menu_small_button_list->isChecked()) // Playlists
+        {
+            selected = ui->page_categories_tableWidget->selectedItems();
+            while(!selected.isEmpty())
+            {
+                index = selected.first()->data(Qt::WhatsThisRole).toInt();
+                if(!PlaylistsToRemove.contains(_playlist[index]))
+                    PlaylistsToRemove.append(_playlist[index]);
+
+                selected.removeFirst();
+            }
+
+            msgBox.setText("Atenção, está prestes a remover " + QString::number(songsToRemove.size()) + " playlists!");
+            msgBox.exec();
+
+            if(msgBox.result() == QMessageBox::AcceptRole)
+            {
+                for(int i = 0; i < PlaylistsToRemove.size(); i++)
+                {
+                    _playlist.removeOne(PlaylistsToRemove[i]);
+                    PlaylistsToRemove[i]->apagar();
+                }
+                MovePageToPlaylists();
+            }
+        }
+        break;
+    case 1:
+        // page_album_info
+        selected = ui->page_album_info_tableWidget->selectedItems();
+        while(!selected.isEmpty())
+        {
+            index = selected.first()->data(Qt::WhatsThisRole).toInt();
+            if(!songsToRemove.contains(_songs[index]))
+                songsToRemove.append(_songs[index]);
+
+            selected.removeFirst();
+        }
+
+        msgBox.setText("Atenção, está prestes a remover " + QString::number(songsToRemove.size()) + " musicas!");
+        msgBox.exec();
+
+        if(msgBox.result() == QMessageBox::AcceptRole)
+        {
+            for(int i = 0; i < songsToRemove.size(); i++)
+            {
+                for(int j = 0; j < _playlist.size(); j++)
+                {
+                    _playlist[j]->remover(songsToRemove[j]);
+                }
+                for(int j = 0; j < _albuns.size(); j++)
+                {
+                    _albuns[j]->remover(songsToRemove[j]);
+                }
+
+                _songs.removeOne(songsToRemove[i]);
+                songsToRemove[i]->apagar();
+            }
+            MovePageToSongs();
+        }
+        break;
+    case 5:
+        // page_artist
+        selected = ui->page_artist_tableWidget_albuns->selectedItems();
+        while(!selected.isEmpty())
+        {
+            index = selected.first()->data(Qt::WhatsThisRole).toInt();
+            if(!AlbunsToRemove.contains(_albuns[index]))
+                AlbunsToRemove.append(_albuns[index]);
+
+            selected.removeFirst();
+        }
+
+        msgBox.setText("Atenção, está prestes a remover " + QString::number(AlbunsToRemove.size()) + " albuns!");
+        msgBox.exec();
+
+        if(msgBox.result() == QMessageBox::AcceptRole)
+        {
+            for(int i = 0; i < AlbunsToRemove.size(); i++)
+            {
+                songsToRemove.clear();
+                AlbunsToRemove[i]->getMusicas(&songsToRemove);
+
+                for(int j = 0; j < songsToRemove.size(); j++)
+                {
+                    for(int k = 0; k < _playlist.size(); k++)
+                    {
+                        _playlist[k]->remover(songsToRemove[j]);
+                    }
+                }
+
+                _albuns.removeOne(AlbunsToRemove[i]);
+                AlbunsToRemove[i]->apagar();
+            }
+            MovePageToAlbuns();
+        }
+        break;
+    case 6:
+        // page_playlist
+        selected = ui->page_playlist_tableWidget->selectedItems();
+        while(!selected.isEmpty())
+        {
+            index = selected.first()->data(Qt::WhatsThisRole).toInt();
+            if(!songsToRemove.contains(_songs[index]))
+                songsToRemove.append(_songs[index]);
+
+            selected.removeFirst();
+        }
+
+        msgBox.setText("Atenção, está prestes a remover " + QString::number(songsToRemove.size()) + " musicas!");
+        msgBox.exec();
+
+        if(msgBox.result() == QMessageBox::AcceptRole)
+        {
+            for(int i = 0; i < songsToRemove.size(); i++)
+            {
+                _playlist[_showingPlaylist]->remover(songsToRemove[i]);
+            }
+            MovePageToSongs();
+        }
+        break;
+    }
 }
 
 void MainWindow::on_options_button_information_clicked()

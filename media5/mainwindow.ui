@@ -1151,7 +1151,7 @@ QPushButton:checked{ background-color: pink; }</string>
        <string notr="true">background-color:white;</string>
       </property>
       <property name="currentIndex">
-       <number>7</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="page_categories">
        <layout class="QGridLayout" name="gridLayout_4">
@@ -2043,7 +2043,7 @@ QPushButton:checked{ background-color: pink; }</string>
               <item row="2" column="4">
                <widget class="QPushButton" name="page_add_album_button_addArtistTo">
                 <property name="text">
-                 <string>Adicionar Autor a Musica</string>
+                 <string>Associar Autor a Musica</string>
                 </property>
                </widget>
               </item>
