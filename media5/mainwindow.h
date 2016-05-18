@@ -12,6 +12,7 @@
 #include <QFileDialog>
 #include <QList>
 #include <QTableWidget>
+#include <QMessageBox>
 #include "dialog.h"
 #include "classes.h"
 
