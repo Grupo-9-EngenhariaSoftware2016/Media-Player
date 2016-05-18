@@ -1151,7 +1151,7 @@ QPushButton:checked{ background-color: pink; }</string>
        <string notr="true">background-color:white;</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>7</number>
       </property>
       <widget class="QWidget" name="page_categories">
        <layout class="QGridLayout" name="gridLayout_4">
@@ -1176,6 +1176,18 @@ QPushButton:checked{ background-color: pink; }</string>
            </size>
           </property>
          </spacer>
+        </item>
+        <item row="2" column="3">
+         <widget class="QLabel" name="page_categories_label_order">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Ordenar por:</string>
+          </property>
+         </widget>
         </item>
         <item row="2" column="5">
          <widget class="QComboBox" name="page_categories_comboBox_order"/>
@@ -1226,48 +1238,18 @@ QPushButton:checked{ background-color: pink; }</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="3">
-         <widget class="QLabel" name="page_categories_label_order">
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Ordenar por:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="2">
-         <spacer name="verticalSpacer_4">
+        <item row="5" column="1">
+         <spacer name="verticalSpacer_3">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>20</height>
+            <height>40</height>
            </size>
           </property>
          </spacer>
-        </item>
-        <item row="2" column="2" alignment="Qt::AlignLeft">
-         <widget class="QPushButton" name="page_categories_button_random">
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Tudo Aleatório</string>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
         </item>
         <item row="1" column="4" colspan="5">
          <spacer name="horizontalSpacer_5">
@@ -1282,15 +1264,18 @@ QPushButton:checked{ background-color: pink; }</string>
           </property>
          </spacer>
         </item>
-        <item row="5" column="1">
-         <spacer name="verticalSpacer_3">
+        <item row="3" column="2">
+         <spacer name="verticalSpacer_4">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>40</height>
+            <height>20</height>
            </size>
           </property>
          </spacer>
@@ -1363,6 +1348,21 @@ QPushButton:checked{ background-color: pink; }</string>
           <property name="icon">
            <iconset resource="icons/img.qrc">
             <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QPushButton" name="page_categories_button_random">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Aleatório</string>
           </property>
           <property name="flat">
            <bool>true</bool>

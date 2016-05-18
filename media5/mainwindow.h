@@ -149,6 +149,10 @@ private slots:
     void on_options_button_remove_clicked();
     void on_options_button_information_clicked();
 
+    void on_page_add_playlist_tableWidget_toAdd_doubleClicked(const QModelIndex &index);
+
+    void on_page_add_playlist_tableWidget_Added_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
     Dialog * mdialog;
@@ -171,7 +175,7 @@ private:
     void AddAlbumLineToTable(QTableWidget *table, Album *album);
     void AddSongLineToTable(QTableWidget *table, Musica *song);
     void AddNewSongLineToTable(QTableWidget *table, Musica *newSong);
-    void AddSimplifiedSongLineToTable(QTableWidget *table, Musica *song);
+    void AddSimplifiedSongLineToTable(QTableWidget *table, Musica *song, QList<Musica *> *list);
     void AddArtistNameLineToTable(QTableWidget *table, Autor *artist);
     void AddArtistLineToTable(QTableWidget *table, Autor *artist);
     void AddPlaylistLineToTable(QTableWidget *table, Playlist *playlist);

@@ -91,7 +91,7 @@ bool Database::removeAlbum(Album *album)
     QSqlQuery deleteSongs;
     if(deleteSongs.exec("Delete from Musica where ID_Album='"+id+"';"))
     {
-
+        qDebug() << "Apagar musicas";
     }
 
     QSqlQuery deleteAlbum;
@@ -150,10 +150,6 @@ bool Database::addSong(Musica *newSong)
     }
 
 }
-//bool Database::removeSong(Musica *newSong)
-//{
-
-//}
 // ===================================================================
 // Autores
 bool Database::addArtist(Autor *newArtist)
