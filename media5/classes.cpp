@@ -326,7 +326,6 @@ int Musica::criar(QString diretoria)
             _dataAdicao = QDate::currentDate();
             db.addSong(this);
         }else
-            _diretoria = new_dir;
 
         db.connClose();
     }
@@ -595,16 +594,18 @@ int Album::criar()
         }
         else
         {
-        	qDebug() << "Criar " << _diretoria << "diretoria.";
-        	QDir().mkpath(_diretoria);
-    	}
+            qDebug() << "Criar " << _diretoria << "diretoria.";
+            QDir().mkpath(_diretoria);
+        }
 
         if(QDir(_diretoria).exists())
         {
             QFile::copy(oldImgDir,this->getImagem());
         }
 
-     }
+    }else{
+        return -1;
+    }
 
     return 0;
 }
