@@ -87,6 +87,8 @@ int Autor::apagar()
     /*
      * Apagar informação na BD
      * */
+    Database db;
+    db.removeArtist(this);
     return 0;
 }
 int Autor::play()
@@ -769,14 +771,12 @@ int Playlist::criar()
 
     /*
      * Introduzir informação na BD
-     *
     */
-    Database db;
 
+    Database db;
     db.connOpen();
     db.addPlaylist(this);
     db.connClose();
-
 
     return 0;
 }
@@ -784,7 +784,9 @@ int Playlist::criar()
 bool Playlist::procurar(QString procura)
 {
     if(_nome.contains(procura,Qt::CaseInsensitive))
+    {
         return true;
+    }
 
     return false;
 }

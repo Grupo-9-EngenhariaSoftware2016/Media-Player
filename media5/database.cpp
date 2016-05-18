@@ -116,26 +116,51 @@ bool Database::addSong(Musica *newSong)
     if(last_id.exec("select ID_Album from Album order by ID_Album DESC Limit 1;"))
     {
         last_id.next();
-        int id = last_id.value(0).toInt();
-        qDebug() << id;
 
-        // Guardar informacao da musica - uma musica por enquanto
-        QSqlQuery add_music;
-
+        //Guardar informacao da musica - uma musica por enquanto
         //http://doc.qt.io/qt-5/sql-sqlstatements.html
+        QSqlQuery add_music;
         add_music.prepare("INSERT INTO Musica (Nome,Diretoria,Faixa,ID_Album)"
                           "VALUES (:Nome,:Diretoria,:Faixa,:ID_Album)");
         add_music.bindValue(":Nome",        newSong->getNome());
         add_music.bindValue(":Diretoria",   newSong->getDiretoria());
         add_music.bindValue(":Faixa",       newSong->getFaixa());
-        add_music.bindValue(":ID_Album",    id);
+        add_music.bindValue(":ID_Album",    last_id.value(0).toInt());
 
         if(add_music.exec())
         {
+            qDebug() << "Musica-Adicionada";
+
+            //Atribuir Indice ao objecto da classe criado recentemente
             last_id.exec("select ID_Musica from Musica order by ID_Musica DESC Limit 1;");
             last_id.next();
             newSong->setIdBD(last_id.value(0).toInt());
-            qDebug() << "Musica-Adicionada";
+
+            //Atribuir Autores à música
+            QList<Autor*> artistList;
+            newSong->getAutor(&artistList);
+
+            if(!artistList.empty())
+            {
+                QSqlQuery add_artist;
+                for(int i =0; i < artistList.size();i++)
+                {
+                    add_artist.prepare("INSERT INTO Tem (ID_Musica,ID_Autor)"
+                                       "VALUES (:ID_Musica,:ID_Autor)");
+                    add_artist.bindValue(":ID_Musica",newSong->getIdBD());
+                    add_artist.bindValue(":ID_Autor" ,artistList[i]->getIdBD());
+
+                    if(add_artist.exec())
+                    {
+                        qDebug() << "Song" << newSong->getNome() <<" Added " << artistList[i]->getNome();
+                    }
+                }
+            }
+            else
+            {
+                qDebug() << "Nao existem autores para a Musica " << newSong->getNome();
+            }
+
             return true;
         }
         else
@@ -148,7 +173,37 @@ bool Database::addSong(Musica *newSong)
     {
         return false;
     }
+}
+bool Database::addSong(Musica *newSong, int album_id)
+{
 
+    //Guardar informacao da musica - uma musica por enquanto
+    //http://doc.qt.io/qt-5/sql-sqlstatements.html
+    QSqlQuery add_music;
+    add_music.prepare("INSERT INTO Musica (Nome,Diretoria,Faixa,ID_Album)"
+                      "VALUES (:Nome,:Diretoria,:Faixa,:ID_Album)");
+    add_music.bindValue(":Nome",        newSong->getNome());
+    add_music.bindValue(":Diretoria",   newSong->getDiretoria());
+    add_music.bindValue(":Faixa",       newSong->getFaixa());
+    add_music.bindValue(":ID_Album",    album_id);
+
+    if(add_music.exec())
+    {
+        //Atribuir Indice ao objecto da classe criado recentemente
+        QSqlQuery last_id;
+        last_id.exec("select ID_Musica from Musica order by ID_Musica DESC Limit 1;");
+        last_id.next();
+        newSong->setIdBD(last_id.value(0).toInt());
+        qDebug() << "Musica-Adicionada";
+        return true;
+    }
+    else
+    {
+        qDebug() << "Musica-Nao Adicionada";
+        return false;
+    }
+
+    return false;
 }
 // ===================================================================
 // Autores
@@ -187,6 +242,34 @@ bool Database::addArtist(Autor *newArtist)
     }
     return false;
 }
+bool Database::removeArtist(Autor *Artist)
+{
+    QString id = QString::number(Artist->getIdBD());
+
+    //Remove Associacao dos Autores com as Musicas
+    QSqlQuery deleteSongs;
+    if(deleteSongs.exec("Delete from Tem where ID_Album='"+id+"';"))
+    {
+        qDebug() << "Apagou Associacao dos Autores com as Musicas";
+    }
+    else
+    {
+        qDebug() << "Nao foi possivel apagar Associacao dos Autores com as Musicas";
+    }
+
+    //Remove Autor
+    QSqlQuery deleteAutor;
+    if(deleteAutor.exec("Delete from Autor where ID_Autor='"+id+"';"))
+    {
+        qDebug() << "Autor " << id << "Deleted";
+        return true;
+    }
+    else
+    {
+        qDebug() << "Autor " << id << "NOT Deleted";
+        return false;
+    }
+}
 
 // ===================================================================
 // Playlists
@@ -195,20 +278,128 @@ bool Database::addPlaylist(Playlist *newPlaylist)
     QSqlQuery add_playlist;
 
     //http://doc.qt.io/qt-5/sql-sqlstatements.html
-    add_playlist.prepare("INSERT INTO PLaylist (Nome,Descricao)"
-                         "VALUES (:Nome,:Descricao)");
-    add_playlist.bindValue(":Nome",        newPlaylist->getNome());
-    add_playlist.bindValue(":Descricao",   newPlaylist->getDescricao());
+    add_playlist.prepare("INSERT INTO Playlist (Nome,Descricao,DataAdicao)"
+                         "VALUES (:Nome,:Descricao,:DataAdicao)");
+    add_playlist.bindValue(":Nome",         newPlaylist->getNome());
+    add_playlist.bindValue(":Descricao,",   newPlaylist->getDescricao());
+    add_playlist.bindValue(":DataAdicao",   newPlaylist->getDataAdicao());
 
     if(add_playlist.exec())
     {
         qDebug() << "Playlist-Adicionada";
-        return true;
+
+        QSqlQuery last_id;
+        if(last_id.exec("select ID_Playlist from Playlist order by ID_Playlist DESC Limit 1;"))
+        {
+            last_id.next();
+            int id = last_id.value(0).toInt();
+
+            QList <Musica*> songlist;
+            newPlaylist->getMusicas(&songlist);
+
+            if(!songlist.empty())
+            {
+
+                QSqlQuery addSongToPlayList;
+                for(int i =0; i< songlist.size();i++)
+                {
+                    addSongToPlayList.prepare("INSERT INTO Pertence (ID_Musica,ID_Playlist)"
+                                              "VALUES (:ID_Musica,:ID_Playlist)");
+                    addSongToPlayList.bindValue(":ID_Musica",songlist[i]->getIdBD());
+                    addSongToPlayList.bindValue(":ID_Playlist",id);
+
+                    if(addSongToPlayList.exec())
+                    {
+                        qDebug() << "Song" << songlist[i]->getNome() <<"Added to playlist" << newPlaylist->getNome();
+                    }
+                    else
+                    {
+                        qDebug() << "Failed to Add Song"<< songlist[i]->getIdBD()<< "to Playlist" << id;
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                //Não existem musicas para adicionar -> temos uma playlist vazia com sucesso
+                return true;
+            }
+        }
+
     }
     else
     {
         qDebug() << "Playlist-Nao Adicionada";
         return false;
     }
-    return true;
+
+    return false;
+}
+bool Database::addSongsToPlaylist(Playlist *newPlaylist)
+{
+    QList <Musica*> songlist;
+    newPlaylist->getMusicas(&songlist);
+
+    if(!songlist.empty())
+    {
+        QSqlQuery addSongToPlayList;
+        for(int i =0; i< songlist.size();i++)
+        {
+            addSongToPlayList.prepare("INSERT INTO Pertence (ID_Musica,ID_Playlist)"
+                                      "VALUES (:ID_Musica,:ID_Playlist)");
+            addSongToPlayList.bindValue(":ID_Musica",songlist[i]->getIdBD());
+            addSongToPlayList.bindValue(":ID_Playlist",newPlaylist->getIdBD());
+
+            if(addSongToPlayList.exec())
+            {
+                qDebug() << "Song" << songlist[i]->getNome() <<"Added to playlist" << newPlaylist->getNome();
+            }
+            else
+            {
+                qDebug() << "Failed to Add Song"<< songlist[i]->getIdBD()<< "to Playlist" << newPlaylist->getIdBD();
+                return false;
+            }
+        }
+    }
+    else
+    {
+        //Não existem musicas para adicionar -> temos uma playlist vazia com sucesso
+        qDebug() << "Nao existem Musicas para adicionar";
+        return true;
+    }
+
+    return false;
+}
+bool Database::removePlaylist(Playlist *newPlaylist)
+{
+    //Remover dados da tabela pertence
+    QSqlQuery deleteSonglist;
+    deleteSonglist.prepare("DELETE from Pertence where ID_Playlist=:ID_Playlist; ");
+    deleteSonglist.bindValue(":ID_Playlist",newPlaylist->getIdBD());
+    if(deleteSonglist.exec())
+    {
+        qDebug() << "Musicas Retiradas da Playlist" << newPlaylist->getNome();
+    }
+    else
+    {
+        qDebug() << "Nao foi possivel Retirar as musicas da Playlist" << newPlaylist->getNome();
+    }
+
+    //Remover Playlist
+    QSqlQuery deletePlaylist;
+    deletePlaylist.prepare("DELETE from Playlist where ID_Playlist=:ID_Playlist;");
+    deletePlaylist.bindValue(":ID_Playlist",newPlaylist->getIdBD());
+
+    if(deletePlaylist.exec())
+    {
+        qDebug() << "Playlist" << newPlaylist->getNome() << " Apagada";
+        return true;
+    }
+    else
+    {
+        qDebug() << "Playlist" << newPlaylist->getNome() << " Não foi Apagada";
+        return false;
+    }
+
+    return false;
 }

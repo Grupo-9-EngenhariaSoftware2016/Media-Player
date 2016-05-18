@@ -23,8 +23,13 @@ public:
     bool removeAlbum(Album *album);
 
     bool addSong(Musica *newSong);
+    bool addSong(Musica *newSong,int album_id);
     bool addArtist(Autor *newArtist);
+    bool removeArtist(Autor *Artist);
+
     bool addPlaylist(Playlist *newPlaylist);
+    bool addSongsToPlaylist(Playlist *newPlaylist);
+    bool removePlaylist(Playlist *newPlaylist);
 };
 
 #endif // DATABASE_H
