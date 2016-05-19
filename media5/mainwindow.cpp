@@ -4,6 +4,7 @@
 #include "classes.h"
 #include <database.h>
 
+
 #define NO_DB
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -50,71 +51,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 #ifdef NO_DB
 
 
-    Database BD;
+
     Autor *newArtist;
     Musica *newSong;
     Album *newAlbum;
     Playlist *newPlaylist;
+    QList<Musica*> music_list;
+    QList<Autor*> autor_list;
     QDate date;
-    BD.connOpen();
 
-    //LoadAlbuns
-    QSqlQuery loadAlbum;
-    int id_album;
-    if(loadAlbum.exec("select * from Album;"))
-    {
-        qDebug() << "load Album";
-        while(loadAlbum.next())
-        {
+    Database BD;
+    BD.connOpen();qDebug() << "Abriu Base de Dados";
 
-            newAlbum = new Album;
-            id_album=loadAlbum.value(0).toInt();
-            newAlbum->setIdBD(id_album);
-            newAlbum->setNome(loadAlbum.value(1).toString());
-            newAlbum->setDescricao(loadAlbum.value(2).toString());
-            newAlbum->setDiretoria(loadAlbum.value(3).toString());
-            newAlbum->setImagem(loadAlbum.value(4).toString());
-            newAlbum->setAno(loadAlbum.value(5).toInt());
-            newAlbum->setGenero(loadAlbum.value(6).toString());
-
-
-            QSqlQuery loadSong;
-            if (loadSong.exec("select * from Musica where ID_Album='"+QString::number(id_album)+"';"))
-            {
-
-                qDebug() << "load Song from Album" << id_album;
-
-                QList<Musica*> music_list;
-
-                while(loadSong.next())
-                {
-                    newSong = new Musica;
-                    newSong->setIdBD(loadSong.value(0).toInt());
-                    newSong->setNome(loadSong.value(1).toString());
-                    newSong->setDiretoria(loadSong.value(2).toString());
-                    newSong->setFaixa(loadSong.value(3).toInt());
-                    _songs.append(newSong);
-                    music_list.append(newSong);
-
-                }
-                   newAlbum->setMusicas(&music_list);
-                   music_list.clear();
-            }
-            else
-            {
-                qDebug() << "Cannot Load Song";
-            }
-
-            _albuns.append(newAlbum);
-
-        }
-    }
-    else
-    {
-        qDebug() << "Cannot Load Album";
-    }
-
-    //LoadAutor
+    //============================================================================
+    // LoadAutor
     QSqlQuery loadAutor;
     if(loadAutor.exec("select * from Autor;"))
     {
@@ -134,10 +84,85 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     {
         qDebug() << "Cannot Load Autor";
     }
+    //============================================================================
+    // LoadAlbuns
+    QSqlQuery loadAlbum;
+    int id_album;
+    if(loadAlbum.exec("select * from Album;"))
+    {
+        qDebug() << "load Album";
+        while(loadAlbum.next())
+        {
+            newAlbum = new Album;
+            id_album=loadAlbum.value(0).toInt();
+            newAlbum->setIdBD(id_album);
+            newAlbum->setNome(loadAlbum.value(1).toString());
+            newAlbum->setDescricao(loadAlbum.value(2).toString());
+            newAlbum->setDiretoria(loadAlbum.value(3).toString());
+            newAlbum->setImagem(loadAlbum.value(4).toString());
+            newAlbum->setAno(loadAlbum.value(5).toInt());
+            newAlbum->setGenero(loadAlbum.value(6).toString());
 
+            //============================================================================
+            // Load Songs
+            QSqlQuery loadSong,loadArtistToSong;
+            if (loadSong.exec("select * from Musica where ID_Album='"+QString::number(id_album)+"';"))
+            {
+                qDebug() << "load Song from Album" << id_album;
+                while(loadSong.next())
+                {
+                    newSong = new Musica;
+                    newSong->setIdBD(loadSong.value(0).toInt());
+                    newSong->setNome(loadSong.value(1).toString());
+                    newSong->setDiretoria(loadSong.value(2).toString());
+                    newSong->setFaixa(loadSong.value(3).toInt());
 
+                    //============================================================================
+                    // Load Artists to Songs
+                    loadArtistToSong.prepare("select Autor.ID_Autor from Autor "
+                                             "join Tem on Tem.ID_Autor=Autor.ID_Autor "
+                                             "join Musica on Tem.ID_Musica=Musica.ID_Musica "
+                                             "where Tem.ID_Musica=:ID_Musica;");
+                    loadArtistToSong.bindValue(":ID_Musica", newSong->getIdBD());
+
+                    if(loadArtistToSong.exec())
+                    {
+                        while(loadArtistToSong.next())
+                        {
+                            for(int i=0; i < _artists.size();i++)
+                            {
+                                if(_artists[i]->getIdBD()==loadArtistToSong.value(0).toInt())
+                                {
+                                       newSong->addAutor(_artists[i]);
+                                }
+                            }
+                        }
+                    }
+
+                    _songs.append(newSong);
+                    music_list.append(newSong);
+
+                }
+                newAlbum->setMusicas(&music_list);
+                music_list.clear();
+            }
+            else
+            {
+                qDebug() << "Cannot Load Song";
+            }
+
+            _albuns.append(newAlbum);
+        }
+    }
+    else
+    {
+        qDebug() << "Cannot Load Album";
+    }
+
+    //============================================================================
     //LoadPlaylist
     QSqlQuery loadPlaylist;
+    QSqlQuery loadPlaylistSongs;
     if (loadPlaylist.exec("select * from Playlist;"))
     {
         qDebug() << "load Playlist";
@@ -147,7 +172,39 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
             newPlaylist->setIdBD(loadPlaylist.value(0).toInt());
             newPlaylist->setNome(loadPlaylist.value(1).toString());
             newPlaylist->setDescricao(loadPlaylist.value(2).toString());
+
+            //============================================================================
+            //LoadSongsToPlaylist
+            loadPlaylistSongs.prepare(
+                        "select Musica.ID_Musica from Musica "
+                        "join Pertence on Musica.ID_Musica=Pertence.ID_Musica "
+                        "join Playlist on Playlist.ID_Playlist=Pertence.ID_Playlist "
+                        "where Playlist.ID_Playlist=:ID_Playlist;");
+            loadPlaylistSongs.bindValue(":ID_Playlist",newPlaylist->getIdBD());
+
+            if(loadPlaylistSongs.exec())
+            {
+                while(loadPlaylistSongs.next())
+                {
+                    //qDebug() << "Playlist" << newPlaylist->getIdBD();
+                    for(int i=0; i< _songs.size();i++)
+                    {
+                        if(_songs[i]->getIdBD()==loadPlaylistSongs.value(0).toInt())
+                        {
+                           music_list.append(_songs[i]);
+                           //qDebug() <<_songs[i]->getNome();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                qDebug() << "Cannot Load Songs to Playlist";
+            }
+
+            newPlaylist->setMusicas(&music_list);
             _playlist.append(newPlaylist);
+            music_list.clear();
         }
     }
     else
@@ -155,13 +212,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         qDebug() << "Cannot Playlist";
     }
 
-
+    BD.connClose(); qDebug() << "Fechou Base de Dados";
 //    _player.adicionar(&_songs);
 //    _playlist[2]->setMusicas(&_songs);
 //    _songs[0]->setAutor(&_artists.mid(1,1));
 //    _songs[2]->setAutor(&_artists.mid(1,4));
 //    _songs[4]->setAutor(&_artists.mid(3,2));
-//      _albuns[1]->adicionar(_songs.value(2));
+//    _albuns[1]->adicionar(_songs.value(2));
 
 #endif // NO_DB
 
@@ -1975,11 +2032,12 @@ void MainWindow::on_page_artist_button_remove_clicked()
         for(int j = 0; j < _songs.size(); j++)
         {
             _songs[j]->removeAutor(_artists[_showingArtist]);
-        }
 
+        }
         _artists[_showingArtist]->apagar();
         _artists.removeOne(_artists[_showingArtist]);
     }
+
     MovePageToArtists();
 }
 
@@ -2046,8 +2104,10 @@ void MainWindow::on_page_playlist_button_remove_clicked()
 
     if(msgBox.result() == QMessageBox::AcceptRole)
     {
+
         _playlist[_showingPlaylist]->apagar();
         _playlist.removeOne(_playlist[_showingPlaylist]);
+
 
         MovePageToPlaylists();
     }
@@ -2237,13 +2297,17 @@ void MainWindow::on_progress_button_save_clicked()
     if(ui->menu_small_button_album->isChecked())
     {
         if(ui->page_add_album_lineEdit_name->text() == NULL ||
-                ui->page_add_album_lineEdit_gender->text() == NULL)
+           ui->page_add_album_lineEdit_gender->text() == NULL)
         {
          /*
          * Avisos de irregularidades ao criar album ou assim
-         * */
-        }else{
+         */
+        }
+        else
+        {
             // Tudo certo para criar album
+            Database db;
+            db.connOpen();
 
             Album *newAlbum;
             newAlbum = new Album;
@@ -2253,6 +2317,7 @@ void MainWindow::on_progress_button_save_clicked()
             newAlbum->setImagem(_imageURL);
             newAlbum->setDescricao(ui->page_add_album_textEdit_description->toPlainText());
             newAlbum->setDiretoria(QDir::currentPath() +"/debug/album/ID_");
+
             if(newAlbum->criar() != -1)
             {
                 for (int i = 0; i < _newSongList.size(); i++)
@@ -2262,14 +2327,16 @@ void MainWindow::on_progress_button_save_clicked()
                     _songs.append(_newSongList[i]);
                 }
 
-                _albuns.append(newAlbum);
+            _albuns.append(newAlbum);
 
             }
 
+db.connClose();
             MovePageToAlbuns();
 
         }
-    }else if(ui->menu_small_button_song->isChecked())
+    }
+    else if(ui->menu_small_button_song->isChecked())
     {
         int albumIndex = ui->page_add_music_comboBox_albuns->currentIndex();
 
@@ -2281,18 +2348,28 @@ void MainWindow::on_progress_button_save_clicked()
         }
 
         MovePageToSongs();
-    }else if(ui->menu_small_button_list->isChecked())
+    }
+    else if(ui->menu_small_button_list->isChecked())
     {
+        //
+        // Criar nova Playlist
+        //
         _newPlaylist = new Playlist;
         _newPlaylist->setNome(ui->page_add_playlist_lineEdit_name->text());
-        ui->page_add_playlist_lineEdit_name->clear();
         _newPlaylist->setDescricao(ui->page_add_playlist_plainText_description->toPlainText());
-        ui->page_add_playlist_plainText_description->clear();
         _newPlaylist->setDataAdicao(QDate::currentDate());
-        if(!_newSongList.isEmpty())
-            _newPlaylist->setMusicas(&_newSongList);
+        
 
+        if(!_newSongList.isEmpty())
+        {
+            _newPlaylist->setMusicas(&_newSongList);
+        }
+
+        _newPlaylist->criar();
         _playlist.append(_newPlaylist);
+
+        ui->page_add_playlist_lineEdit_name->clear();
+        ui->page_add_playlist_plainText_description->clear();
 
         MovePageToPlaylists();
     }
