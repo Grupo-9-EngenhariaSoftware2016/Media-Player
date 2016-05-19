@@ -4,6 +4,11 @@
 #include <QList>
 #include <QString>
 #include <QDate>
+#include <QDir>
+#include <QFile>
+#include <QMediaObject>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 #include <algorithm>
 
 using namespace std;
@@ -36,7 +41,7 @@ public:
 
     int apagar();
     int play();
-    //int procurar(QString);
+    bool procurar(QString procura);
 
     int criar();
 
@@ -56,6 +61,8 @@ public:
     Musica();
     ~Musica();
 
+    int mudarNome(QString nome);
+    int mudarGenero(QString genero);
     QDate getDataAdicao();
     int setDataAdicao(QDate data);
     int getIdBD();
@@ -66,15 +73,19 @@ public:
     int setDiretoria(QString diretoria);
     int getAutor(QList <Autor*> *autores);
     int setAutor(QList <Autor*> *autores);
+    int addAutor(Autor *autor);
+    int removeAutor(Autor *autor);
     bool hasAutor(Autor *autor);
     QString getGenero();
     int setGenero(QString genero);
     int getFaixa();
     int setFaixa(int faixa);
+    int retrieveInfo(QString dir);
 
     int apagar();
     int play();
-    //int procurar(QString);
+    int criar(QString diretoria);
+    bool procurar(QString procura);
 
 };
 
@@ -117,14 +128,14 @@ public:
     int getMusicas(QList <Musica*> *musicas);
     int setMusicas(QList <Musica*> *musicas);
 
-	int apagar();
-    int apagar(Musica *musica);
-    int apagar(QList <Musica*> *musicas);
-	int play();
+    int apagar();
+    int remover(Musica *musica);
+    int remover(QList <Musica*> *musicas);
+    int play();
     int adicionar(Musica *musica);
-    //int procurar(QString);
+    bool procurar(QString procura);
 
-	int criar();
+    int criar();
 	
 };
 
@@ -151,12 +162,13 @@ public:
     int setDescricao(QString descricao);
     int getMusicas(QList <Musica*> *musicas);
     Musica *getMusica(int indice);
+    int getIndiceDe(Musica *musica);
     int setMusicas(QList <Musica*> *musicas);
 
 	int apagar();
 	int play();
     int adicionar(Musica* musica);
-    //int procurar(QString);
+    bool procurar(QString procura);
     int remover(Musica* musica);
 
 	int criar();
@@ -166,11 +178,15 @@ public:
 class Player
 {
 private:
-	Playlist* _lista;
-    QList <int> _ordem;
-    int _aTocar;
+    QMediaPlaylist *_reproducao;
+    Playlist* _lista;
+    bool _aTocar;
     bool _aleatorio;
+    bool _repeat;
+    bool _silencio;
 public:
+    QMediaPlayer *_mediaPlayer;
+
 	Player();
 	~Player();
 
@@ -181,13 +197,20 @@ public:
 	int seguinte();
 	int anterior();
     int aleatorio(bool aleatorio);
+    int repetir(bool repetir);
+    int silencio(bool silencio);
     int adicionar(QList <Musica*> *musicas);
     int adicionar(Musica *musicas);
     int remover(QList <Musica*> *musicas);
     int removerTodas();
     bool isEmpty();
-    bool isRandom();
-	
+    bool isAleatorio();
+    bool isRepeat();
+    bool isATocar();
+    bool isSilencio();
+    qint64 getTempo();
+    qint64 getPosicao();
+    int setPosicao(qint64 posicao);
 };
 
 #endif // CLASSES_H

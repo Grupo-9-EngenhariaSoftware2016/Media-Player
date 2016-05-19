@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include <QtSql>
 #include <QtDebug>
+#include <QModelIndex>
+#include <QDir>
+#include <QFile>
 #include <QFileInfo>
 #include <QFileSystemModel>
 #include <QFileDialog>
@@ -27,33 +30,24 @@ public:
     QList <Autor*> _artists;
     QList <Musica*> _songs;
     Player _player;
+
     QString _imageURL;
-
-    void connClose()
-    {
-        mydb.close();
-        mydb.removeDatabase(QSqlDatabase::defaultConnection);
-    }
-    bool connOpen()
-    {
-        mydb=QSqlDatabase::addDatabase("QSQLITE");
-        mydb.setDatabaseName(QDir::currentPath() +"/database/database.db");
-
-        if(!mydb.open())
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
+    QList <Musica*> _newSongList;
+    Playlist *_newPlaylist;
+    int _showingArtist, _showingAlbum, _showingPlaylist;
 
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
 private slots:
+    // Refresh Handlers
+    void on_player_positionChanged(qint64 position);
+    void on_player_durationChanged(qint64 duration);
+    void on_player_mutedChanged(bool muted);
+    void on_player_playbackModeChanged(QMediaPlaylist::PlaybackMode mode);
+    void on_player_stateChanged(QMediaPlayer::State state);
+
     // Menu Handlers
     void on_menu_small_button_search_clicked();
     void on_menu_small_button_album_clicked();
@@ -73,6 +67,7 @@ private slots:
     void on_menu_full_button_play_clicked();
     void on_menu_full_button_search_clicked();
     void on_menu_full_button_song_clicked();
+    void on_menu_full_lineEdit_search_returnPressed();
 
     // Page Categories Handlers
     void on_page_categories_button_add_clicked();
@@ -98,10 +93,13 @@ private slots:
     void on_page_add_album_button_addArtistToAll_clicked();
     void on_page_add_album_button_removeArtistFrom_clicked();
     void on_page_add_album_button_newArtist_clicked();
+    void on_page_add_album_lineEdit_searchArtists_returnPressed();
+    void on_page_add_album_lineEdit_searchArtists_textChanged(const QString &arg1);
 
     // Page Add Music Handlers
     void on_page_add_music_button_addFolder_clicked();
     void on_page_add_music_button_addMusic_clicked();
+    void on_page_add_music_comboBox_albuns_currentIndexChanged(int index);
 
     // Page Search Handlers
     void on_page_search_tableWidget_artists_doubleClicked(const QModelIndex &index);
@@ -125,14 +123,19 @@ private slots:
     void on_page_add_playlist_button_search_clicked();
     void on_page_add_playlist_button_add_clicked();
     void on_page_add_playlist_button_remove_clicked();
+    void on_page_add_playlist_lineEdit_search_returnPressed();
+    void on_page_add_playlist_lineEdit_search_textChanged(const QString &arg1);
 
     // Tab Player Handlers
     void on_player_slider_sliderReleased();
+    void on_player_slider_valueChanged(int value);
     void on_player_button_previous_clicked();
-    void on_player_button_play_clicked();
+    void on_player_button_play_toggled(bool checked);
     void on_player_button_stop_clicked();
     void on_player_button_next_clicked();
     void on_player_button_shuffle_toggled(bool checked);
+    void on_player_button_repeat_clicked();
+    void on_player_button_mute_clicked();
 
     // Tab Progress Handlers
     void on_progress_button_previous_clicked();
@@ -145,6 +148,10 @@ private slots:
     void on_options_button_edit_clicked();
     void on_options_button_remove_clicked();
     void on_options_button_information_clicked();
+
+    void on_page_add_playlist_tableWidget_toAdd_doubleClicked(const QModelIndex &index);
+
+    void on_page_add_playlist_tableWidget_Added_doubleClicked(const QModelIndex &index);
 
 private:
     Ui::MainWindow *ui;
@@ -167,6 +174,9 @@ private:
     void FormatTableFor(QTableWidget *table, QString format);
     void AddAlbumLineToTable(QTableWidget *table, Album *album);
     void AddSongLineToTable(QTableWidget *table, Musica *song);
+    void AddNewSongLineToTable(QTableWidget *table, Musica *newSong);
+    void AddSimplifiedSongLineToTable(QTableWidget *table, Musica *song, QList<Musica *> *list);
+    void AddArtistNameLineToTable(QTableWidget *table, Autor *artist);
     void AddArtistLineToTable(QTableWidget *table, Autor *artist);
     void AddPlaylistLineToTable(QTableWidget *table, Playlist *playlist);
 
@@ -183,6 +193,8 @@ private:
     void MovePageToAddPlaylist();
     void MovePageToAddSongs();
     void NewArtist();
+
+    void Refresh();
 };
 
 #endif // MAINWINDOW_H
