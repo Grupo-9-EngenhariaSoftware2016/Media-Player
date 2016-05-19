@@ -19,13 +19,15 @@ public:
     void connClose();
 
     bool addAlbum(Album *newAlbum);
-    bool UpdateAlbum(Album *newAlbum);
-    bool removeAlbum(Album *album);
+    bool UpdateAlbum(Album *Album);
+    bool removeAlbum(Album *Album);
 
     bool addSong(Musica *newSong,int album_id);
+    bool UpdateSong(Musica *Song);
     bool removeSong(Musica *Song);
 
     bool addArtist(Autor *newArtist);
+    bool UpdateArtist(Autor *Artist);
     bool removeArtist(Autor *Artist);
 
     bool addPlaylist(Playlist *newPlaylist);

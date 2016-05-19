@@ -134,9 +134,9 @@ bool Database::UpdateAlbum(Album *Album)
 
     return false;
 }
-bool Database::removeAlbum(Album *album)
+bool Database::removeAlbum(Album *Album)
 {
-    QString id = QString::number(album->getIdBD());
+    QString id = QString::number(Album->getIdBD());
 
     qDebug() << "PROCESS: Remove Album " << id;
     //Apagar conteudos dos Autores
