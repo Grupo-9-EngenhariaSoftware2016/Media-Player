@@ -317,8 +317,6 @@ int     Musica::criar(int albumID, QString diretoria)
     file_name = _diretoria.right(_diretoria.size() - _diretoria.lastIndexOf("/"));
     new_dir   = diretoria + file_name;
 
-
-
     if(QFile::copy(_diretoria, new_dir))
     {
         _diretoria = new_dir;
@@ -690,6 +688,10 @@ int     Playlist::apagar()
     /*
      * Apagar informação na BD
      * */
+    Database db;
+    db.connOpen();
+    db.removePlaylist(this);
+    db.connClose();
     return 0;
 }
 int     Playlist::play()
