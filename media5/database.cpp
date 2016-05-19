@@ -356,9 +356,11 @@ bool Database::removeArtist(Autor *Artist)
 // Playlists
 bool Database::addPlaylist(Playlist *newPlaylist)
 {
-    QSqlQuery add_playlist;
+
 
     //http://doc.qt.io/qt-5/sql-sqlstatements.html
+
+    QSqlQuery add_playlist;
     add_playlist.prepare("INSERT INTO Playlist (Nome,Descricao,DataAdicao)"
                          "VALUES (:Nome,:Descricao,:DataAdicao)");
     add_playlist.bindValue(":Nome",         newPlaylist->getNome());
@@ -416,10 +418,8 @@ bool Database::addPlaylist(Playlist *newPlaylist)
 
     return false;
 }
-bool Database::addSongsToPlaylist(Playlist *newPlaylist)
+bool Database::addSongsToPlaylist(Playlist *newPlaylist, QList<Musica *> songlist)
 {
-    QList <Musica*> songlist;
-    newPlaylist->getMusicas(&songlist);
 
     if(!songlist.empty())
     {
