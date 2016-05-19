@@ -5,6 +5,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QListView>
+#include <database.h>
+#include <classes.h>
 
 Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
@@ -31,18 +33,13 @@ Autor* Dialog::getNewArtist()
 
 void Dialog::on_dialog_button_add_artwork_clicked()
 {
-    QString filename = QFileDialog::getOpenFileName(this,tr("Open a File"),"","Image files (*.jpg, *.png)");
-
-
-    if(!filename.isEmpty())
-    {ui->dialog_label_artwork->setPixmap(QPixmap(filename));}
+    QString filename = QFileDialog::getOpenFileName(this,tr("Open a File"),"","Image files (*.jpg , *.png)");
 
     if(!filename.isNull())
     {
         _photo = filename;
         ui->dialog_label_artwork->setPixmap(QPixmap(filename));
     }
-
 }
 
 void Dialog::on_dialog_button_cancel_clicked()
@@ -52,12 +49,14 @@ void Dialog::on_dialog_button_cancel_clicked()
 
 void Dialog::on_dialog_button_save_clicked()
 {
+    Database db;
     _newArtist = new Autor;
-
     _newArtist->setDataNascimento(ui->dialog_dateEdit_birth->date());
     _newArtist->setNome(ui->dialog_lineEdit_name->text());
     _newArtist->setNacionalidade(ui->dialog_lineEdit_nacionality->text());
-    _newArtist->setImagem(_photo);
+    _newArtist->setImagem(_photo);    
+    _newArtist->criar();
+
     this->accept();
 
 }
