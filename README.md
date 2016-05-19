@@ -7,12 +7,8 @@
 - Ler informação da base de dados
 - Sort de tabelas por data de adição
 - Actualizar BD
-- Métodos dos botões de opções (quando select está activo)
+- Métodos dos botões de opções (editar e informação)
 - Alterar apresentação de playlists
 - Preencher song info
 - Saber quando fazer update da informação da BD
-- Tudo o que involva Player
-
-###classes.h/.cpp:
-
-- Reprodução de ficheiros .mp3
+- Adicionar musicas, albuns ou autores a playlists já criadas
