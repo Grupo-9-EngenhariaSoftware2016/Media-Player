@@ -36,6 +36,7 @@ public:
     QList <Musica*> _newSongList;
     Playlist *_newPlaylist;
     int _showingArtist, _showingAlbum, _showingPlaylist;
+    bool _editMode = false;
 
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -160,9 +161,10 @@ private:
     QFileSystemModel *dirmodel;
     QFileSystemModel *filemodel;
 
-    QString getArtistsFrom(Album *album);
-    QString getArtistsFrom(Playlist *playlist);
-    QString getArtistsFrom(int *displayed, Musica *song);
+    QList<Autor*> getArtistsFrom(Album *album);
+    QList<Autor*> getArtistsFrom(Playlist *playlist);
+    QList<Autor*> getArtistsFrom(Musica *song);
+    QString printArtistList(QList<Autor*> artists);
     QList <Album*> getAlbunsFromArtist(Autor *artist);
     QList <Musica*> getSongsFromArtist(Autor *artist);
     Album* getAlbumWith(Musica* song);
