@@ -317,16 +317,7 @@ int     Musica::criar(QString diretoria)
     file_name = _diretoria.right(_diretoria.size() - _diretoria.lastIndexOf("/"));
     new_dir   = diretoria + file_name;
 
-    if(QFile::copy(_diretoria, new_dir))
-    {
-        _diretoria = new_dir;
-        _dataAdicao = QDate::currentDate();
-        db.addSong(this);
-    }
-    else
-    {
-        _diretoria = new_dir;
-    }
+
 
     if(QFile::copy(_diretoria, new_dir))
     {
@@ -334,7 +325,11 @@ int     Musica::criar(QString diretoria)
         _dataAdicao = QDate::currentDate();
         db.addSong(this);
     }
-
+    /* else if (remover e voltar a copiar)
+*	 	_diretoria = new_dir;
+        _dataAdicao = QDate::currentDate();
+        db.addSong(this);
+*/
     return 0;
 }
 bool    Musica::procurar(QString procura)
@@ -572,15 +567,25 @@ int     Album::criar()
 
     if(db.addAlbum(this))
     {
-        qDebug() << "Criar " << _diretoria << "diretoria.";
-        QDir().mkpath(_diretoria);
+        if(QDir(_diretoria).exists())
+        {
+            qDebug() << "Já existe: " << _diretoria;
+        }
+        else
+        {
+            qDebug() << "Criar " << _diretoria << "diretoria.";
+            QDir().mkpath(_diretoria);
+        }
 
         if(QDir(_diretoria).exists())
         {
+        	//if(_imagem != null)
             QFile::copy(oldImgDir,this->getImagem());
         }
 
-     }
+    }else{
+        return -1;
+    }
 
     return 0;
 }

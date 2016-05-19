@@ -782,6 +782,9 @@ void MainWindow::AddArtistLineToTable(QTableWidget *table, Autor *artist)
 void MainWindow::AddPlaylistLineToTable(QTableWidget *table, Playlist *playlist)
 {
     QString text = "";
+    QList<Musica*> songList;
+    QMediaPlayer mediaSong;
+    qint64 totalDuration = 0;
     int newRow = table->rowCount();
     QTableWidgetItem *item;
     table->insertRow(newRow);
@@ -801,8 +804,15 @@ void MainWindow::AddPlaylistLineToTable(QTableWidget *table, Playlist *playlist)
 
     // Play Time
     item = new QTableWidgetItem;
+    playlist->getMusicas(&songList);
+    for(int i = 0; i < songList.size(); i++)
+    {
+        mediaSong.setMedia(QUrl::fromLocalFile(songList[i]->getDiretoria()));
+        totalDuration += mediaSong.duration();
+    }
+    QTime duration(0, totalDuration / 60000, qRound((totalDuration % 60000) / 1000.0));
     item->setData(Qt::WhatsThisRole,_playlist.indexOf(playlist));
-    item->setData(Qt::DisplayRole,getArtistsFrom(playlist));
+    item->setData(Qt::DisplayRole,duration.toString("hh:mm:ss"));
     table->setItem(newRow, 2, item);
 }
 
@@ -2026,7 +2036,6 @@ void MainWindow::on_page_artist_button_remove_clicked()
         }
         _artists[_showingArtist]->apagar();
         _artists.removeOne(_artists[_showingArtist]);
-
     }
 
     MovePageToArtists();
@@ -2095,8 +2104,10 @@ void MainWindow::on_page_playlist_button_remove_clicked()
 
     if(msgBox.result() == QMessageBox::AcceptRole)
     {
-//        _playlist.removeOne(PlaylistsToRemove[i]);
-//        PlaylistsToRemove[i]->apagar();
+
+        _playlist[_showingPlaylist]->apagar();
+        _playlist.removeOne(_playlist[_showingPlaylist]);
+
 
         MovePageToPlaylists();
     }
@@ -2306,20 +2317,21 @@ void MainWindow::on_progress_button_save_clicked()
             newAlbum->setImagem(_imageURL);
             newAlbum->setDescricao(ui->page_add_album_textEdit_description->toPlainText());
             newAlbum->setDiretoria(QDir::currentPath() +"/debug/album/ID_");
-            newAlbum->criar();
 
-
-            for (int i = 0; i < _newSongList.size(); i++)
+            if(newAlbum->criar() != -1)
             {
-                _newSongList[i]->criar(newAlbum->getDiretoria());
-                newAlbum->adicionar(_newSongList[i]);
-                _songs.append(_newSongList[i]);
-            }
-
-            db.connClose();
+                for (int i = 0; i < _newSongList.size(); i++)
+                {
+                    _newSongList[i]->criar(newAlbum->getDiretoria());
+                    newAlbum->adicionar(_newSongList[i]);
+                    _songs.append(_newSongList[i]);
+                }
 
             _albuns.append(newAlbum);
 
+            }
+
+db.connClose();
             MovePageToAlbuns();
 
         }
@@ -2346,9 +2358,14 @@ void MainWindow::on_progress_button_save_clicked()
         _newPlaylist->setNome(ui->page_add_playlist_lineEdit_name->text());
         _newPlaylist->setDescricao(ui->page_add_playlist_plainText_description->toPlainText());
         _newPlaylist->setDataAdicao(QDate::currentDate());
-        _newPlaylist->setMusicas(&_newSongList);
-        _newPlaylist->criar();
+        
 
+        if(!_newSongList.isEmpty())
+        {
+            _newPlaylist->setMusicas(&_newSongList);
+        }
+
+        _newPlaylist->criar();
         _playlist.append(_newPlaylist);
 
         ui->page_add_playlist_lineEdit_name->clear();
