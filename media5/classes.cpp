@@ -309,7 +309,7 @@ int     Musica::play()
      * */
     return 0;
 }
-int     Musica::criar(QString diretoria)
+int     Musica::criar(int albumID, QString diretoria)
 {
     Database db;
     QString file_name, new_dir;
@@ -323,7 +323,7 @@ int     Musica::criar(QString diretoria)
     {
         _diretoria = new_dir;
         _dataAdicao = QDate::currentDate();
-        db.addSong(this);
+        db.addSong(this, albumID);
     }
     /* else if (remover e voltar a copiar)
 *	 	_diretoria = new_dir;
