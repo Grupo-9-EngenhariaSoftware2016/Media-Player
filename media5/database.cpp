@@ -356,8 +356,6 @@ bool Database::removeArtist(Autor *Artist)
 // Playlists
 bool Database::addPlaylist(Playlist *newPlaylist)
 {
-
-
     //http://doc.qt.io/qt-5/sql-sqlstatements.html
 
     QSqlQuery add_playlist;
@@ -414,6 +412,78 @@ bool Database::addPlaylist(Playlist *newPlaylist)
     {
         qDebug() << "Playlist-Nao Adicionada";
         return false;
+    }
+
+    return false;
+}
+bool Database::updatePlaylist(Playlist *Playlist)
+{
+    //Update dos dados da Playlist
+    QSqlQuery update_playlist;
+    update_playlist.prepare("UPDATE Playlist SET Nome=:Nome, Descricao=:Descricao ,DataAdicao=:DataAdicao "
+                            "WHERE ID_Playlist=:ID_Playlist;");
+
+    update_playlist.bindValue(":ID_Playlist", Playlist->getIdBD());
+    update_playlist.bindValue(":Nome"       , Playlist->getNome());
+    update_playlist.bindValue(":Descricao," , Playlist->getDescricao());
+    update_playlist.bindValue(":DataAdicao" , Playlist->getDataAdicao());
+
+    if(update_playlist.exec())
+    {
+        qDebug() << "Dados da Playlist Actualizados";
+    }
+    else
+    {
+        qDebug() << "Nao foi possível actualizar a Playlist";
+    }
+
+    //Remover Musicas Existentes
+    QSqlQuery delete_songs;
+    delete_songs.prepare("DELETE FROM Pertence WHERE IN ID_Playlist=:ID_Playlist");
+    delete_songs.bindValue(":ID_Playlist", Playlist->getIdBD());
+
+    if(delete_songs.exec())
+    {
+        qDebug() << "Lista de Musicas Apagada";
+    }
+    else
+    {
+        qDebug() <<"NAO foi removida a Lista de Musicas";
+    }
+
+    //Adicionar Musicas
+    QList<Musica *> songlist;
+    Playlist->getMusicas(&songlist);
+
+    if(!songlist.empty())
+    {
+        QSqlQuery addSongToPlayList;
+        for(int i =0; i< songlist.size();i++)
+        {
+            addSongToPlayList.prepare("INSERT INTO Pertence (ID_Musica,ID_Playlist)"
+                                      "VALUES (:ID_Musica,:ID_Playlist)");
+
+            addSongToPlayList.bindValue(":ID_Musica",songlist[i]->getIdBD());
+            addSongToPlayList.bindValue(":ID_Playlist",Playlist->getIdBD());
+
+            if(addSongToPlayList.exec())
+            {
+                qDebug() << "Song" << songlist[i]->getNome() <<"Added to playlist" << Playlist->getNome();
+            }
+            else
+            {
+                qDebug() << "Failed to Add Song"<< songlist[i]->getIdBD()<< "to Playlist" << Playlist->getIdBD();
+                return false;
+            }
+        }
+
+        qDebug() << "PROCESS END: Actualizada da Playlist";
+        return true;
+    }
+    else
+    {
+        qDebug() << "PROCESS END: Nao existem Musicas para adicionar";
+        return true;
     }
 
     return false;

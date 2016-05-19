@@ -31,7 +31,7 @@ public:
     bool removeArtist(Autor *Artist);
 
     bool addPlaylist(Playlist *newPlaylist);                                    //Cria uma Nova Playlist
-    bool updatePlaylist(Playlist *newPlaylist);
+    bool updatePlaylist(Playlist *Playlist);
     bool addSongsToPlaylist(Playlist *newPlaylist, QList<Musica *> songlist);   //Insere Musicas na Tabela de Relacao
     bool removeSongsFromPlaylist(Playlist *newPlaylist, QList<Musica *> songlist);
     bool removePlaylist(Playlist *newPlaylist);
