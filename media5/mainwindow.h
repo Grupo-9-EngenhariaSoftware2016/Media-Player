@@ -127,6 +127,8 @@ private slots:
     void on_page_add_playlist_button_remove_clicked();
     void on_page_add_playlist_lineEdit_search_returnPressed();
     void on_page_add_playlist_lineEdit_search_textChanged(const QString &arg1);
+    void on_page_add_playlist_tableWidget_toAdd_doubleClicked(const QModelIndex &index);
+    void on_page_add_playlist_tableWidget_Added_doubleClicked(const QModelIndex &index);
 
     // Tab Player Handlers
     void on_player_slider_sliderReleased();
@@ -149,11 +151,6 @@ private slots:
     void on_options_button_play_clicked();
     void on_options_button_edit_clicked();
     void on_options_button_remove_clicked();
-    void on_options_button_information_clicked();
-
-    void on_page_add_playlist_tableWidget_toAdd_doubleClicked(const QModelIndex &index);
-
-    void on_page_add_playlist_tableWidget_Added_doubleClicked(const QModelIndex &index);
 
 private:
     Ui::MainWindow *ui;
