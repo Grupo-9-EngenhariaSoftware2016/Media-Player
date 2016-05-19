@@ -4,6 +4,7 @@
 #include "classes.h"
 #include <database.h>
 
+
 #define NO_DB
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -50,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 #ifdef NO_DB
 
 
-    Database BD;
+
     Autor *newArtist;
     Musica *newSong;
     Album *newAlbum;
@@ -58,7 +59,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     QList<Musica*> music_list;
     QList<Autor*> autor_list;
     QDate date;
-    BD.connOpen();
+
+    Database BD;
+    BD.connOpen();qDebug() << "Abriu Base de Dados";
 
     //============================================================================
     // LoadAutor
@@ -209,7 +212,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         qDebug() << "Cannot Playlist";
     }
 
-
+    BD.connClose(); qDebug() << "Fechou Base de Dados";
 //    _player.adicionar(&_songs);
 //    _playlist[2]->setMusicas(&_songs);
 //    _songs[0]->setAutor(&_artists.mid(1,1));

@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QListView>
 #include <database.h>
+#include <classes.h>
 
 Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
@@ -53,13 +54,8 @@ void Dialog::on_dialog_button_save_clicked()
     _newArtist->setDataNascimento(ui->dialog_dateEdit_birth->date());
     _newArtist->setNome(ui->dialog_lineEdit_name->text());
     _newArtist->setNacionalidade(ui->dialog_lineEdit_nacionality->text());
-    _newArtist->setImagem(_photo);
-
-    if(db.connOpen())
-    {
-        db.addArtist(_newArtist);
-        db.connClose();
-    }
+    _newArtist->setImagem(_photo);    
+    _newArtist->criar();
 
     this->accept();
 
