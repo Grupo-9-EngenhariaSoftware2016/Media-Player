@@ -10,5 +10,11 @@
         <file>square.png</file>
         <file>tool.png</file>
         <file>cross.png</file>
+        <file>next.png</file>
+        <file>repeat.png</file>
+        <file>shuffle.png</file>
+        <file>Silence.png</file>
+        <file>Som.png</file>
+        <file>previous.png</file>
     </qresource>
 </RCC>

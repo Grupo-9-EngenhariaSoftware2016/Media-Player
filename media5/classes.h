@@ -11,6 +11,8 @@
 #include <QMediaPlaylist>
 #include <algorithm>
 
+//QString DIRPATH = "/debug/";
+//QString DIRPATH = "";
 using namespace std;
 
 class Autor
@@ -84,7 +86,7 @@ public:
 
     int apagar();
     int play();
-    int criar(QString diretoria);
+    int criar(int albumID, QString diretoria);
     bool procurar(QString procura);
 
 };
