@@ -335,8 +335,8 @@ int     Musica::play()
 int     Musica::criar(int albumID, QString diretoria)
 {
     Database db;
-    QString file_name, new_dir;
-
+    db.connOpen();
+    QString file_name, new_dir; 
     file_name = _diretoria.right(_diretoria.size() - _diretoria.lastIndexOf("/"));
     new_dir   = diretoria + file_name;
 
@@ -351,6 +351,7 @@ int     Musica::criar(int albumID, QString diretoria)
         _dataAdicao = QDate::currentDate();
         db.addSong(this);
 */
+    db.connClose();
     return 0;
 }
 bool    Musica::procurar(QString procura)

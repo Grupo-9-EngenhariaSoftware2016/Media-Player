@@ -677,68 +677,25 @@ QPushButton:checked{ background-color: pink; }</string>
        <string notr="true">background-color:rgb(36, 172, 235);</string>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="player_tab">
        <layout class="QGridLayout" name="gridLayout_5">
-        <item row="0" column="12" rowspan="3">
-         <widget class="QPushButton" name="player_button_shuffle">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="icons/img.qrc">
-            <normaloff>:/square.png</normaloff>:/square.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="4">
+        <item row="1" column="5">
          <widget class="QLabel" name="player_label_timer">
           <property name="text">
            <string>000.00</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QLabel" name="player_label_song">
-          <property name="text">
-           <string>Nome da Musica</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="3">
-         <spacer name="horizontalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>100</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="11" rowspan="3">
-         <widget class="QPushButton" name="player_button_next">
+        <item row="0" column="13" rowspan="3">
+         <widget class="QPushButton" name="player_button_shuffle">
           <property name="text">
            <string/>
           </property>
           <property name="icon">
            <iconset resource="icons/img.qrc">
-            <normaloff>:/square.png</normaloff>:/square.png</iconset>
+            <normaloff>:/shuffle.png</normaloff>:/shuffle.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -751,7 +708,34 @@ QPushButton:checked{ background-color: pink; }</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="9" rowspan="3">
+        <item row="0" column="2">
+         <widget class="QLabel" name="player_label_song">
+          <property name="text">
+           <string>Nome da Musica</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="12" rowspan="3">
+         <widget class="QPushButton" name="player_button_next">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="icons/img.qrc">
+            <normaloff>:/next.png</normaloff>:/next.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="10" rowspan="3">
          <widget class="QPushButton" name="player_button_play">
           <property name="text">
            <string/>
@@ -769,12 +753,58 @@ QPushButton:checked{ background-color: pink; }</string>
             <height>24</height>
            </size>
           </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
           <property name="flat">
            <bool>true</bool>
           </property>
          </widget>
         </item>
-        <item row="0" column="0" rowspan="3">
+        <item row="0" column="4">
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>100</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="11" rowspan="3">
+         <widget class="QPushButton" name="player_button_stop">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="icons/img.qrc">
+            <normaloff>:/square.png</normaloff>:/square.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="6" rowspan="3">
+         <widget class="QSlider" name="player_slider">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" rowspan="3">
          <widget class="QLabel" name="player_label_artwork">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -808,48 +838,14 @@ QPushButton:checked{ background-color: pink; }</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="10" rowspan="3">
-         <widget class="QPushButton" name="player_button_stop">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="icons/img.qrc">
-            <normaloff>:/square.png</normaloff>:/square.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="5" rowspan="3">
-         <widget class="QSlider" name="player_slider">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLabel" name="player_label_artist">
-          <property name="text">
-           <string>Autor</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="7" rowspan="3" colspan="2">
+        <item row="0" column="8" rowspan="3" colspan="2">
          <widget class="QPushButton" name="player_button_previous">
           <property name="text">
            <string/>
           </property>
           <property name="icon">
            <iconset resource="icons/img.qrc">
-            <normaloff>:/square.png</normaloff>:/square.png</iconset>
+            <normaloff>:/previous.png</normaloff>:/previous.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -862,14 +858,21 @@ QPushButton:checked{ background-color: pink; }</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="13" rowspan="3">
+        <item row="1" column="2">
+         <widget class="QLabel" name="player_label_artist">
+          <property name="text">
+           <string>Autor</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="14" rowspan="3">
          <widget class="QPushButton" name="player_button_repeat">
           <property name="text">
            <string/>
           </property>
           <property name="icon">
            <iconset resource="icons/img.qrc">
-            <normaloff>:/square.png</normaloff>:/square.png</iconset>
+            <normaloff>:/repeat.png</normaloff>:/repeat.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -882,47 +885,7 @@ QPushButton:checked{ background-color: pink; }</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="15" rowspan="3">
-         <widget class="QPushButton" name="player_button_3">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="icons/img.qrc">
-            <normaloff>:/square.png</normaloff>:/square.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="14" rowspan="3">
-         <widget class="QPushButton" name="player_button_mute">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="icons/img.qrc">
-            <normaloff>:/square.png</normaloff>:/square.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="6">
+        <item row="0" column="7">
          <spacer name="horizontalSpacer_9">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -933,6 +896,62 @@ QPushButton:checked{ background-color: pink; }</string>
           <property name="sizeHint" stdset="0">
            <size>
             <width>10</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="15" rowspan="3">
+         <widget class="QPushButton" name="player_button_mute">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="icons/img.qrc">
+            <normaloff>:/Som.png</normaloff>
+            <normalon>:/Silence.png</normalon>:/Som.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="default">
+           <bool>false</bool>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <spacer name="horizontalSpacer_8">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="16">
+         <spacer name="horizontalSpacer_11">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
             <height>20</height>
            </size>
           </property>
@@ -1051,7 +1070,7 @@ QPushButton:checked{ background-color: pink; }</string>
       </widget>
      </widget>
     </item>
-    <item row="0" column="1">
+    <item row="0" column="3">
      <widget class="QStackedWidget" name="pages">
       <property name="palette">
        <palette>
@@ -2171,10 +2190,10 @@ QPushButton:checked{ background-color: pink; }</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="3">
-           <widget class="QPushButton" name="page_add_music_button_addFolder">
+          <item row="2" column="4">
+           <widget class="QLabel" name="page_add_music_label_3">
             <property name="text">
-             <string>Adicionar Pasta</string>
+             <string>Autores</string>
             </property>
            </widget>
           </item>
@@ -2185,37 +2204,37 @@ QPushButton:checked{ background-color: pink; }</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="4">
-           <widget class="QLabel" name="page_add_music_label_3">
-            <property name="text">
-             <string>Autores</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="4">
-           <widget class="QTableWidget" name="page_add_music_tableWidget_artists">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0" rowspan="2" colspan="3">
+          <item row="2" column="0" rowspan="3" colspan="3">
            <widget class="QTableWidget" name="page_add_music_tableWidget_musics"/>
           </item>
-          <item row="9" column="3">
+          <item row="10" column="3">
            <widget class="QPushButton" name="page_add_music_button_1">
             <property name="text">
              <string>Remover</string>
             </property>
            </widget>
           </item>
-          <item row="7" column="3">
+          <item row="8" column="3">
            <widget class="QPushButton" name="page_add_music_button_2">
             <property name="text">
              <string>Remover</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3">
+           <widget class="QPushButton" name="page_add_music_button_addFolder">
+            <property name="text">
+             <string>Adicionar Pasta</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="4" rowspan="2">
+           <widget class="QTableWidget" name="page_add_music_tableWidget_artists">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
            </widget>
           </item>

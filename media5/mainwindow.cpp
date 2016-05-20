@@ -2345,6 +2345,7 @@ db.connClose();
     }
     else if(ui->menu_small_button_song->isChecked())
     {
+
         int albumIndex = ui->page_add_music_comboBox_albuns->currentIndex();
 
         for (int i = 0; i < _newSongList.size(); i++)
