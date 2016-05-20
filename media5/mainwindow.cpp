@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     //ui->statusBar->showMessage(QDir::currentPath());
     // DIR for musics and images
-
+    //ui->page_categories_tableWidget->
     QString sPath = "C:/ ";
     dirmodel = new QFileSystemModel(this);
     dirmodel->setRootPath(sPath);
@@ -529,43 +529,46 @@ void MainWindow::FormatTableFor(QTableWidget *table, QString format)
     {
     case 0:
         // Set labels para a tabela de elementos
-        tableLabels << tr("Capa") << tr("Nome") << tr("Género") << tr("Artistas");
+        tableLabels << tr(" ") << tr("Capa") << tr("Nome") << tr("Género") << tr("Artistas");
+        table->setColumnWidth(1,50);
         table->verticalHeader()->setDefaultSectionSize(50);
         break;
 
     case 1:
         // Set labels para a tabela de elementos
-        tableLabels << tr("Imagem") << tr("Nome") << tr("Nº de Álbuns") << tr("Nº de Musicas");
+        tableLabels << tr(" ") << tr("Imagem") << tr("Nome") << tr("Nº de Álbuns") << tr("Nº de Musicas");
+        table->setColumnWidth(1,50);
         table->verticalHeader()->setDefaultSectionSize(50);
         break;
 
     case 2:
         // Set labels para a tabela de elementos
-        tableLabels << tr("Nome") << tr("Tamanho") << tr("Tempo de Reprodução");
+        tableLabels << tr(" ") << tr("Nome") << tr("Tamanho") << tr("Tempo de Reprodução");
         table->verticalHeader()->setDefaultSectionSize(25);
         break;
 
     case 3:
         // Set labels para a tabela de elementos
-        tableLabels << tr("Nome") << tr("Genero") << tr("Album") << tr("Artistas");
+        tableLabels << tr(" ") << tr("Nome") << tr("Genero") << tr("Album") << tr("Artistas");
         table->verticalHeader()->setDefaultSectionSize(25);
         break;
 
     case 4:
         // Set labels para a tabela de elementos
-        tableLabels << tr("Faixa") << tr("Nome") << tr("Genero") << tr("Diretoria");
+        tableLabels << tr(" ") << tr("Faixa") << tr("Nome") << tr("Genero") << tr("Diretoria");
         table->verticalHeader()->setDefaultSectionSize(25);
         break;
 
     case 5:
         // Set labels para a tabela de elementos
-        tableLabels << tr("Nome") << tr("Artists");
+        tableLabels << tr(" ") << tr("Nome") << tr("Artists");
         table->verticalHeader()->setDefaultSectionSize(25);
         break;
 
     case 6:
         // Set labels para a tabela de elementos
-        tableLabels << tr("Imagem") << tr("Nome");
+        tableLabels << tr(" ") << tr("Imagem") << tr("Nome");
+        table->setColumnWidth(1,50);
         table->verticalHeader()->setDefaultSectionSize(50);
         break;
     }
@@ -578,6 +581,8 @@ void MainWindow::FormatTableFor(QTableWidget *table, QString format)
     table->horizontalHeader()->setHidden(false);
     table->horizontalHeader()->setStretchLastSection(true);
     table->verticalHeader()->setHidden(true);
+    table->setColumnHidden(0,true);
+    table->setColumnWidth(0,25);
     table->setFrameShape(QFrame::NoFrame);
     table->setFrameShadow(QFrame::Sunken);
     table->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -596,6 +601,12 @@ void MainWindow::AddAlbumLineToTable(QTableWidget *table, Album *album)
     QLabel *artwork;
     table->insertRow(newRow);
 
+    // CheckBox
+    item = new QTableWidgetItem;
+    item->setData(Qt::WhatsThisRole,_albuns.indexOf(album));
+    item->setCheckState(Qt::Unchecked);
+    table->setItem(newRow, 0, item);
+
     // Artwork
     artwork = new QLabel;
     QPixmap pxmap = QPixmap(album->getImagem());
@@ -605,25 +616,25 @@ void MainWindow::AddAlbumLineToTable(QTableWidget *table, Album *album)
         artwork->setPixmap(QPixmap(":/music.png"));
     artwork->setAlignment(Qt::AlignCenter);
     artwork->setStyleSheet("background-color: rgba(255, 255, 255, 10);");
-    table->setCellWidget(newRow, 0, artwork);
+    table->setCellWidget(newRow, 1, artwork);
 
     // Name
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_albuns.indexOf(album));
     item->setData(Qt::DisplayRole,album->getNome());
-    table->setItem(newRow, 1, item);
+    table->setItem(newRow, 2, item);
 
     // Gender
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_albuns.indexOf(album));
     item->setData(Qt::DisplayRole,album->getGenero());
-    table->setItem(newRow, 2, item);
+    table->setItem(newRow, 3, item);
 
     // Artists
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_albuns.indexOf(album));
     item->setData(Qt::DisplayRole,printArtistList(getArtistsFrom(album)));
-    table->setItem(newRow, 3, item);
+    table->setItem(newRow, 4, item);
 }
 
 void MainWindow::AddSongLineToTable(QTableWidget *table, Musica *song)
@@ -633,30 +644,36 @@ void MainWindow::AddSongLineToTable(QTableWidget *table, Musica *song)
     Album *fromAlbum;
     table->insertRow(newRow);
 
+    // CheckBox
+    item = new QTableWidgetItem;
+    item->setData(Qt::WhatsThisRole,_songs.indexOf(song));
+    item->setCheckState(Qt::Unchecked);
+    table->setItem(newRow, 0, item);
+
     // Name
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_songs.indexOf(song));
     item->setData(Qt::DisplayRole,song->getNome());
-    table->setItem(newRow, 0, item);
+    table->setItem(newRow, 1, item);
 
     // Gender
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_songs.indexOf(song));
     item->setData(Qt::DisplayRole,song->getGenero());
-    table->setItem(newRow, 1, item);
+    table->setItem(newRow, 2, item);
 
     // Album
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_songs.indexOf(song));
     fromAlbum = getAlbumWith(song);
     item->setData(Qt::DisplayRole,fromAlbum != NULL ? fromAlbum->getNome() : "Nenhum");
-    table->setItem(newRow, 2, item);
+    table->setItem(newRow, 3, item);
 
     // Artist
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_songs.indexOf(song));
     item->setData(Qt::DisplayRole,printArtistList(getArtistsFrom(song)));
-    table->setItem(newRow, 3, item);
+    table->setItem(newRow, 4, item);
 }
 
 void MainWindow::AddNewSongLineToTable(QTableWidget *table, Musica *newSong)
@@ -665,29 +682,35 @@ void MainWindow::AddNewSongLineToTable(QTableWidget *table, Musica *newSong)
     QTableWidgetItem *item;
     table->insertRow(newRow);
 
+    // CheckBox
+    item = new QTableWidgetItem;
+    item->setData(Qt::WhatsThisRole,_newSongList.indexOf(newSong));
+    item->setCheckState(Qt::Unchecked);
+    table->setItem(newRow, 0, item);
+
     // Faixa
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_newSongList.indexOf(newSong));
     item->setData(Qt::DisplayRole,newSong->getFaixa());
-    table->setItem(newRow, 0, item);
+    table->setItem(newRow, 1, item);
 
     // Nome
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_newSongList.indexOf(newSong));
     item->setData(Qt::DisplayRole,newSong->getNome());
-    table->setItem(newRow, 0, item);
+    table->setItem(newRow, 2, item);
 
     // Gender
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_newSongList.indexOf(newSong));
     item->setData(Qt::DisplayRole,newSong->getGenero());
-    table->setItem(newRow, 1, item);
+    table->setItem(newRow, 3, item);
 
     // Diretoria
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_newSongList.indexOf(newSong));
     item->setData(Qt::DisplayRole,newSong->getDiretoria());
-    table->setItem(newRow, 1, item);
+    table->setItem(newRow, 4, item);
 }
 
 void MainWindow::AddSimplifiedSongLineToTable(QTableWidget *table, Musica *song, QList<Musica*> *list)
@@ -696,17 +719,23 @@ void MainWindow::AddSimplifiedSongLineToTable(QTableWidget *table, Musica *song,
     QTableWidgetItem *item;
     table->insertRow(newRow);
 
+    // CheckBox
+    item = new QTableWidgetItem;
+    item->setData(Qt::WhatsThisRole,list->indexOf(song));
+    item->setCheckState(Qt::Unchecked);
+    table->setItem(newRow, 0, item);
+
     // Name
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,list->indexOf(song));
     item->setData(Qt::DisplayRole,song->getNome());
-    table->setItem(newRow, 0, item);
+    table->setItem(newRow, 1, item);
 
     // Artists
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,list->indexOf(song));
     item->setData(Qt::DisplayRole,printArtistList(getArtistsFrom(song)));
-    table->setItem(newRow, 1, item);
+    table->setItem(newRow, 2, item);
 }
 
 void MainWindow::AddArtistNameLineToTable(QTableWidget *table, Autor *artist)
@@ -715,6 +744,12 @@ void MainWindow::AddArtistNameLineToTable(QTableWidget *table, Autor *artist)
     QTableWidgetItem *item;
     QLabel *photo;
     table->insertRow(newRow);
+
+    // CheckBox
+    item = new QTableWidgetItem;
+    item->setData(Qt::WhatsThisRole,_artists.indexOf(artist));
+    item->setCheckState(Qt::Unchecked);
+    table->setItem(newRow, 0, item);
 
     // Photo
     photo = new QLabel;
@@ -725,13 +760,13 @@ void MainWindow::AddArtistNameLineToTable(QTableWidget *table, Autor *artist)
         photo->setPixmap(QPixmap(":/social.png"));
     photo->setAlignment(Qt::AlignCenter);
     photo->setStyleSheet("background-color: rgba(255, 255, 255, 10);");
-    table->setCellWidget(newRow, 0, photo);
+    table->setCellWidget(newRow, 1, photo);
 
     // Name
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_artists.indexOf(artist));
     item->setData(Qt::DisplayRole,artist->getNome());
-    table->setItem(newRow, 1, item);
+    table->setItem(newRow, 2, item);
 }
 
 void MainWindow::AddArtistLineToTable(QTableWidget *table, Autor *artist)
@@ -742,6 +777,12 @@ void MainWindow::AddArtistLineToTable(QTableWidget *table, Autor *artist)
     QLabel *photo;
     table->insertRow(newRow);
 
+    // CheckBox
+    item = new QTableWidgetItem;
+    item->setData(Qt::WhatsThisRole,_artists.indexOf(artist));
+    item->setCheckState(Qt::Unchecked);
+    table->setItem(newRow, 0, item);
+
     // Photo
     photo = new QLabel;
     QPixmap pxmap = QPixmap(artist->getImagem());
@@ -751,13 +792,13 @@ void MainWindow::AddArtistLineToTable(QTableWidget *table, Autor *artist)
         photo->setPixmap(QPixmap(":/social.png"));
     photo->setAlignment(Qt::AlignCenter);
     photo->setStyleSheet("background-color: rgba(255, 255, 255, 10);");
-    table->setCellWidget(newRow, 0, photo);
+    table->setCellWidget(newRow, 1, photo);
 
     // Name
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_artists.indexOf(artist));
     item->setData(Qt::DisplayRole,artist->getNome());
-    table->setItem(newRow, 1, item);
+    table->setItem(newRow, 2, item);
 
     // nº Albuns
     item = new QTableWidgetItem;
@@ -765,7 +806,7 @@ void MainWindow::AddArtistLineToTable(QTableWidget *table, Autor *artist)
     text = "";
     QTextStream(&text) << getAlbunsFromArtist(artist).size() << " albuns";
     item->setData(Qt::DisplayRole,text);
-    table->setItem(newRow, 2, item);
+    table->setItem(newRow, 3, item);
 
     // nº Songs
     item = new QTableWidgetItem;
@@ -773,7 +814,7 @@ void MainWindow::AddArtistLineToTable(QTableWidget *table, Autor *artist)
     text = "";
     QTextStream(&text) << getSongsFromArtist(artist).size() << " musicas";
     item->setData(Qt::DisplayRole,text);
-    table->setItem(newRow, 3, item);
+    table->setItem(newRow, 4, item);
 }
 
 void MainWindow::AddPlaylistLineToTable(QTableWidget *table, Playlist *playlist)
@@ -786,18 +827,24 @@ void MainWindow::AddPlaylistLineToTable(QTableWidget *table, Playlist *playlist)
     QTableWidgetItem *item;
     table->insertRow(newRow);
 
+    // CheckBox
+    item = new QTableWidgetItem;
+    item->setData(Qt::WhatsThisRole,_playlist.indexOf(playlist));
+    item->setCheckState(Qt::Unchecked);
+    table->setItem(newRow, 0, item);
+
     // Name
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_playlist.indexOf(playlist));
     item->setData(Qt::DisplayRole,playlist->getNome());
-    table->setItem(newRow, 0, item);
+    table->setItem(newRow, 1, item);
 
     // Size
     item = new QTableWidgetItem;
     QTextStream(&text) << playlist->getSize() << " musicas";
     item->setData(Qt::WhatsThisRole,_playlist.indexOf(playlist));
     item->setData(Qt::DisplayRole,text);
-    table->setItem(newRow, 1, item);
+    table->setItem(newRow, 2, item);
 
     // Play Time
     item = new QTableWidgetItem;
@@ -810,7 +857,7 @@ void MainWindow::AddPlaylistLineToTable(QTableWidget *table, Playlist *playlist)
     QTime duration(0, totalDuration / 60000, qRound((totalDuration % 60000) / 1000.0));
     item->setData(Qt::WhatsThisRole,_playlist.indexOf(playlist));
     item->setData(Qt::DisplayRole,duration.toString("hh:mm:ss"));
-    table->setItem(newRow, 2, item);
+    table->setItem(newRow, 3, item);
 }
 
 void MainWindow::MovePageToAlbuns()
@@ -1098,6 +1145,20 @@ void MainWindow::Refresh()
         ui->page_album_info_label_gender->setText(_albuns[_showingAlbum]->getGenero());
         ui->page_album_info_label_year->setText(QString::number(_albuns[_showingAlbum]->getAno()));
 
+        QMenu *menu = new QMenu;
+        MyAction *action;
+
+        for(int i = 0; i < _playlist.size(); i++)
+        {
+            action = new MyAction(this);
+            action->setText(_playlist[i]->getNome());
+            QObject::connect(action, SIGNAL(myTrigger(MyAction*)), this, SLOT(on_playlist_selected(MyAction*)));
+
+            menu->addAction(action);
+
+            ui->page_album_info_button_addTo->setMenu(menu);
+        }
+
         QList <Musica*> songs;
         _albuns[_showingAlbum]->getMusicas(&songs);
 
@@ -1126,6 +1187,7 @@ void MainWindow::Refresh()
             ui->progress_button_next->setDisabled(false);
 
             FormatTableFor(ui->page_add_album_tableWidget_toAddMusics,"NewSong");
+            ui->page_add_album_tableWidget_toAddMusics->setColumnHidden(0,false);
             ui->page_add_album_tableWidget_toAddMusics->setFrameShape(QFrame::StyledPanel);
 
             ui->page_add_album_tableWidget_toAddMusics->clear();
@@ -1146,8 +1208,10 @@ void MainWindow::Refresh()
             ui->progress_button_next->setDisabled(true);
 
             FormatTableFor(ui->page_add_album_tableWidget_musics,"SimplifiedSong");
+            ui->page_add_album_tableWidget_musics->setColumnHidden(0,false);
             ui->page_add_album_tableWidget_musics->setFrameShape(QFrame::StyledPanel);
             FormatTableFor(ui->page_add_album_tableWidget_artists,"ArtistName");
+            ui->page_add_album_tableWidget_artists->setColumnHidden(0,false);
             ui->page_add_album_tableWidget_artists->setFrameShape(QFrame::StyledPanel);
 
             ui->page_add_album_tableWidget_artists->clear();
@@ -1192,12 +1256,14 @@ void MainWindow::Refresh()
         }
 
         FormatTableFor(ui->page_add_music_tableWidget_artists,"ArtistName");
+        ui->page_add_music_tableWidget_artists->setColumnHidden(0,false);
         ui->page_add_music_tableWidget_artists->setFrameShape(QFrame::StyledPanel);
         for(int i = 0; i < _artists.size(); i++)
         {
             AddArtistNameLineToTable(ui->page_add_music_tableWidget_artists,_artists[i]);
         }
         FormatTableFor(ui->page_add_music_tableWidget_musics,"NewSong");
+        ui->page_add_music_tableWidget_musics->setColumnHidden(0,false);
         ui->page_add_music_tableWidget_musics->setFrameShape(QFrame::StyledPanel);
         for(int i = 0; i < _newSongList.size(); i++)
         {
@@ -1267,6 +1333,20 @@ void MainWindow::Refresh()
 
         ui->page_artist_label_name->setText(_artists[_showingArtist]->getNome());
 
+        QMenu *menu = new QMenu;
+        MyAction *action;
+
+        for(int i = 0; i < _playlist.size(); i++)
+        {
+            action = new MyAction(this);
+            action->setText(_playlist[i]->getNome());
+            QObject::connect(action, SIGNAL(myTrigger(MyAction*)), this, SLOT(on_playlist_selected(MyAction*)));
+
+            menu->addAction(action);
+
+            ui->page_artist_button_addTo->setMenu(menu);
+        }
+
         QList <Album*> albuns = getAlbunsFromArtist(_artists[_showingArtist]);
 
         FormatTableFor(ui->page_artist_tableWidget_albuns,"Albuns");
@@ -1319,8 +1399,10 @@ void MainWindow::Refresh()
         ui->progress_button_next->setDisabled(true);
 
         FormatTableFor(ui->page_add_playlist_tableWidget_toAdd,"SimplifiedSong");
+        ui->page_add_playlist_tableWidget_toAdd->setColumnHidden(0,false);
         ui->page_add_playlist_tableWidget_toAdd->setFrameShape(QFrame::StyledPanel);
         FormatTableFor(ui->page_add_playlist_tableWidget_Added,"SimplifiedSong");
+        ui->page_add_playlist_tableWidget_Added->setColumnHidden(0,false);
         ui->page_add_playlist_tableWidget_Added->setFrameShape(QFrame::StyledPanel);
 
         QString search = ui->page_add_playlist_lineEdit_search->text();
@@ -1401,6 +1483,28 @@ void MainWindow::on_player_stateChanged(QMediaPlayer::State state)
     case QMediaPlayer::StoppedState:
         ui->player_button_play->setChecked(false);
         break;
+    }
+}
+
+void MainWindow::on_playlist_selected(MyAction *action)
+{
+    QString playlistName = action->text();
+
+    for(int i = 0; i < _playlist.size(); i++)
+    {
+        if(_playlist[i]->getNome() == playlistName)
+        {
+            if(ui->menu_small_button_album->isChecked())
+            {
+                QList<Musica*> songs;
+                _albuns[_showingAlbum]->getMusicas(&songs);
+                _playlist[i]->adicionar(&songs);
+
+            }else if(ui->menu_small_button_artist->isChecked())
+            {
+                _playlist[i]->adicionar(&getSongsFromArtist(_artists[_showingArtist]));
+            }
+        }
     }
 }
 
@@ -1531,14 +1635,17 @@ void MainWindow::on_page_categories_button_add_clicked()
 
 void MainWindow::on_page_categories_button_select_toggled(bool checked)
 {
+
     if(checked)
     {
         ShowOptionsTab(true);
         ui->page_categories_tableWidget->setSelectionMode(QAbstractItemView::MultiSelection);
+        ui->page_categories_tableWidget->setColumnHidden(0,false);
         ui->page_categories_tableWidget->clearSelection();
     }else{
         ShowOptionsTab(false);
         ui->page_categories_tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+        ui->page_categories_tableWidget->setColumnHidden(0,true);
         ui->page_categories_tableWidget->clearSelection();
     }
 }
@@ -1619,15 +1726,15 @@ void MainWindow::on_page_categories_comboBox_order_currentIndexChanged(int index
             break;
         case 1:
             // A a Z
-            ui->page_categories_tableWidget->sortByColumn(1, Qt::AscendingOrder);
+            ui->page_categories_tableWidget->sortByColumn(2, Qt::AscendingOrder);
             break;
         case 2:
             // Genero
-            ui->page_categories_tableWidget->sortByColumn(2, Qt::AscendingOrder);
+            ui->page_categories_tableWidget->sortByColumn(3, Qt::AscendingOrder);
             break;
         case 3:
             // Autor
-            ui->page_categories_tableWidget->sortByColumn(3, Qt::AscendingOrder);
+            ui->page_categories_tableWidget->sortByColumn(4, Qt::AscendingOrder);
             break;
         }
     }else if(ui->menu_small_button_song->isChecked())
@@ -1639,19 +1746,19 @@ void MainWindow::on_page_categories_comboBox_order_currentIndexChanged(int index
             break;
         case 1:
             // A a Z
-            ui->page_categories_tableWidget->sortByColumn(0, Qt::AscendingOrder);
+            ui->page_categories_tableWidget->sortByColumn(1, Qt::AscendingOrder);
             break;
         case 2:
             // Genero
-            ui->page_categories_tableWidget->sortByColumn(1, Qt::AscendingOrder);
+            ui->page_categories_tableWidget->sortByColumn(2, Qt::AscendingOrder);
             break;
         case 3:
             // Autor
-            ui->page_categories_tableWidget->sortByColumn(3, Qt::AscendingOrder);
+            ui->page_categories_tableWidget->sortByColumn(4, Qt::AscendingOrder);
             break;
         case 4:
             // Album
-            ui->page_categories_tableWidget->sortByColumn(2, Qt::AscendingOrder);
+            ui->page_categories_tableWidget->sortByColumn(3, Qt::AscendingOrder);
             break;
         }
     }else if (ui->menu_small_button_artist->isChecked())
@@ -1663,9 +1770,9 @@ void MainWindow::on_page_categories_comboBox_order_currentIndexChanged(int index
 void MainWindow::on_page_categories_tableWidget_doubleClicked(const QModelIndex &index)
 {
     if (ui->menu_full_button_album->isChecked()){
-        MovePageToAlbumInfo(index.sibling(index.row(),1).data(Qt::WhatsThisRole).toInt());
+        MovePageToAlbumInfo(index.sibling(index.row(),2).data(Qt::WhatsThisRole).toInt());
     }else if (ui->menu_full_button_artist->isChecked()){
-        MovePageToArtistInfo(index.sibling(index.row(),1).data(Qt::WhatsThisRole).toInt());
+        MovePageToArtistInfo(index.sibling(index.row(),2).data(Qt::WhatsThisRole).toInt());
     }else if (ui->menu_full_button_list->isChecked()){
         MovePageToPlaylistInfo(index.data(Qt::WhatsThisRole).toInt());
     }else if (ui->menu_full_button_song->isChecked()){
@@ -1705,11 +1812,6 @@ void MainWindow::on_page_album_info_button_play_clicked()
     _player.play();
     ui->player_button_play->setChecked(true);
     MovePageToPlayer();
-}
-
-void MainWindow::on_page_album_info_button_addTo_clicked()
-{
-
 }
 
 void MainWindow::on_page_album_info_button_remove_clicked()
@@ -1752,9 +1854,11 @@ void MainWindow::on_page_album_info_button_select_toggled(bool checked)
     {
         ShowOptionsTab(true);
         ui->page_album_info_tableWidget->setSelectionMode(QAbstractItemView::MultiSelection);
+        ui->page_album_info_tableWidget->setColumnHidden(0,false);
     }else{
         ShowOptionsTab(false);
         ui->page_album_info_tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+        ui->page_album_info_tableWidget->setColumnHidden(0,true);
     }
 }
 
@@ -1832,27 +1936,51 @@ void MainWindow::on_page_add_album_button_addFolder_clicked()
 
 void MainWindow::on_page_add_album_button_remove_clicked()
 {
-    int rowToRemove, indexToRemove;
-    rowToRemove = ui->page_add_album_tableWidget_toAddMusics->selectedItems().first()->row();
-    indexToRemove = ui->page_add_album_tableWidget_toAddMusics->selectedItems().first()->data(Qt::WhatsThisRole).toInt();
+    QList<QTableWidgetItem*> songsIndex;
+    int indexToRemove;
+    songsIndex = ui->page_add_album_tableWidget_toAddMusics->selectedItems();
 
-    _newSongList.removeAt(indexToRemove);
+    for(int i = 0; i < songsIndex.size(); i++)
+    {
+        indexToRemove = songsIndex[i]->data(Qt::WhatsThisRole).toInt();
+        _newSongList.removeAt(indexToRemove);
+    }
 
     Refresh();
 }
 
 void MainWindow::on_page_add_album_button_addArtistTo_clicked()
 {
+
     if(!ui->page_add_album_tableWidget_musics->selectedItems().isEmpty() &&
             !ui->page_add_album_tableWidget_artists->selectedItems().isEmpty())
     {
-        int artistIndex = ui->page_add_album_tableWidget_artists->selectedItems().first()->data(Qt::WhatsThisRole).toInt();
-        int songIndex = ui->page_add_album_tableWidget_musics->selectedItems().first()->data(Qt::WhatsThisRole).toInt();
+        QList<QTableWidgetItem*> artistsIndex = ui->page_add_album_tableWidget_artists->selectedItems();
+        QList<QTableWidgetItem*> songsIndex = ui->page_add_album_tableWidget_musics->selectedItems();
 
-        _newSongList[songIndex]->addAutor(_artists[artistIndex]);
+        int song, artist;
+        for(int i = 0; i < songsIndex.size(); i++)
+        {
+            song = songsIndex[i]->data(Qt::WhatsThisRole).toInt();
+            for(int j = 0; j < artistsIndex.size(); j++)
+            {
+                artist = artistsIndex[j]->data(Qt::WhatsThisRole).toInt();
+                _newSongList[song]->addAutor(_artists[artist]);
+            }
+        }
     }else{
         // Mensagem de erro
     }
+
+//    for(int i = 0; i<ui->page_add_album_tableWidget_artists->rowCount();i++)
+//    {
+//        if(ui->page_add_album_tableWidget_toAddMusics->item(0,i)->isSelected())
+//        {
+//            artist_idx=ui->page_add_album_tableWidget_toAddMusics->item(0,i)->data(Qt::WhatsThisRole).toInt();
+//        }
+//    }
+
+
 
     Refresh();
 }
@@ -1861,11 +1989,16 @@ void MainWindow::on_page_add_album_button_addArtistToAll_clicked()
 {
     if(!ui->page_add_album_tableWidget_artists->selectedItems().isEmpty())
     {
-        int artistIndex = ui->page_add_album_tableWidget_artists->selectedItems().first()->data(Qt::WhatsThisRole).toInt();
+        QList<QTableWidgetItem*> artistsIndex = ui->page_add_album_tableWidget_artists->selectedItems();
 
+        int artist;
         for(int i = 0; i < _newSongList.size(); i++)
         {
-            _newSongList[i]->addAutor(_artists[artistIndex]);
+            for(int j = 0; j < artistsIndex.size(); j++)
+            {
+                artist = artistsIndex[j]->data(Qt::WhatsThisRole).toInt();
+                _newSongList[i]->addAutor(_artists[artist]);
+            }
         }
     }
 
@@ -1877,12 +2010,21 @@ void MainWindow::on_page_add_album_button_removeArtistFrom_clicked()
     if(!ui->page_add_album_tableWidget_musics->selectedItems().isEmpty() &&
             !ui->page_add_album_tableWidget_artists->selectedItems().isEmpty())
     {
-        int artistIndex = ui->page_add_album_tableWidget_artists->selectedItems().first()->data(Qt::WhatsThisRole).toInt();
-        int songIndex = ui->page_add_album_tableWidget_musics->selectedItems().first()->data(Qt::WhatsThisRole).toInt();
+        QList<QTableWidgetItem*> artistsIndex = ui->page_add_album_tableWidget_artists->selectedItems();
+        QList<QTableWidgetItem*> songsIndex = ui->page_add_album_tableWidget_musics->selectedItems();
 
-        if(_newSongList[songIndex]->hasAutor(_artists[artistIndex]))
+        int song, artist;
+        for(int i = 0; i < songsIndex.size(); i++)
         {
-            _newSongList[songIndex]->removeAutor(_artists[artistIndex]);
+            song = songsIndex[i]->data(Qt::WhatsThisRole).toInt();
+            for(int j = 0; j < artistsIndex.size(); j++)
+            {
+                artist = artistsIndex[j]->data(Qt::WhatsThisRole).toInt();
+                if(_newSongList[song]->hasAutor(_artists[artist]))
+                {
+                    _newSongList[song]->removeAutor(_artists[artist]);
+                }
+            }
         }
     }
 
@@ -1961,12 +2103,12 @@ void MainWindow::on_page_add_music_comboBox_albuns_currentIndexChanged(int index
 // Handlers para ações de utilizador (Page Search)
 void MainWindow::on_page_search_tableWidget_artists_doubleClicked(const QModelIndex &index)
 {
-    MovePageToArtistInfo(index.data(Qt::WhatsThisRole).toInt());
+    MovePageToArtistInfo(index.sibling(index.row(),2).data(Qt::WhatsThisRole).toInt());
 }
 
 void MainWindow::on_page_search_tableWidget_albuns_doubleClicked(const QModelIndex &index)
 {
-    MovePageToAlbumInfo(index.data(Qt::WhatsThisRole).toInt());
+    MovePageToAlbumInfo(index.sibling(index.row(),2).data(Qt::WhatsThisRole).toInt());
 }
 
 void MainWindow::on_page_search_tableWidget_musics_doubleClicked(const QModelIndex &index)
@@ -2007,11 +2149,6 @@ void MainWindow::on_page_artist_button_play_clicked()
     ui->player_button_play->setChecked(true);
 }
 
-void MainWindow::on_page_artist_button_addTo_clicked()
-{
-
-}
-
 void MainWindow::on_page_artist_button_remove_clicked()
 {
     QMessageBox msgBox;
@@ -2046,15 +2183,17 @@ void MainWindow::on_page_artist_button_select_toggled(bool checked)
     {
         ShowOptionsTab(true);
         ui->page_artist_tableWidget_albuns->setSelectionMode(QAbstractItemView::MultiSelection);
+        ui->page_artist_tableWidget_albuns->setColumnHidden(0,false);
     }else{
         ShowOptionsTab(false);
         ui->page_artist_tableWidget_albuns->setSelectionMode(QAbstractItemView::SingleSelection);
+        ui->page_artist_tableWidget_albuns->setColumnHidden(0,true);
     }
 }
 
 void MainWindow::on_page_artist_tableWidget_albuns_doubleClicked(const QModelIndex &index)
 {
-    MovePageToAlbumInfo(index.data(Qt::WhatsThisRole).toInt());
+    MovePageToAlbumInfo(index.sibling(index.row(),2).data(Qt::WhatsThisRole).toInt());
 }
 
 //==============================================================
@@ -2141,9 +2280,14 @@ void MainWindow::on_page_add_playlist_button_add_clicked()
 {
     if(!ui->page_add_playlist_tableWidget_toAdd->selectedItems().isEmpty())
     {
-        int toAddIndex = ui->page_add_playlist_tableWidget_toAdd->selectedItems().first()->data(Qt::WhatsThisRole).toInt();
+        QList<QTableWidgetItem*> toAddIndex = ui->page_add_playlist_tableWidget_toAdd->selectedItems();
 
-        _newSongList.append(_songs[toAddIndex]);
+        int index;
+        for(int i = 0; i < toAddIndex.size(); i++)
+        {
+            index = toAddIndex[i]->data(Qt::WhatsThisRole).toInt();
+            _newSongList.append(_songs[index]);
+        }
     }
 
     Refresh();
@@ -2153,10 +2297,15 @@ void MainWindow::on_page_add_playlist_button_remove_clicked()
 {
     if(!ui->page_add_playlist_tableWidget_Added->selectedItems().isEmpty())
     {
-        int toRemoveIndex = ui->page_add_playlist_tableWidget_Added->selectedItems().first()->data(Qt::WhatsThisRole).toInt();
-        ui->page_add_playlist_tableWidget_Added->selectedItems().clear();
+        QList<QTableWidgetItem*> toRemoveIndex = ui->page_add_playlist_tableWidget_Added->selectedItems();
 
-        _newSongList.removeOne(_newSongList[toRemoveIndex]);
+        int index;
+        for(int i = 0; i < toRemoveIndex.size(); i++)
+        {
+            index = toRemoveIndex[i]->data(Qt::WhatsThisRole).toInt();
+            _newSongList.removeOne(_songs[index]);
+        }
+        ui->page_add_playlist_tableWidget_Added->selectedItems().clear();
 
     }
 
@@ -2338,7 +2487,11 @@ void MainWindow::on_progress_button_save_clicked()
 
             }
 
-db.connClose();
+            db.connClose();
+
+            while(!_newSongList.isEmpty())
+                _newSongList.removeLast();
+
             MovePageToAlbuns();
 
         }
@@ -2355,6 +2508,9 @@ db.connClose();
             _songs.append(_newSongList[i]);
         }
 
+        while(!_newSongList.isEmpty())
+            _newSongList.removeLast();
+
         MovePageToSongs();
     }
     else if(ui->menu_small_button_list->isChecked())
@@ -2369,11 +2525,7 @@ db.connClose();
             _newPlaylist->setDescricao(ui->page_add_playlist_plainText_description->toPlainText());
             _newPlaylist->setDataAdicao(QDate::currentDate());
 
-
-            if(!_newSongList.isEmpty())
-            {
-                _newPlaylist->setMusicas(&_newSongList);
-            }
+            _newPlaylist->setMusicas(&_newSongList);
 
             _newPlaylist->criar();
             _playlist.append(_newPlaylist);
@@ -2392,11 +2544,17 @@ db.connClose();
                     _playlist[_showingPlaylist]->remover(oldSongList[i]);
                 }
 
-                for(int i = 0; i < _newSongList.size(); i++)
-                {
-                    _playlist[_showingPlaylist]->adicionar(_newSongList[i]);
-                }
+                _playlist[_showingPlaylist]->setMusicas(&_newSongList);
             }
+
+            /* isto pode ser para fazer lá dentro
+             * */
+            Database db;
+
+            db.connOpen();
+            db.updatePlaylist(_playlist[_showingPlaylist]);
+            db.connClose();
+
             _editMode = false;
 
         }
@@ -2404,6 +2562,9 @@ db.connClose();
         ui->page_add_playlist_lineEdit_name->clear();
         ui->page_add_playlist_lineEdit_gender->clear();
         ui->page_add_playlist_plainText_description->clear();
+
+        while(!_newSongList.isEmpty())
+            _newSongList.removeLast();
 
         MovePageToPlaylists();
     }
@@ -2613,7 +2774,184 @@ void MainWindow::on_options_button_remove_clicked()
         // page_categories
         if(ui->menu_small_button_album->isChecked()) // Albuns
         {
-            selected = ui->page_categories_tableWidget->selectedItems();
+            if(!ui->page_categories_tableWidget->selectedItems().isEmpty())
+            {
+                selected = ui->page_categories_tableWidget->selectedItems();
+                while(!selected.isEmpty())
+                {
+                    index = selected.first()->data(Qt::WhatsThisRole).toInt();
+                    if(!AlbunsToRemove.contains(_albuns[index]))
+                        AlbunsToRemove.append(_albuns[index]);
+
+                    selected.removeFirst();
+                }
+
+                msgBox.setText("Atenção, está prestes a remover " + QString::number(AlbunsToRemove.size()) + " albuns!");
+                msgBox.exec();
+
+                if(msgBox.result() == QMessageBox::AcceptRole)
+                {
+                    for(int i = 0; i < AlbunsToRemove.size(); i++)
+                    {
+                        songsToRemove.clear();
+                        AlbunsToRemove[i]->getMusicas(&songsToRemove);
+
+                        for(int j = 0; j < songsToRemove.size(); j++)
+                        {
+                            for(int k = 0; k < _playlist.size(); k++)
+                            {
+                                _playlist[k]->remover(songsToRemove[j]);
+                            }
+                        }
+
+                        _albuns.removeOne(AlbunsToRemove[i]);
+                        AlbunsToRemove[i]->apagar();
+                    }
+                    MovePageToAlbuns();
+                }
+            }
+
+        }else if(ui->menu_small_button_artist->isChecked()) // Artists
+        {
+            if(!ui->page_categories_tableWidget->selectedItems().isEmpty())
+            {
+                selected = ui->page_categories_tableWidget->selectedItems();
+                while(!selected.isEmpty())
+                {
+                    index = selected.first()->data(Qt::WhatsThisRole).toInt();
+                    if(!ArtistsToRemove.contains(_artists[index]))
+                        ArtistsToRemove.append(_artists[index]);
+
+                    selected.removeFirst();
+                }
+
+                msgBox.setText("Atenção, está prestes a remover " + QString::number(ArtistsToRemove.size()) + " artistas!");
+                msgBox.exec();
+
+                if(msgBox.result() == QMessageBox::AcceptRole)
+                {
+                    for(int i = 0; i < ArtistsToRemove.size(); i++)
+                    {
+                        for(int j = 0; j < _songs.size(); j++)
+                        {
+                            _songs[j]->removeAutor(ArtistsToRemove[i]);
+                        }
+
+                        _artists.removeOne(ArtistsToRemove[i]);
+                        ArtistsToRemove[i]->apagar();
+                    }
+                    MovePageToArtists();
+                }
+            }
+
+        }if(ui->menu_small_button_song->isChecked()) // Songs
+        {
+            if(!ui->page_categories_tableWidget->selectedItems().isEmpty())
+            {
+                selected = ui->page_categories_tableWidget->selectedItems();
+                while(!selected.isEmpty())
+                {
+                    index = selected.first()->data(Qt::WhatsThisRole).toInt();
+                    if(!songsToRemove.contains(_songs[index]))
+                        songsToRemove.append(_songs[index]);
+
+                    selected.removeFirst();
+                }
+
+                msgBox.setText("Atenção, está prestes a remover " + QString::number(songsToRemove.size()) + " musicas!");
+                msgBox.exec();
+
+                if(msgBox.result() == QMessageBox::AcceptRole)
+                {
+                    for(int i = 0; i < songsToRemove.size(); i++)
+                    {
+                        for(int j = 0; j < _playlist.size(); j++)
+                        {
+                            _playlist[j]->remover(songsToRemove[j]);
+                        }
+                        for(int j = 0; j < _albuns.size(); j++)
+                        {
+                            _albuns[j]->remover(songsToRemove[j]);
+                        }
+
+                        _songs.removeOne(songsToRemove[i]);
+                        songsToRemove[i]->apagar();
+                    }
+                    MovePageToSongs();
+                }
+            }
+
+        }else if(ui->menu_small_button_list->isChecked()) // Playlists
+        {
+            if(!ui->page_categories_tableWidget->selectedItems().isEmpty())
+            {
+                selected = ui->page_categories_tableWidget->selectedItems();
+                while(!selected.isEmpty())
+                {
+                    index = selected.first()->data(Qt::WhatsThisRole).toInt();
+                    if(!PlaylistsToRemove.contains(_playlist[index]))
+                        PlaylistsToRemove.append(_playlist[index]);
+
+                    selected.removeFirst();
+                }
+
+                msgBox.setText("Atenção, está prestes a remover " + QString::number(songsToRemove.size()) + " playlists!");
+                msgBox.exec();
+
+                if(msgBox.result() == QMessageBox::AcceptRole)
+                {
+                    for(int i = 0; i < PlaylistsToRemove.size(); i++)
+                    {
+                        _playlist.removeOne(PlaylistsToRemove[i]);
+                        PlaylistsToRemove[i]->apagar();
+                    }
+                    MovePageToPlaylists();
+                }
+            }
+        }
+        break;
+    case 1:
+        // page_album_info
+        if(!ui->page_album_info_tableWidget->selectedItems().isEmpty())
+        {
+            selected = ui->page_album_info_tableWidget->selectedItems();
+            while(!selected.isEmpty())
+            {
+                index = selected.first()->data(Qt::WhatsThisRole).toInt();
+                if(!songsToRemove.contains(_songs[index]))
+                    songsToRemove.append(_songs[index]);
+
+                selected.removeFirst();
+            }
+
+            msgBox.setText("Atenção, está prestes a remover " + QString::number(songsToRemove.size()) + " musicas!");
+            msgBox.exec();
+
+            if(msgBox.result() == QMessageBox::AcceptRole)
+            {
+                for(int i = 0; i < songsToRemove.size(); i++)
+                {
+                    for(int j = 0; j < _playlist.size(); j++)
+                    {
+                        _playlist[j]->remover(songsToRemove[j]);
+                    }
+                    for(int j = 0; j < _albuns.size(); j++)
+                    {
+                        _albuns[j]->remover(songsToRemove[j]);
+                    }
+
+                    _songs.removeOne(songsToRemove[i]);
+                    songsToRemove[i]->apagar();
+                }
+                MovePageToSongs();
+            }
+        }
+        break;
+    case 5:
+        // page_artist
+        if(!ui->page_artist_tableWidget_albuns->selectedItems().isEmpty())
+        {
+            selected = ui->page_artist_tableWidget_albuns->selectedItems();
             while(!selected.isEmpty())
             {
                 index = selected.first()->data(Qt::WhatsThisRole).toInt();
@@ -2646,39 +2984,13 @@ void MainWindow::on_options_button_remove_clicked()
                 }
                 MovePageToAlbuns();
             }
-
-        }else if(ui->menu_small_button_artist->isChecked()) // Artists
+        }
+        break;
+    case 6:
+        // page_playlist
+        if(!ui->page_playlist_tableWidget->selectedItems().isEmpty())
         {
-            selected = ui->page_categories_tableWidget->selectedItems();
-            while(!selected.isEmpty())
-            {
-                index = selected.first()->data(Qt::WhatsThisRole).toInt();
-                if(!ArtistsToRemove.contains(_artists[index]))
-                    ArtistsToRemove.append(_artists[index]);
-
-                selected.removeFirst();
-            }
-
-            msgBox.setText("Atenção, está prestes a remover " + QString::number(ArtistsToRemove.size()) + " artistas!");
-            msgBox.exec();
-
-            if(msgBox.result() == QMessageBox::AcceptRole)
-            {
-                for(int i = 0; i < ArtistsToRemove.size(); i++)
-                {
-                    for(int j = 0; j < _songs.size(); j++)
-                    {
-                        _songs[j]->removeAutor(ArtistsToRemove[i]);
-                    }
-
-                    _artists.removeOne(ArtistsToRemove[i]);
-                    ArtistsToRemove[i]->apagar();
-                }
-                MovePageToArtists();
-            }
-        }if(ui->menu_small_button_song->isChecked()) // Songs
-        {
-            selected = ui->page_categories_tableWidget->selectedItems();
+            selected = ui->page_playlist_tableWidget->selectedItems();
             while(!selected.isEmpty())
             {
                 index = selected.first()->data(Qt::WhatsThisRole).toInt();
@@ -2695,144 +3007,11 @@ void MainWindow::on_options_button_remove_clicked()
             {
                 for(int i = 0; i < songsToRemove.size(); i++)
                 {
-                    for(int j = 0; j < _playlist.size(); j++)
-                    {
-                        _playlist[j]->remover(songsToRemove[j]);
-                    }
-                    for(int j = 0; j < _albuns.size(); j++)
-                    {
-                        _albuns[j]->remover(songsToRemove[j]);
-                    }
-
-                    _songs.removeOne(songsToRemove[i]);
-                    songsToRemove[i]->apagar();
+                    _playlist[_showingPlaylist]->remover(songsToRemove[i]);
                 }
                 MovePageToSongs();
             }
-        }else if(ui->menu_small_button_list->isChecked()) // Playlists
-        {
-            selected = ui->page_categories_tableWidget->selectedItems();
-            while(!selected.isEmpty())
-            {
-                index = selected.first()->data(Qt::WhatsThisRole).toInt();
-                if(!PlaylistsToRemove.contains(_playlist[index]))
-                    PlaylistsToRemove.append(_playlist[index]);
-
-                selected.removeFirst();
-            }
-
-            msgBox.setText("Atenção, está prestes a remover " + QString::number(songsToRemove.size()) + " playlists!");
-            msgBox.exec();
-
-            if(msgBox.result() == QMessageBox::AcceptRole)
-            {
-                for(int i = 0; i < PlaylistsToRemove.size(); i++)
-                {
-                    _playlist.removeOne(PlaylistsToRemove[i]);
-                    PlaylistsToRemove[i]->apagar();
-                }
-                MovePageToPlaylists();
-            }
-        }
-        break;
-    case 1:
-        // page_album_info
-        selected = ui->page_album_info_tableWidget->selectedItems();
-        while(!selected.isEmpty())
-        {
-            index = selected.first()->data(Qt::WhatsThisRole).toInt();
-            if(!songsToRemove.contains(_songs[index]))
-                songsToRemove.append(_songs[index]);
-
-            selected.removeFirst();
-        }
-
-        msgBox.setText("Atenção, está prestes a remover " + QString::number(songsToRemove.size()) + " musicas!");
-        msgBox.exec();
-
-        if(msgBox.result() == QMessageBox::AcceptRole)
-        {
-            for(int i = 0; i < songsToRemove.size(); i++)
-            {
-                for(int j = 0; j < _playlist.size(); j++)
-                {
-                    _playlist[j]->remover(songsToRemove[j]);
-                }
-                for(int j = 0; j < _albuns.size(); j++)
-                {
-                    _albuns[j]->remover(songsToRemove[j]);
-                }
-
-                _songs.removeOne(songsToRemove[i]);
-                songsToRemove[i]->apagar();
-            }
-            MovePageToSongs();
-        }
-        break;
-    case 5:
-        // page_artist
-        selected = ui->page_artist_tableWidget_albuns->selectedItems();
-        while(!selected.isEmpty())
-        {
-            index = selected.first()->data(Qt::WhatsThisRole).toInt();
-            if(!AlbunsToRemove.contains(_albuns[index]))
-                AlbunsToRemove.append(_albuns[index]);
-
-            selected.removeFirst();
-        }
-
-        msgBox.setText("Atenção, está prestes a remover " + QString::number(AlbunsToRemove.size()) + " albuns!");
-        msgBox.exec();
-
-        if(msgBox.result() == QMessageBox::AcceptRole)
-        {
-            for(int i = 0; i < AlbunsToRemove.size(); i++)
-            {
-                songsToRemove.clear();
-                AlbunsToRemove[i]->getMusicas(&songsToRemove);
-
-                for(int j = 0; j < songsToRemove.size(); j++)
-                {
-                    for(int k = 0; k < _playlist.size(); k++)
-                    {
-                        _playlist[k]->remover(songsToRemove[j]);
-                    }
-                }
-
-                _albuns.removeOne(AlbunsToRemove[i]);
-                AlbunsToRemove[i]->apagar();
-            }
-            MovePageToAlbuns();
-        }
-        break;
-    case 6:
-        // page_playlist
-        selected = ui->page_playlist_tableWidget->selectedItems();
-        while(!selected.isEmpty())
-        {
-            index = selected.first()->data(Qt::WhatsThisRole).toInt();
-            if(!songsToRemove.contains(_songs[index]))
-                songsToRemove.append(_songs[index]);
-
-            selected.removeFirst();
-        }
-
-        msgBox.setText("Atenção, está prestes a remover " + QString::number(songsToRemove.size()) + " musicas!");
-        msgBox.exec();
-
-        if(msgBox.result() == QMessageBox::AcceptRole)
-        {
-            for(int i = 0; i < songsToRemove.size(); i++)
-            {
-                _playlist[_showingPlaylist]->remover(songsToRemove[i]);
-            }
-            MovePageToSongs();
         }
         break;
     }
-}
-
-void MainWindow::on_options_button_information_clicked()
-{
-
 }

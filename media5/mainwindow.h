@@ -13,12 +13,32 @@
 #include <QList>
 #include <QTableWidget>
 #include <QMessageBox>
+#include <QMenu>
+#include <QAction>
 #include "dialog.h"
 #include "classes.h"
 
 namespace Ui {
 class MainWindow;
 }
+
+class MyAction : public QAction
+{
+    Q_OBJECT
+
+public:
+    explicit MyAction(QObject *parent = 0) : QAction(parent){
+        QObject::connect(this,SIGNAL(triggered(bool)),this,SLOT(sendTrigger()));
+    }
+
+private slots:
+    void sendTrigger(){
+        emit myTrigger(this);
+    }
+
+signals:
+    void myTrigger(MyAction *action);
+};
 
 class MainWindow : public QMainWindow
 {
@@ -50,6 +70,7 @@ private slots:
     void on_player_mutedChanged(bool muted);
     void on_player_playbackModeChanged(QMediaPlaylist::PlaybackMode mode);
     void on_player_stateChanged(QMediaPlayer::State state);
+    void on_playlist_selected(MyAction *action);
 
     // Menu Handlers
     void on_menu_small_button_search_clicked();
@@ -81,7 +102,6 @@ private slots:
 
     // Page Album Info Handlers
     void on_page_album_info_button_play_clicked();
-    void on_page_album_info_button_addTo_clicked();
     void on_page_album_info_button_remove_clicked();
     void on_page_album_info_button_exploreArtist_clicked();
     void on_page_album_info_button_select_toggled(bool checked);
@@ -111,7 +131,6 @@ private slots:
 
     // Page Artist Handlers
     void on_page_artist_button_play_clicked();
-    void on_page_artist_button_addTo_clicked();
     void on_page_artist_button_remove_clicked();
     void on_page_artist_button_select_toggled(bool checked);
     void on_page_artist_tableWidget_albuns_doubleClicked(const QModelIndex &index);
@@ -128,6 +147,8 @@ private slots:
     void on_page_add_playlist_button_remove_clicked();
     void on_page_add_playlist_lineEdit_search_returnPressed();
     void on_page_add_playlist_lineEdit_search_textChanged(const QString &arg1);
+    void on_page_add_playlist_tableWidget_toAdd_doubleClicked(const QModelIndex &index);
+    void on_page_add_playlist_tableWidget_Added_doubleClicked(const QModelIndex &index);
 
     // Tab Player Handlers
     void on_player_slider_sliderReleased();
@@ -150,11 +171,6 @@ private slots:
     void on_options_button_play_clicked();
     void on_options_button_edit_clicked();
     void on_options_button_remove_clicked();
-    void on_options_button_information_clicked();
-
-    void on_page_add_playlist_tableWidget_toAdd_doubleClicked(const QModelIndex &index);
-
-    void on_page_add_playlist_tableWidget_Added_doubleClicked(const QModelIndex &index);
 
 private:
     Ui::MainWindow *ui;
