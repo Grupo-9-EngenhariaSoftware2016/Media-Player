@@ -76,6 +76,7 @@ private slots:
     void on_artist_cell_changed(int row, int column);
     void on_playlist_cell_changed(int row, int column);
 
+
     // Menu Handlers
     void on_menu_small_button_search_clicked();
     void on_menu_small_button_album_clicked();
@@ -174,7 +175,9 @@ private slots:
     // Tab Options Handlers
     void on_options_button_play_clicked();
     void on_options_button_remove_clicked();
+
     void on_options_button_edit_toggled(bool checked);
+
 
 private:
     Ui::MainWindow *ui;

@@ -754,6 +754,7 @@ int     Playlist::adicionar(Musica *musica)
         return -1;
 
     _musica->append(musica);
+
     return 0;
 }
 int     Playlist::adicionar(QList<Musica*> *musica)
@@ -772,6 +773,7 @@ int     Playlist::adicionar(QList<Musica*> *musica)
 
     return 0;
 }
+
 int     Playlist::remover(Musica *musica)
 {
     if(!_musica->contains(musica))
