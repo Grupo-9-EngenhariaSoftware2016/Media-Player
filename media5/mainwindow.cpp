@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "dialog.h"
 #include "classes.h"
@@ -644,6 +644,8 @@ void MainWindow::AddAlbumLineToTable(QTableWidget *table, Album *album)
     item->setData(Qt::WhatsThisRole,_albuns.indexOf(album));
     item->setData(Qt::DisplayRole,printArtistList(getArtistsFrom(album)));
     table->setItem(newRow, 4, item);
+
+    //connect(table, SIGNAL())
 
     table->blockSignals(false);
 }

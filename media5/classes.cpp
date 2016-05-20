@@ -756,6 +756,22 @@ int     Playlist::adicionar(Musica *musica)
     _musica->append(musica);
     return 0;
 }
+int     Playlist::adicionar(QList<Musica*> *musica)
+{
+    for(QList <Musica*>::iterator current = musica->begin();
+        current != musica->end();
+        ++current)
+    {
+        if(!_musica->contains(*current))
+        {
+            _musica->append(*current);
+        }
+    }
+
+
+
+    return 0;
+}
 int     Playlist::remover(Musica *musica)
 {
     if(!_musica->contains(musica))

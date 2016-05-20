@@ -170,6 +170,7 @@ public:
 	int apagar();
 	int play();
     int adicionar(Musica* musica);
+    int adicionar(QList<Musica*> *musica);
     bool procurar(QString procura);
     int remover(Musica* musica);
 
