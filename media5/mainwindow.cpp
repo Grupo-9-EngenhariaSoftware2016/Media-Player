@@ -10,7 +10,7 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->statusBar->showMessage(QDir::currentPath());
+    //ui->statusBar->showMessage(QDir::currentPath());
     // DIR for musics and images
 
     QString sPath = "C:/ ";
