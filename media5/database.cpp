@@ -431,7 +431,8 @@ bool Database::updateArtist(Autor *Artist)
 
     //Actualizar a Imagem do Autor
     QSqlQuery update_image;
-    update_image.prepare("UPDATE Autor SET Imagem:=Imagem");
+    update_image.prepare("UPDATE Autor SET Imagem:=Imagem WHERE ID_Autor=:ID_Autor;");
+    update_image.bindValue(":ID_Autor",Artist->getIdBD());
     update_image.bindValue(":Imagem",   Artist->getImagem());
 
     if(update_image.exec())
@@ -445,7 +446,7 @@ bool Database::updateArtist(Autor *Artist)
 
     //Actualiza Info do Autor
     QSqlQuery update_autor;
-    update_autor.prepare("UPDATE Autor SET Nome=:Nome,Nacionalidade=:Nacionalidade,DataNascimento=:DataNascimento,Imagem:=Imagem, DataAdicao:=DataAdicao "
+    update_autor.prepare("UPDATE Autor SET Nome=:Nome, Nacionalidade=:Nacionalidade, DataNascimento=:DataNascimento, DataAdicao:=DataAdicao "
                          "WHERE ID_Autor=:ID_Autor");
     update_autor.bindValue(":ID_Autor",         Artist->getIdBD());
     update_autor.bindValue(":Nome",             Artist->getNome());
