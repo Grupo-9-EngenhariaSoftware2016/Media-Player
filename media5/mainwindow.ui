@@ -677,7 +677,7 @@ QPushButton:checked{ background-color: pink; }</string>
        <string notr="true">background-color:rgb(36, 172, 235);</string>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="player_tab">
        <layout class="QGridLayout" name="gridLayout_5">
@@ -1151,7 +1151,7 @@ QPushButton:checked{ background-color: pink; }</string>
        <string notr="true">background-color:white;</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_categories">
        <layout class="QGridLayout" name="gridLayout_4">
@@ -1434,20 +1434,6 @@ QPushButton:checked{ background-color: pink; }</string>
             </property>
            </spacer>
           </item>
-          <item row="5" column="4">
-           <widget class="QPushButton" name="page_album_info_button_addTo">
-            <property name="text">
-             <string>Adicionar a</string>
-            </property>
-            <property name="icon">
-             <iconset resource="icons/img.qrc">
-              <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
-            </property>
-            <property name="flat">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
           <item row="6" column="1" colspan="7">
            <spacer name="verticalSpacer_6">
             <property name="orientation">
@@ -1602,6 +1588,26 @@ QPushButton:checked{ background-color: pink; }</string>
              </size>
             </property>
            </spacer>
+          </item>
+          <item row="5" column="4">
+           <widget class="QToolButton" name="page_album_info_button_addTo">
+            <property name="text">
+             <string>Adicionar a</string>
+            </property>
+            <property name="icon">
+             <iconset resource="icons/img.qrc">
+              <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+            </property>
+            <property name="popupMode">
+             <enum>QToolButton::InstantPopup</enum>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -2397,20 +2403,6 @@ QPushButton:checked{ background-color: pink; }</string>
             </property>
            </widget>
           </item>
-          <item row="5" column="4">
-           <widget class="QPushButton" name="page_artist_button_addTo">
-            <property name="text">
-             <string>Adicionar a</string>
-            </property>
-            <property name="icon">
-             <iconset resource="icons/img.qrc">
-              <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
-            </property>
-            <property name="flat">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
           <item row="3" column="2">
            <widget class="QLabel" name="page_artist_label_year">
             <property name="sizePolicy">
@@ -2517,6 +2509,26 @@ QPushButton:checked{ background-color: pink; }</string>
             </property>
             <property name="text">
              <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="4">
+           <widget class="QToolButton" name="page_artist_button_addTo">
+            <property name="text">
+             <string>Adicionar a</string>
+            </property>
+            <property name="icon">
+             <iconset resource="icons/img.qrc">
+              <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+            </property>
+            <property name="popupMode">
+             <enum>QToolButton::InstantPopup</enum>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
             </property>
            </widget>
           </item>

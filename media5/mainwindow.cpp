@@ -529,45 +529,46 @@ void MainWindow::FormatTableFor(QTableWidget *table, QString format)
     {
     case 0:
         // Set labels para a tabela de elementos
-        tableLabels << tr("Seleção") << tr("Capa") << tr("Nome") << tr("Género") << tr("Artistas");
+        tableLabels << tr(" ") << tr("Capa") << tr("Nome") << tr("Género") << tr("Artistas");
         table->setColumnWidth(1,50);
         table->verticalHeader()->setDefaultSectionSize(50);
         break;
 
     case 1:
         // Set labels para a tabela de elementos
-        tableLabels << tr("Seleção") << tr("Imagem") << tr("Nome") << tr("Nº de Álbuns") << tr("Nº de Musicas");
+        tableLabels << tr(" ") << tr("Imagem") << tr("Nome") << tr("Nº de Álbuns") << tr("Nº de Musicas");
         table->setColumnWidth(1,50);
         table->verticalHeader()->setDefaultSectionSize(50);
         break;
 
     case 2:
         // Set labels para a tabela de elementos
-        tableLabels << tr("Seleção") << tr("Nome") << tr("Tamanho") << tr("Tempo de Reprodução");
+        tableLabels << tr(" ") << tr("Nome") << tr("Tamanho") << tr("Tempo de Reprodução");
         table->verticalHeader()->setDefaultSectionSize(25);
         break;
 
     case 3:
         // Set labels para a tabela de elementos
-        tableLabels << tr("Seleção") << tr("Nome") << tr("Genero") << tr("Album") << tr("Artistas");
+        tableLabels << tr(" ") << tr("Nome") << tr("Genero") << tr("Album") << tr("Artistas");
         table->verticalHeader()->setDefaultSectionSize(25);
         break;
 
     case 4:
         // Set labels para a tabela de elementos
-        tableLabels << tr("Seleção") << tr("Faixa") << tr("Nome") << tr("Genero") << tr("Diretoria");
+        tableLabels << tr(" ") << tr("Faixa") << tr("Nome") << tr("Genero") << tr("Diretoria");
         table->verticalHeader()->setDefaultSectionSize(25);
         break;
 
     case 5:
         // Set labels para a tabela de elementos
-        tableLabels << tr("Seleção") << tr("Nome") << tr("Artists");
+        tableLabels << tr(" ") << tr("Nome") << tr("Artists");
         table->verticalHeader()->setDefaultSectionSize(25);
         break;
 
     case 6:
         // Set labels para a tabela de elementos
-        tableLabels << tr("Seleção") << tr("Imagem") << tr("Nome");
+        tableLabels << tr(" ") << tr("Imagem") << tr("Nome");
+        table->setColumnWidth(1,50);
         table->verticalHeader()->setDefaultSectionSize(50);
         break;
     }
@@ -581,6 +582,7 @@ void MainWindow::FormatTableFor(QTableWidget *table, QString format)
     table->horizontalHeader()->setStretchLastSection(true);
     table->verticalHeader()->setHidden(true);
     table->setColumnHidden(0,true);
+    table->setColumnWidth(0,25);
     table->setFrameShape(QFrame::NoFrame);
     table->setFrameShadow(QFrame::Sunken);
     table->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -1143,6 +1145,20 @@ void MainWindow::Refresh()
         ui->page_album_info_label_gender->setText(_albuns[_showingAlbum]->getGenero());
         ui->page_album_info_label_year->setText(QString::number(_albuns[_showingAlbum]->getAno()));
 
+        QMenu *menu = new QMenu;
+        MyAction *action;
+
+        for(int i = 0; i < _playlist.size(); i++)
+        {
+            action = new MyAction(this);
+            action->setText(_playlist[i]->getNome());
+            QObject::connect(action, SIGNAL(myTrigger(MyAction*)), this, SLOT(on_playlist_selected(MyAction*)));
+
+            menu->addAction(action);
+
+            ui->page_album_info_button_addTo->setMenu(menu);
+        }
+
         QList <Musica*> songs;
         _albuns[_showingAlbum]->getMusicas(&songs);
 
@@ -1317,6 +1333,20 @@ void MainWindow::Refresh()
 
         ui->page_artist_label_name->setText(_artists[_showingArtist]->getNome());
 
+        QMenu *menu = new QMenu;
+        MyAction *action;
+
+        for(int i = 0; i < _playlist.size(); i++)
+        {
+            action = new MyAction(this);
+            action->setText(_playlist[i]->getNome());
+            QObject::connect(action, SIGNAL(myTrigger(MyAction*)), this, SLOT(on_playlist_selected(MyAction*)));
+
+            menu->addAction(action);
+
+            ui->page_artist_button_addTo->setMenu(menu);
+        }
+
         QList <Album*> albuns = getAlbunsFromArtist(_artists[_showingArtist]);
 
         FormatTableFor(ui->page_artist_tableWidget_albuns,"Albuns");
@@ -1453,6 +1483,28 @@ void MainWindow::on_player_stateChanged(QMediaPlayer::State state)
     case QMediaPlayer::StoppedState:
         ui->player_button_play->setChecked(false);
         break;
+    }
+}
+
+void MainWindow::on_playlist_selected(MyAction *action)
+{
+    QString playlistName = action->text();
+
+    for(int i = 0; i < _playlist.size(); i++)
+    {
+        if(_playlist[i]->getNome() == playlistName)
+        {
+            if(ui->menu_small_button_album->isChecked())
+            {
+                QList<Musica*> songs;
+                _albuns[_showingAlbum]->getMusicas(&songs);
+                _playlist[i]->adicionar(&songs);
+
+            }else if(ui->menu_small_button_artist->isChecked())
+            {
+                _playlist[i]->adicionar(&getSongsFromArtist(_artists[_showingArtist]));
+            }
+        }
     }
 }
 
@@ -1761,11 +1813,6 @@ void MainWindow::on_page_album_info_button_play_clicked()
     MovePageToPlayer();
 }
 
-void MainWindow::on_page_album_info_button_addTo_clicked()
-{
-
-}
-
 void MainWindow::on_page_album_info_button_remove_clicked()
 {
     QMessageBox msgBox;
@@ -1892,7 +1939,7 @@ void MainWindow::on_page_add_album_button_remove_clicked()
     int indexToRemove;
     songsIndex = ui->page_add_album_tableWidget_toAddMusics->selectedItems();
 
-    for(int i = ; i < songsIndex; i++)
+    for(int i = 0; i < songsIndex.size(); i++)
     {
         indexToRemove = songsIndex[i]->data(Qt::WhatsThisRole).toInt();
         _newSongList.removeAt(indexToRemove);
@@ -1932,6 +1979,7 @@ void MainWindow::on_page_add_album_button_addArtistToAll_clicked()
     {
         QList<QTableWidgetItem*> artistsIndex = ui->page_add_album_tableWidget_artists->selectedItems();
 
+        int artist;
         for(int i = 0; i < _newSongList.size(); i++)
         {
             for(int j = 0; j < artistsIndex.size(); j++)
@@ -2089,11 +2137,6 @@ void MainWindow::on_page_artist_button_play_clicked()
     ui->player_button_play->setChecked(true);
 }
 
-void MainWindow::on_page_artist_button_addTo_clicked()
-{
-
-}
-
 void MainWindow::on_page_artist_button_remove_clicked()
 {
     QMessageBox msgBox;
@@ -2225,10 +2268,10 @@ void MainWindow::on_page_add_playlist_button_add_clicked()
 {
     if(!ui->page_add_playlist_tableWidget_toAdd->selectedItems().isEmpty())
     {
-        QList<QTableWidgetItem*> toAddIndex = ui->page_add_playlist_tableWidget_toAdd->selectedItems(); data(Qt::WhatsThisRole).toInt();
+        QList<QTableWidgetItem*> toAddIndex = ui->page_add_playlist_tableWidget_toAdd->selectedItems();
 
         int index;
-        for(int i = 0; i < toAddIndex; i++)
+        for(int i = 0; i < toAddIndex.size(); i++)
         {
             index = toAddIndex[i]->data(Qt::WhatsThisRole).toInt();
             _newSongList.append(_songs[index]);
@@ -2242,10 +2285,10 @@ void MainWindow::on_page_add_playlist_button_remove_clicked()
 {
     if(!ui->page_add_playlist_tableWidget_Added->selectedItems().isEmpty())
     {
-        QList<QTableWidgetItem*> toRemoveIndex = ui->page_add_playlist_tableWidget_Added->selectedItems(); data(Qt::WhatsThisRole).toInt();
+        QList<QTableWidgetItem*> toRemoveIndex = ui->page_add_playlist_tableWidget_Added->selectedItems();
 
         int index;
-        for(int i = 0; i < toRemoveIndex; i++)
+        for(int i = 0; i < toRemoveIndex.size(); i++)
         {
             index = toRemoveIndex[i]->data(Qt::WhatsThisRole).toInt();
             _newSongList.removeOne(_songs[index]);
