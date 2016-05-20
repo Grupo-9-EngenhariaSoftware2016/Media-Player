@@ -1561,13 +1561,13 @@ void MainWindow::on_categories_cell_changed(int row, int column)
         case 2:
             _albuns[albumIndex]->setNome(ui->page_categories_tableWidget->item(row,column)->text());
             db.connOpen();
-            db.UpdateAlbum(_albuns[albumIndex]);
+            db.updateAlbum(_albuns[albumIndex]);
             db.connClose();
             break;
         case 3:
             _albuns[albumIndex]->setGenero(ui->page_categories_tableWidget->item(row,column)->text());
             db.connOpen();
-            db.UpdateAlbum(_albuns[albumIndex]);
+            db.updateAlbum(_albuns[albumIndex]);
             db.connClose();
             break;
         }
@@ -1680,13 +1680,13 @@ void MainWindow::on_artist_cell_changed(int row, int column)
     case 2:
         _albuns[albumIndex]->setNome(ui->page_artist_tableWidget_albuns->item(row,column)->text());
         db.connOpen();
-        db.UpdateAlbum(_albuns[albumIndex]);
+        db.updateAlbum(_albuns[albumIndex]);
         db.connClose();
         break;
     case 3:
         _albuns[albumIndex]->setGenero(ui->page_artist_tableWidget_albuns->item(row,column)->text());
         db.connOpen();
-        db.UpdateAlbum(_albuns[albumIndex]);
+        db.updateAlbum(_albuns[albumIndex]);
         db.connClose();
         break;
     }
