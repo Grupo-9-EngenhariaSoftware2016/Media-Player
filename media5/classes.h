@@ -11,6 +11,8 @@
 #include <QMediaPlaylist>
 #include <algorithm>
 
+//QString DIRPATH = "/debug/";
+//QString DIRPATH = "";
 using namespace std;
 
 class Autor

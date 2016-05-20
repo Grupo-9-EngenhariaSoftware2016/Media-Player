@@ -25,6 +25,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+
     QSqlDatabase mydb;
     QList <Album*> _albuns;
     QList <Playlist*> _playlist;
