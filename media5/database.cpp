@@ -103,7 +103,7 @@ bool Database::addAlbum(Album *newAlbum)
     return false;
 
 }
-bool Database::UpdateAlbum(Album *Album)
+bool Database::updateAlbum(Album *Album)
 { 
     //Se a imagem alterar - Fazer Algo
     QSqlQuery update_img_album;

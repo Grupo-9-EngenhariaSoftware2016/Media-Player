@@ -19,7 +19,7 @@ public:
     void connClose();
 
     bool addAlbum(Album *newAlbum);
-    bool UpdateAlbum(Album *Album);
+    bool updateAlbum(Album *Album);
     bool removeAlbum(Album *Album);
 
     bool addSong(Musica *newSong,int album_id);
@@ -30,11 +30,12 @@ public:
     bool updateArtist(Autor *Artist);
     bool removeArtist(Autor *Artist);
 
-    bool addPlaylist(Playlist *newPlaylist);                    //Cria uma Nova Playlist
-    bool updatePlaylist(Playlist *Playlist);                    //Actualiza Tudo
-    bool addSongToPlaylist(Playlist *newPlaylist,int music_id); //Insere Musica
-    bool removeSongFromPlaylist(Playlist *newPlaylist, int music_id); //Apaga Musica
-    bool removePlaylist(Playlist *newPlaylist);//
+    bool addPlaylist(Playlist *newPlaylist);
+    bool updatePlaylist(Playlist *Playlist);
+    bool addSongToPlaylist(Playlist *newPlaylist,int music_id);
+    bool removeSongFromPlaylist(Playlist *newPlaylist, int music_id);
+    bool removePlaylist(Playlist *newPlaylist);
+
 };
 
 #endif // DATABASE_H

@@ -123,8 +123,31 @@ int     Autor::criar()
         if(db.addArtist(this))
         {
             qDebug()<<"Autor Adicionado à DB";
-            qDebug()<<"\n oldDir:"<< oldImgDir << "\n NEwDir:"<< this->getImagem();
-            QFile::copy(oldImgDir,this->getImagem()); //copiar Imagem para a pasta do album
+            //qDebug()<<"\n oldDir:"<< oldImgDir << "\n NEwDir:"<< this->getImagem();
+            //QFile::copy(oldImgDir,this->getImagem()); //copiar Imagem para a pasta do album
+            if(this->getImagem() != NULL)
+            {
+
+                QImage img(oldImgDir);
+                QPixmap pixmap;
+                pixmap = pixmap.fromImage(img.scaled(250,250,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+                QFileInfo fi(this->getImagem());
+
+                QFile file(this->getImagem());
+
+                file.open(QIODevice::WriteOnly);
+                if(fi.suffix()== "jpg")
+                {
+                    pixmap.save(&file, "jpg",100);
+                }
+
+                if(fi.suffix()== "png")
+                {
+                    pixmap.save(&file, "png",100);
+                }
+
+                file.close();
+            }
         }
 
         db.connClose();
@@ -312,8 +335,8 @@ int     Musica::play()
 int     Musica::criar(int albumID, QString diretoria)
 {
     Database db;
-    QString file_name, new_dir;
-
+    db.connOpen();
+    QString file_name, new_dir; 
     file_name = _diretoria.right(_diretoria.size() - _diretoria.lastIndexOf("/"));
     new_dir   = diretoria + file_name;
 
@@ -328,6 +351,7 @@ int     Musica::criar(int albumID, QString diretoria)
         _dataAdicao = QDate::currentDate();
         db.addSong(this);
 */
+    db.connClose();
     return 0;
 }
 bool    Musica::procurar(QString procura)
@@ -577,11 +601,34 @@ int     Album::criar()
 
         if(QDir(_diretoria).exists())
         {
-        	//if(_imagem != null)
-            QFile::copy(oldImgDir,this->getImagem());
+            if(this->getImagem()!= NULL)
+            {
+
+                QImage img(oldImgDir);
+                QPixmap pixmap;
+                pixmap = pixmap.fromImage(img.scaled(250,250,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+                QFileInfo fi(this->getImagem());
+
+                QFile file(this->getImagem());
+
+                file.open(QIODevice::WriteOnly);
+                if(fi.suffix()== "jpg")
+                {
+                    pixmap.save(&file, "jpg",100);
+                }
+
+                if(fi.suffix()== "png")
+                {
+                    pixmap.save(&file, "png",100);
+                }
+
+                file.close();
+            }
         }
 
-    }else{
+    }
+    else
+    {
         return -1;
     }
 
