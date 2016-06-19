@@ -11,7 +11,23 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     ui->setupUi(this);
     //ui->statusBar->showMessage(QDir::currentPath());
+
+    // NEW //================================
     // DIR for musics and images
+    QString autor_path = QDir::currentPath() +"/debug/autor";
+    if(!QDir(autor_path).exists())
+    {
+        qDebug() << "Criar " << autor_path << "diretoria.";
+        QDir().mkpath(autor_path);
+    }
+
+    QString albuns_path = QDir::currentPath() +"/debug/album";
+    if(!QDir(albuns_path).exists())
+    {
+        qDebug() << "Criar " << albuns_path << "diretoria.";
+        QDir().mkpath(albuns_path);
+    }
+    // END NEW //================================
 
     QString sPath = "C:/ ";
     dirmodel = new QFileSystemModel(this);
@@ -2338,7 +2354,7 @@ void MainWindow::on_progress_button_save_clicked()
 
             }
 
-db.connClose();
+            db.connClose();
             MovePageToAlbuns();
 
         }

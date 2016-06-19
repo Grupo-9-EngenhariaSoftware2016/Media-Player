@@ -15,6 +15,7 @@ public:
 
     Database();
 
+    void CreateTables(); //NEW//
     bool connOpen();
     void connClose();
 
