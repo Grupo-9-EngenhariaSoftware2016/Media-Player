@@ -10,10 +10,109 @@ Database::Database()
 }
 // ===================================================================
 // Conexao
+//NEW//
+void Database::CreateTables()
+{
+    QSqlQuery table;
+    bool check;
+
+    // Adição da tabela - Albuns
+    check=table.exec("CREATE TABLE [Album]([ID_Album] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,"
+               "[Nome] TEXT NOT NULL, "
+               "[Descricao] TEXT, "
+               "[Diretoria] TEXT, "
+               "[Imagem] TEXT, "
+               "[Ano] INTEGER, "
+               "[Genero] TEXT DEFAULT Desconhecido, "
+               "[DataAdicao] DATE);");
+    if(!check)
+        qDebug() << "Já existe a Tabela [Album] ou ocorreu algum Erro" << endl;
+
+    // Adição da tabela - Autor
+    check=table.exec("CREATE TABLE [Autor]("
+                     "[ID_Autor] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, "
+                     "[Nome] TEXT NOT NULL, "
+                     "[Nacionalidade] TEXT, "
+                     "[DataNascimento] DATE, "
+                     "[Imagem] TEXT, "
+                     "[DataAdicao] DATE);");
+    if(!check)
+        qDebug() << "Já existe a Tabela [Autor] ou ocorreu algum Erro" << endl;
+    else
+        qDebug() << "Criou Tabela [Autor]" << endl;
+
+    // Adição da tabela - Musica
+    check=table.exec("CREATE TABLE [Musica]("
+                     "[ID_Musica] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, "
+                     "[Nome] TEXT NOT NULL, "
+                     "[Diretoria] TEXT NOT NULL,"
+                     "[Faixa] INTEGER, "
+                     "[ID_Album] INTEGER NOT NULL, "
+                     "FOREIGN KEY([ID_Album]) REFERENCES Album([ID_Album]) ON DELETE CASCADE ON UPDATE CASCADE);");
+
+    if(!check)
+        qDebug() << "Já existe a Tabela [Musica] ou ocorreu algum Erro" << endl;
+    else
+        qDebug() << "Criou Tabela [Musica]" << endl;
+
+    // Adição da tabela - Playlist
+    check=table.exec("CREATE TABLE [Playlist]("
+                     "[ID_Playlist] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, "
+                     "[Nome] TEXT NOT NULL, "
+                     "[Descricao] TEXT,"
+                     "[DataAdicao] DATE);");
+
+    if(!check)
+        qDebug() << "Já existe a Tabela [Playlist] ou ocorreu algum Erro" << endl;
+    else
+        qDebug() << "Criou Tabela [Playlist]" << endl;
+
+    // Adição da tabela - Pertence
+    check=table.exec("CREATE TABLE [Pertence]("
+                     "[ID_Musica] INTEGER NOT NULL, "
+                     "[ID_Playlist] INTEGER NOT NULL, "
+                     "FOREIGN KEY([ID_Playlist]) REFERENCES Playlist([ID_Playlist]),"
+                     "FOREIGN KEY([ID_Musica]) REFERENCES Musica([ID_Musica]));");
+    if(!check)
+        qDebug() << "Já existe a Tabela [Pertence] ou ocorreu algum Erro" << endl;
+    else
+        qDebug() << "Criou Tabela [Pertence]" << endl;
+
+    // Adição da tabela - Tem
+    check=table.exec("CREATE TABLE [Tem]("
+                     "[ID_Musica] INTEGER PRIMARY KEY NOT NULL, "
+                     "[ID_Autor] INTEGER NOT NULL, "
+                     "FOREIGN KEY([ID_Autor]) REFERENCES Autor([ID_Autor]),"
+                     "FOREIGN KEY([ID_Musica]) REFERENCES Musica([ID_Musica]));");
+    if(!check)
+        qDebug() << "Já existe a Tabela [Tem] ou ocorreu algum Erro" << endl;
+    else
+        qDebug() << "Criou Tabela [Tem]" << endl;
+
+}
+//END NEW//
 bool Database::connOpen()
 {
+    // Verificar se o Ficheiro já existe
     mydb=QSqlDatabase::addDatabase("QSQLITE");
-    mydb.setDatabaseName(QDir::currentPath() +"/debug/database.db");
+
+    //NEW//
+    QString filename = QDir::currentPath() +"/debug/database.db";
+
+    bool check_path;
+
+    if(QFile(filename).exists())
+    {
+        check_path = true;
+        qDebug() << "Já existe o ficheiro database.db";
+    }
+    else
+    {
+        check_path = false;
+        qDebug() << "Nao existe o ficheiro database.db";
+    }
+
+    mydb.setDatabaseName(filename);
 
     if(!mydb.open())
     {
@@ -24,8 +123,15 @@ bool Database::connOpen()
     else
     {
         qDebug() << ("Abriu a DB");
+
+        if(!check_path)
+        {
+            CreateTables();
+        }
+
         return true;
     }
+    //END NEW//
 }
 void Database::connClose()
 {

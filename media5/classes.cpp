@@ -112,6 +112,13 @@ int     Autor::play()
 }
 int     Autor::criar()
 {
+    QString autor_path = QDir::currentPath() +"/debug/autor";
+    if(!QDir(autor_path).exists())
+    {
+        qDebug() << "Criar " << autor_path << "diretoria.";
+        QDir().mkpath(autor_path);
+    }
+
     Database db;
     if(db.connOpen())
     {
@@ -125,6 +132,7 @@ int     Autor::criar()
             qDebug()<<"Autor Adicionado à DB";
             //qDebug()<<"\n oldDir:"<< oldImgDir << "\n NEwDir:"<< this->getImagem();
             //QFile::copy(oldImgDir,this->getImagem()); //copiar Imagem para a pasta do album
+
             if(this->getImagem() != NULL)
             {
 
