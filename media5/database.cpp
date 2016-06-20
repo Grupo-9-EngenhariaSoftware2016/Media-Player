@@ -23,7 +23,7 @@ void Database::CreateTables()
                "[Diretoria] TEXT, "
                "[Imagem] TEXT, "
                "[Ano] INTEGER, "
-               "[Genero] TEXT DEFAULT Desconhecido, "
+               "[Genero] INTEGER, "
                "[DataAdicao] DATE);");
     if(!check)
         qDebug() << "Já existe a Tabela [Album] ou ocorreu algum Erro" << endl;
@@ -88,6 +88,23 @@ void Database::CreateTables()
         qDebug() << "Já existe a Tabela [Tem] ou ocorreu algum Erro" << endl;
     else
         qDebug() << "Criou Tabela [Tem]" << endl;
+
+    // Adição da tabela - Genero
+    check=table.exec("CREATE TABLE [Genero]("
+                     "[ID_Genero] INTEGER PRIMARY KEY NOT NULL, "
+                     "[Nome_Genero] TEXT NOT NULL);");
+    if(!check)
+        qDebug() << "Já existe a Tabela [Tem] ou ocorreu algum Erro" << endl;
+    else
+        qDebug() << "Criou Tabela [Tem]" << endl;
+
+    table.prepare("INSERT INTO Genero(Nome_Genero) Values(:Nome_Genero)");
+    table.bindValue(":Nome_Genero","Rock");
+    table.exec();
+
+    table.prepare("INSERT INTO Genero(Nome_Genero) Values(:Nome_Genero)");
+    table.bindValue(":Nome_Genero","Pimba");
+    table.exec();
 
 }
 //END NEW//
@@ -213,12 +230,12 @@ bool Database::updateAlbum(Album *Album)
 { 
     //Se a imagem alterar - Fazer Algo
     QSqlQuery update_img_album;
-    update_img_album.prepare(" UPDATE Album SET Imagem=:Imagem,WHERE ID_Album=:ID_Album;");
+    update_img_album.prepare(" UPDATE Album SET Imagem=:Imagem WHERE ID_Album=:ID_Album;");
     update_img_album.bindValue(":Imagem",Album->getImagem());
 
 
     QSqlQuery update_album;
-    update_album.prepare("UPDATE Album SET Nome=:Nome, Ano=:Ano, Genero=:Genero, Descricao:Descricao, DataAdicao:DataAdicao "
+    update_album.prepare("UPDATE Album SET Nome=:Nome, Ano=:Ano, Genero=:Genero, Descricao=:Descricao, DataAdicao=:DataAdicao "
                          "WHERE ID_Album=:ID_Album;");
 
     update_album.bindValue(":ID_Album",    Album->getIdBD());
@@ -412,7 +429,7 @@ bool Database::updateSong(Musica *Song)
 
     //Alterar tags
     QSqlQuery update_song;
-    update_song.prepare("UPDATE Musica SET Nome=:Nome,Faixa:=Faixa WHERE ID_Musica=:ID_Musica;");
+    update_song.prepare("UPDATE Musica SET Nome=:Nome,Faixa=:Faixa WHERE ID_Musica=:ID_Musica;");
     update_song.bindValue(":ID_Musica",     Song->getIdBD());
     update_song.bindValue(":Nome",          Song->getNome());
     update_song.bindValue(":Faixa",         Song->getFaixa());
@@ -537,7 +554,7 @@ bool Database::updateArtist(Autor *Artist)
 
     //Actualizar a Imagem do Autor
     QSqlQuery update_image;
-    update_image.prepare("UPDATE Autor SET Imagem:=Imagem");
+    update_image.prepare("UPDATE Autor SET Imagem=:Imagem");
     update_image.bindValue(":Imagem",   Artist->getImagem());
 
     if(update_image.exec())
@@ -551,7 +568,7 @@ bool Database::updateArtist(Autor *Artist)
 
     //Actualiza Info do Autor
     QSqlQuery update_autor;
-    update_autor.prepare("UPDATE Autor SET Nome=:Nome,Nacionalidade=:Nacionalidade,DataNascimento=:DataNascimento,Imagem:=Imagem, DataAdicao:=DataAdicao "
+    update_autor.prepare("UPDATE Autor SET Nome=:Nome,Nacionalidade=:Nacionalidade,DataNascimento=:DataNascimento,Imagem=:Imagem, DataAdicao=:DataAdicao "
                          "WHERE ID_Autor=:ID_Autor");
     update_autor.bindValue(":ID_Autor",         Artist->getIdBD());
     update_autor.bindValue(":Nome",             Artist->getNome());
@@ -696,7 +713,7 @@ bool Database::updatePlaylist(Playlist *Playlist)
 
     //Remover Musicas Existentes
     QSqlQuery delete_songs;
-    delete_songs.prepare("DELETE FROM Pertence WHERE IN ID_Playlist=:ID_Playlist");
+    delete_songs.prepare("DELETE FROM Pertence WHERE ID_Playlist=:ID_Playlist");
     delete_songs.bindValue(":ID_Playlist", Playlist->getIdBD());
 
     if(delete_songs.exec())
@@ -790,7 +807,6 @@ bool Database::removeSongFromPlaylist(Playlist *Playlist, int music_id)
     qDebug() <<"=================================";
     return false;
 }
-
 bool Database::removePlaylist(Playlist *Playlist)
 {
     //Remover Musicas Associadas
