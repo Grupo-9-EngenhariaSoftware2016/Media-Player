@@ -23,7 +23,7 @@ void Database::CreateTables()
                "[Diretoria] TEXT, "
                "[Imagem] TEXT, "
                "[Ano] INTEGER, "
-               "[Genero] TEXT DEFAULT Desconhecido, "
+               "[Genero] INTEGER, "
                "[DataAdicao] DATE);");
     if(!check)
         qDebug() << "Já existe a Tabela [Album] ou ocorreu algum Erro" << endl;
@@ -88,6 +88,23 @@ void Database::CreateTables()
         qDebug() << "Já existe a Tabela [Tem] ou ocorreu algum Erro" << endl;
     else
         qDebug() << "Criou Tabela [Tem]" << endl;
+
+    // Adição da tabela - Genero
+    check=table.exec("CREATE TABLE [Genero]("
+                     "[ID_Genero] INTEGER PRIMARY KEY NOT NULL, "
+                     "[Nome_Genero] TEXT NOT NULL);");
+    if(!check)
+        qDebug() << "Já existe a Tabela [Tem] ou ocorreu algum Erro" << endl;
+    else
+        qDebug() << "Criou Tabela [Tem]" << endl;
+
+    table.prepare("INSERT INTO Genero(Nome_Genero) Values(:Nome_Genero)");
+    table.bindValue(":Nome_Genero","Rock");
+    table.exec();
+
+    table.prepare("INSERT INTO Genero(Nome_Genero) Values(:Nome_Genero)");
+    table.bindValue(":Nome_Genero","Pimba");
+    table.exec();
 
 }
 //END NEW//
@@ -790,7 +807,6 @@ bool Database::removeSongFromPlaylist(Playlist *Playlist, int music_id)
     qDebug() <<"=================================";
     return false;
 }
-
 bool Database::removePlaylist(Playlist *Playlist)
 {
     //Remover Musicas Associadas

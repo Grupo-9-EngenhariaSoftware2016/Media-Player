@@ -84,8 +84,32 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     QList<Autor*> autor_list;
     QDate date;
 
+    QStringList Generos;
+
     Database BD;
     BD.connOpen();qDebug() << "Abriu Base de Dados";
+
+    //============================================================================
+    // Generos
+    QSqlQuery loadStyle;
+    if(loadStyle.exec("select Nome_Genero from Genero;"))
+    {
+        qDebug() << "load Genero";
+        while(loadStyle.next())
+        {
+            Generos <<loadStyle.value(0).toString();
+        }
+    }
+    else
+    {
+        qDebug() << "Cannot Load Genero";
+    }
+
+
+    foreach (QString v,Generos){
+
+    qDebug()<<v ; //returns "Ten" , "Two" , "..." , ".....";
+    }
 
     //============================================================================
     // LoadAutor
@@ -497,19 +521,17 @@ void MainWindow::CheckMenuButton(QString button)
         break;
     }
 }
-
 void MainWindow::ExpandMenu(bool expand)
 {
-	if(expand)
-	{
-		ui->menuTab->setCurrentIndex(0);
-    	ui->menuTab->setFixedWidth(200);
-	}else{
-		ui->menuTab->setCurrentIndex(1);
-    	ui->menuTab->setFixedWidth(41);
-	}
+    if(expand)
+    {
+        ui->menuTab->setCurrentIndex(0);
+        ui->menuTab->setFixedWidth(200);
+    }else{
+        ui->menuTab->setCurrentIndex(1);
+        ui->menuTab->setFixedWidth(41);
+    }
 }
-
 void MainWindow::ShowOptionsTab(bool show)
 {
     if(show)
@@ -521,7 +543,6 @@ void MainWindow::ShowOptionsTab(bool show)
         ui->Player_tab->setCurrentIndex(0);
     }
 }
-
 void MainWindow::ShowProgressTab(bool show)
 {
     if(show)
@@ -631,19 +652,19 @@ void MainWindow::AddAlbumLineToTable(QTableWidget *table, Album *album)
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_albuns.indexOf(album));
     item->setCheckState(Qt::Unchecked);
-    table->setItem(newRow, 0, item);
 
     // Artwork
     artwork = new QLabel;
     QPixmap pxmap = QPixmap(album->getImagem());
     if(!pxmap.isNull())
-        artwork->setPixmap(QPixmap(album->getImagem()).scaled(50,50));
+        artwork->setPixmap(QPixmap(album->getImagem()).scaled(100,100));
     else
         artwork->setPixmap(QPixmap(":/music.png"));
     artwork->setAlignment(Qt::AlignCenter);
     artwork->setStyleSheet("background-color: rgba(255, 255, 255, 10);");
     table->setCellWidget(newRow, 1, artwork);
-
+    table->setColumnWidth(1,100);
+    table->setRowHeight(newRow,130);
     // Name
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_albuns.indexOf(album));
@@ -674,6 +695,7 @@ void MainWindow::AddSongLineToTable(QTableWidget *table, Musica *song)
     QTableWidgetItem *item;
     Album *fromAlbum;
     table->insertRow(newRow);
+    table->setRowHeight(newRow,50);
 
     // CheckBox
     item = new QTableWidgetItem;
@@ -686,7 +708,7 @@ void MainWindow::AddSongLineToTable(QTableWidget *table, Musica *song)
     item->setData(Qt::WhatsThisRole,_songs.indexOf(song));
     item->setData(Qt::DisplayRole,song->getNome());
     table->setItem(newRow, 1, item);
-
+    table->setColumnWidth(1,200);
     // Gender
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_songs.indexOf(song));
@@ -1557,7 +1579,9 @@ void MainWindow::on_playlist_selected(MyAction *action)
 
             }else if(ui->menu_small_button_artist->isChecked())
             {
-                _playlist[i]->adicionar(&getSongsFromArtist(_artists[_showingArtist]));
+                QList<Musica*> artist;
+                artist=getSongsFromArtist(_artists[_showingArtist]);
+                _playlist[i]->adicionar(&artist);
             }
         }
     }
