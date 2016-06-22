@@ -18,6 +18,7 @@ Dialog::Dialog(QWidget *parent) :
     dirmodel = new QFileSystemModel(this);
     dirmodel->setRootPath(sPath);
     _photo = "";
+   this->setFixedSize(this->width(),this->height());
 
 }
 
@@ -49,14 +50,20 @@ void Dialog::on_dialog_button_cancel_clicked()
 
 void Dialog::on_dialog_button_save_clicked()
 {
-    Database db;
-    _newArtist = new Autor;
-    _newArtist->setDataNascimento(ui->dialog_dateEdit_birth->date());
-    _newArtist->setNome(ui->dialog_lineEdit_name->text());
-    _newArtist->setNacionalidade(ui->dialog_lineEdit_nacionality->text());
-    _newArtist->setImagem(_photo);    
-    _newArtist->criar();
+    if(ui->dialog_lineEdit_name->text().isEmpty())
+    {
+         QMessageBox::warning(this,"Adicionar Autor",tr("Falta preencher o nome do Autor."));
+    }
+    else
+    {
+        Database db;
+        _newArtist = new Autor;
+        _newArtist->setDataNascimento(ui->dialog_dateEdit_birth->date());
+        _newArtist->setNome(ui->dialog_lineEdit_name->text());
+        _newArtist->setNacionalidade(ui->dialog_lineEdit_nacionality->text());
+        _newArtist->setImagem(_photo);
+        _newArtist->criar();
 
-    this->accept();
-
+        this->accept();
+    }
 }
