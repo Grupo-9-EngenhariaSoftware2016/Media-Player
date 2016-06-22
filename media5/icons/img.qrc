@@ -16,5 +16,7 @@
         <file>Silence.png</file>
         <file>Som.png</file>
         <file>previous.png</file>
+        <file>album_art.png</file>
+        <file>artist_art.png</file>
     </qresource>
 </RCC>

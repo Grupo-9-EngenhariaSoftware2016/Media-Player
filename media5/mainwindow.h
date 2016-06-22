@@ -179,6 +179,8 @@ private slots:
     void on_options_button_edit_toggled(bool checked);
 
 
+    void on_page_remove_album_artwork_clicked();
+
 private:
     Ui::MainWindow *ui;
     Dialog * mdialog;
