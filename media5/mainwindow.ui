@@ -13,11 +13,11 @@
     <x>0</x>
     <y>0</y>
     <width>1032</width>
-    <height>693</height>
+    <height>746</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+   <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -66,6 +66,527 @@
     <property name="spacing">
      <number>0</number>
     </property>
+    <item row="1" column="0" colspan="6">
+     <widget class="QStackedWidget" name="Player_tab">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>60</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">
+background-color:rgb(5, 111, 203);
+</string>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="player_tab">
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="1" column="5">
+         <widget class="QLabel" name="player_label_timer">
+          <property name="text">
+           <string>000.00</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="13" rowspan="3">
+         <widget class="QPushButton" name="player_button_shuffle">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="icons/img.qrc">
+            <normaloff>:/shuffle.png</normaloff>:/shuffle.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="player_label_song">
+          <property name="text">
+           <string>Nome da Musica</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="12" rowspan="3">
+         <widget class="QPushButton" name="player_button_next">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="icons/img.qrc">
+            <normaloff>:/next.png</normaloff>:/next.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="4">
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>100</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="11" rowspan="3">
+         <widget class="QPushButton" name="player_button_stop">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="icons/img.qrc">
+            <normaloff>:/square.png</normaloff>:/square.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>30</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="6" rowspan="3">
+         <widget class="QSlider" name="player_slider">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" rowspan="3">
+         <widget class="QLabel" name="player_label_artwork">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>50</width>
+            <height>50</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Plain</enum>
+          </property>
+          <property name="lineWidth">
+           <number>1</number>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="icons/img.qrc">:/circle-1.png</pixmap>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="8" rowspan="3" colspan="2">
+         <widget class="QPushButton" name="player_button_previous">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="icons/img.qrc">
+            <normaloff>:/previous.png</normaloff>:/previous.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="player_label_artist">
+          <property name="text">
+           <string>Autor</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="14" rowspan="3">
+         <widget class="QPushButton" name="player_button_repeat">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="icons/img.qrc">
+            <normaloff>:/repeat.png</normaloff>:/repeat.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="7">
+         <spacer name="horizontalSpacer_9">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>10</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="15" rowspan="3">
+         <widget class="QPushButton" name="player_button_mute">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="icons/img.qrc">
+            <normaloff>:/Som.png</normaloff>
+            <normalon>:/Silence.png</normalon>:/Som.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="default">
+           <bool>false</bool>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <spacer name="horizontalSpacer_8">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="16">
+         <spacer name="horizontalSpacer_11">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="10" rowspan="3">
+         <widget class="QPushButton" name="player_button_play">
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="icons/img.qrc">
+            <normaloff>:/circle-1.png</normaloff>
+            <normalon>:/circle.png</normalon>
+            <disabledoff>:/circle-1.png</disabledoff>
+            <activeoff>:/circle-1.png</activeoff>:/circle-1.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>50</width>
+            <height>50</height>
+           </size>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="autoExclusive">
+           <bool>true</bool>
+          </property>
+          <property name="autoRepeatDelay">
+           <number>0</number>
+          </property>
+          <property name="autoRepeatInterval">
+           <number>0</number>
+          </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="options_tab">
+       <layout class="QGridLayout" name="gridLayout_19">
+        <item row="0" column="2">
+         <widget class="QPushButton" name="options_button_edit">
+          <property name="text">
+           <string>Editar</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QPushButton" name="options_button_play">
+          <property name="text">
+           <string>Reproduzir</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <spacer name="horizontalSpacer_19">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>50</width>
+            <height>0</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="4">
+         <widget class="QPushButton" name="options_button_information">
+          <property name="text">
+           <string>Ver Informação </string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QPushButton" name="options_button_remove">
+          <property name="text">
+           <string>Remover</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="5">
+         <spacer name="horizontalSpacer_20">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>500</width>
+            <height>0</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="progress_tab">
+       <layout class="QGridLayout" name="gridLayout_13">
+        <item row="0" column="7">
+         <widget class="QPushButton" name="progress_button_save">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">
+QPushButton:progress_button_save
+{
+background-color: rgb(211, 211, 211); 
+}
+QPushButton:hover{ 
+	background-color: rgb(211, 211, 211); 
+	image :  white; 
+	color:rgb(18, 171, 218);
+}</string>
+          </property>
+          <property name="text">
+           <string>Guardar</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="1">
+         <widget class="QPushButton" name="progress_button_previous">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton#pushButton {
+     background-color:yellow
+ }
+QPushButton:hover{ 
+	background-color: rgb(211, 211, 211); 
+	image :  white; 
+	color:rgb(18, 171, 218);
+}
+
+</string>
+          </property>
+          <property name="text">
+           <string>Anterior</string>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="5">
+         <widget class="QPushButton" name="progress_button_next">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton:hover{ 
+	background-color: rgb(211, 211, 211); 
+	image :  white; 
+	color:rgb(18, 171, 218);
+}</string>
+          </property>
+          <property name="text">
+           <string>Seguinte</string>
+          </property>
+          <property name="default">
+           <bool>true</bool>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="6">
+         <widget class="QPushButton" name="progress_button_cancel">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton:hover{ 
+	background-color: rgb(211, 211, 211); 
+	image :  white; 
+	color:rgb(18, 171, 218);
+}</string>
+          </property>
+          <property name="text">
+           <string>Cancelar</string>
+          </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
     <item row="0" column="0">
      <widget class="QStackedWidget" name="menuTab">
       <property name="sizePolicy">
@@ -435,7 +956,20 @@
          </spacer>
         </item>
         <item row="1" column="0">
-         <widget class="QLineEdit" name="menu_full_lineEdit_search"/>
+         <widget class="QLineEdit" name="menu_full_lineEdit_search">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Yu Gothic UI</family>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -666,424 +1200,7 @@ QPushButton:checked{ background-color: pink; }</string>
       </widget>
      </widget>
     </item>
-    <item row="1" column="0" colspan="6">
-     <widget class="QStackedWidget" name="Player_tab">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>60</width>
-        <height>80</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color:rgb(36, 172, 235);</string>
-      </property>
-      <property name="currentIndex">
-       <number>0</number>
-      </property>
-      <widget class="QWidget" name="player_tab">
-       <layout class="QGridLayout" name="gridLayout_5">
-        <item row="1" column="5">
-         <widget class="QLabel" name="player_label_timer">
-          <property name="text">
-           <string>000.00</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="13" rowspan="3">
-         <widget class="QPushButton" name="player_button_shuffle">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="icons/img.qrc">
-            <normaloff>:/shuffle.png</normaloff>:/shuffle.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="player_label_song">
-          <property name="text">
-           <string>Nome da Musica</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="12" rowspan="3">
-         <widget class="QPushButton" name="player_button_next">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="icons/img.qrc">
-            <normaloff>:/next.png</normaloff>:/next.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="10" rowspan="3">
-         <widget class="QPushButton" name="player_button_play">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="icons/img.qrc">
-            <normaloff>:/circle-1.png</normaloff>
-            <normalon>:/circle.png</normalon>
-            <disabledoff>:/circle-1.png</disabledoff>
-            <activeoff>:/circle-1.png</activeoff>:/circle-1.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="autoDefault">
-           <bool>false</bool>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="4">
-         <spacer name="horizontalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>100</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="11" rowspan="3">
-         <widget class="QPushButton" name="player_button_stop">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="icons/img.qrc">
-            <normaloff>:/square.png</normaloff>:/square.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="6" rowspan="3">
-         <widget class="QSlider" name="player_slider">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1" rowspan="3">
-         <widget class="QLabel" name="player_label_artwork">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>50</width>
-            <height>50</height>
-           </size>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::Box</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Plain</enum>
-          </property>
-          <property name="lineWidth">
-           <number>1</number>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap resource="icons/img.qrc">:/circle-1.png</pixmap>
-          </property>
-          <property name="scaledContents">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="8" rowspan="3" colspan="2">
-         <widget class="QPushButton" name="player_button_previous">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="icons/img.qrc">
-            <normaloff>:/previous.png</normaloff>:/previous.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QLabel" name="player_label_artist">
-          <property name="text">
-           <string>Autor</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="14" rowspan="3">
-         <widget class="QPushButton" name="player_button_repeat">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="icons/img.qrc">
-            <normaloff>:/repeat.png</normaloff>:/repeat.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="7">
-         <spacer name="horizontalSpacer_9">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>10</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="15" rowspan="3">
-         <widget class="QPushButton" name="player_button_mute">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="icons/img.qrc">
-            <normaloff>:/Som.png</normaloff>
-            <normalon>:/Silence.png</normalon>:/Som.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="default">
-           <bool>false</bool>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <spacer name="horizontalSpacer_8">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="16">
-         <spacer name="horizontalSpacer_11">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="options_tab">
-       <layout class="QGridLayout" name="gridLayout_19">
-        <item row="0" column="2">
-         <widget class="QPushButton" name="options_button_edit">
-          <property name="text">
-           <string>Editar</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QPushButton" name="options_button_play">
-          <property name="text">
-           <string>Reproduzir</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <spacer name="horizontalSpacer_19">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>50</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="4">
-         <widget class="QPushButton" name="options_button_information">
-          <property name="text">
-           <string>Ver Informação </string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="3">
-         <widget class="QPushButton" name="options_button_remove">
-          <property name="text">
-           <string>Remover</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="5">
-         <spacer name="horizontalSpacer_20">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>500</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="progress_tab">
-       <layout class="QGridLayout" name="gridLayout_13">
-        <item row="0" column="7">
-         <widget class="QPushButton" name="progress_button_save">
-          <property name="text">
-           <string>Guardar</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="1">
-         <widget class="QPushButton" name="progress_button_previous">
-          <property name="text">
-           <string>Anterior</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="5">
-         <widget class="QPushButton" name="progress_button_next">
-          <property name="text">
-           <string>Seguinte</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="6">
-         <widget class="QPushButton" name="progress_button_cancel">
-          <property name="text">
-           <string>Cancelar</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </widget>
-    </item>
-    <item row="0" column="1">
+    <item row="0" column="5">
      <widget class="QStackedWidget" name="pages">
       <property name="palette">
        <palette>
@@ -1183,7 +1300,7 @@ QPushButton:checked{ background-color: pink; }</string>
        <string notr="true">background-color:white;</string>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="page_categories">
        <layout class="QGridLayout" name="gridLayout_4">
@@ -1228,6 +1345,7 @@ QPushButton:checked{ background-color: pink; }</string>
          <widget class="QLabel" name="page_categories_label_category">
           <property name="font">
            <font>
+            <family>Yu Gothic UI</family>
             <pointsize>22</pointsize>
             <weight>50</weight>
             <bold>false</bold>
@@ -1339,7 +1457,7 @@ QPushButton:checked{ background-color: pink; }</string>
            <string notr="true"/>
           </property>
           <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
+           <enum>QFrame::Box</enum>
           </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
@@ -1432,7 +1550,7 @@ QPushButton:checked{ background-color: pink; }</string>
            <string notr="true">background</string>
           </property>
           <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
+           <enum>QFrame::Box</enum>
           </property>
           <property name="horizontalScrollBarPolicy">
            <enum>Qt::ScrollBarAsNeeded</enum>
@@ -1569,7 +1687,7 @@ color: white;</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap resource="icons/img.qrc">:/circle-1.png</pixmap>
+              <pixmap resource="icons/img.qrc">:/album_art.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -1597,7 +1715,65 @@ color: white;</string>
              <property name="verticalSpacing">
               <number>0</number>
              </property>
-             <item row="7" column="4" colspan="7">
+             <item row="9" column="9">
+              <widget class="QPushButton" name="page_album_info_button_select">
+               <property name="text">
+                <string>Editar</string>
+               </property>
+               <property name="icon">
+                <iconset resource="icons/img.qrc">
+                 <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+               </property>
+               <property name="flat">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="4">
+              <widget class="QLabel" name="label_2">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>#</string>
+               </property>
+              </widget>
+             </item>
+             <item row="10" column="10">
+              <spacer name="verticalSpacer_10">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="9" column="1" colspan="3">
+              <widget class="QPushButton" name="page_album_info_button_play">
+               <property name="text">
+                <string>Reproduzir</string>
+               </property>
+               <property name="icon">
+                <iconset resource="icons/img.qrc">
+                 <normaloff>:/circle-1.png</normaloff>:/circle-1.png</iconset>
+               </property>
+               <property name="flat">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="4" colspan="9">
               <widget class="QTextEdit" name="textEdit">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -1625,37 +1801,7 @@ color: white;</string>
                </property>
               </widget>
              </item>
-             <item row="9" column="1" colspan="3">
-              <widget class="QPushButton" name="page_album_info_button_play">
-               <property name="text">
-                <string>Reproduzir</string>
-               </property>
-               <property name="icon">
-                <iconset resource="icons/img.qrc">
-                 <normaloff>:/circle-1.png</normaloff>:/circle-1.png</iconset>
-               </property>
-               <property name="flat">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="10" column="8">
-              <spacer name="verticalSpacer_10">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Fixed</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="9" column="8">
+             <item row="9" column="10">
               <widget class="QPushButton" name="page_album_info_button_remove">
                <property name="text">
                 <string>Eliminar</string>
@@ -1669,20 +1815,7 @@ color: white;</string>
                </property>
               </widget>
              </item>
-             <item row="9" column="11">
-              <spacer name="horizontalSpacer_12">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>100</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="1" column="1" colspan="11">
+             <item row="1" column="1" colspan="13">
               <widget class="QLabel" name="page_album_info_label_name">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -1700,6 +1833,125 @@ color: white;</string>
                </property>
                <property name="text">
                 <string>Nome do Álbum</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1" colspan="13">
+              <spacer name="verticalSpacer_11">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>10</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="8" column="10">
+              <spacer name="verticalSpacer_22">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>10</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="9" column="13">
+              <spacer name="horizontalSpacer_12">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>100</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="4" column="5" colspan="8">
+              <widget class="QLabel" name="page_album_info_label_gender">
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Estilo Musical</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1" colspan="12">
+              <spacer name="verticalSpacer_8">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="9" column="4" colspan="4">
+              <widget class="QPushButton" name="page_album_info_button_addTo">
+               <property name="text">
+                <string>Adicionar a</string>
+               </property>
+               <property name="icon">
+                <iconset resource="icons/img.qrc">
+                 <normaloff>:/playlist.png</normaloff>:/playlist.png</iconset>
+               </property>
+               <property name="flat">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="9" column="8">
+              <widget class="QPushButton" name="page_album_info_button_select_3">
+               <property name="text">
+                <string>Adicionar Musicas</string>
+               </property>
+               <property name="icon">
+                <iconset resource="icons/img.qrc">
+                 <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+               </property>
+               <property name="flat">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="2" colspan="2">
+              <widget class="QLabel" name="page_album_info_label_year">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>-</string>
                </property>
               </widget>
              </item>
@@ -1723,53 +1975,7 @@ color: white;</string>
                </property>
               </widget>
              </item>
-             <item row="8" column="8">
-              <spacer name="verticalSpacer_22">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Fixed</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>10</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="5" column="1" colspan="11">
-              <spacer name="verticalSpacer_11">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Fixed</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>10</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="9" column="10">
-              <widget class="QPushButton" name="page_album_info_button_exploreArtist">
-               <property name="text">
-                <string>Explorar artista</string>
-               </property>
-               <property name="icon">
-                <iconset resource="icons/img.qrc">
-                 <normaloff>:/tool.png</normaloff>:/tool.png</iconset>
-               </property>
-               <property name="flat">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1" colspan="11">
+             <item row="2" column="1" colspan="13">
               <widget class="QLabel" name="page_album_info_label_artist">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -1785,80 +1991,6 @@ color: white;</string>
                </property>
                <property name="text">
                 <string>Nome do Artista</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="5" colspan="6">
-              <widget class="QLabel" name="page_album_info_label_gender">
-               <property name="font">
-                <font>
-                 <pointsize>11</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>Estilo Musical</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1" colspan="10">
-              <spacer name="verticalSpacer_8">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Fixed</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="4" column="2" colspan="2">
-              <widget class="QLabel" name="page_album_info_label_year">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>12</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>-</string>
-               </property>
-              </widget>
-             </item>
-             <item row="9" column="4" colspan="4">
-              <widget class="QPushButton" name="page_album_info_button_addTo">
-               <property name="text">
-                <string>Adicionar a</string>
-               </property>
-               <property name="icon">
-                <iconset resource="icons/img.qrc">
-                 <normaloff>:/playlist.png</normaloff>:/playlist.png</iconset>
-               </property>
-               <property name="flat">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="4">
-              <widget class="QLabel" name="label_2">
-               <property name="font">
-                <font>
-                 <pointsize>12</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>#</string>
                </property>
               </widget>
              </item>
@@ -1915,20 +2047,6 @@ color: white;</string>
           </property>
          </spacer>
         </item>
-        <item row="2" column="2" alignment="Qt::AlignRight">
-         <widget class="QPushButton" name="page_album_info_button_select">
-          <property name="text">
-           <string>Selecionar</string>
-          </property>
-          <property name="icon">
-           <iconset resource="icons/img.qrc">
-            <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="page_add_album">
@@ -1943,6 +2061,7 @@ color: white;</string>
           </property>
           <property name="font">
            <font>
+            <family>Yu Gothic UI</family>
             <pointsize>22</pointsize>
            </font>
           </property>
@@ -1969,8 +2088,17 @@ color: white;</string>
         </item>
         <item row="1" column="0" rowspan="2">
          <widget class="QTabWidget" name="page_add_album_tabs">
+          <property name="styleSheet">
+           <string notr="true">background:rgb(235, 235, 235); </string>
+          </property>
+          <property name="tabShape">
+           <enum>QTabWidget::Rounded</enum>
+          </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
+          </property>
+          <property name="documentMode">
+           <bool>false</bool>
           </property>
           <property name="tabBarAutoHide">
            <bool>false</bool>
@@ -1980,129 +2108,105 @@ color: white;</string>
             <string>Tab 1</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_11">
-            <item row="0" column="1" rowspan="2">
-             <widget class="QLabel" name="page_add_album_label_artwork">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
+            <item row="5" column="2">
+             <widget class="QPushButton" name="page_add_album_button_addArtwork">
               <property name="minimumSize">
                <size>
-                <width>450</width>
-                <height>450</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>500</width>
-                <height>500</height>
+                <width>50</width>
+                <height>0</height>
                </size>
               </property>
               <property name="font">
                <font>
-                <pointsize>11</pointsize>
+                <family>Yu Gothic UI</family>
+                <pointsize>10</pointsize>
                </font>
               </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton:hover{ 
+	background-color:rgb(167, 167, 167);
+	color:rgb(18, 171, 218);
+	
+}
+</string>
+              </property>
               <property name="text">
-               <string/>
+               <string>Adicionar Capa</string>
               </property>
-              <property name="pixmap">
-               <pixmap resource="icons/img.qrc">:/music.png</pixmap>
+              <property name="autoDefault">
+               <bool>false</bool>
               </property>
-              <property name="scaledContents">
+              <property name="default">
+               <bool>false</bool>
+              </property>
+              <property name="flat">
                <bool>true</bool>
               </property>
              </widget>
             </item>
-            <item row="2" column="1">
-             <widget class="QPushButton" name="page_add_album_button_addArtwork">
+            <item row="5" column="3">
+             <widget class="QPushButton" name="page_remove_album_artwork">
+              <property name="font">
+               <font>
+                <family>Yu Gothic UI</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton:hover{ 
+	background-color:rgb(167, 167, 167);
+	color:rgb(18, 171, 218);
+	
+}
+</string>
+              </property>
               <property name="text">
-               <string>Escolher  Imagem de Capa</string>
+               <string>Remover Capa</string>
+              </property>
+              <property name="default">
+               <bool>false</bool>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
-            <item row="0" column="0" rowspan="5">
+            <item row="1" column="0" rowspan="5">
              <layout class="QGridLayout" name="gridLayout_10">
               <property name="sizeConstraint">
                <enum>QLayout::SetDefaultConstraint</enum>
               </property>
-              <item row="1" column="1">
-               <widget class="QLabel" name="lb_ano">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>11</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Ano</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QLabel" name="lb_nome">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>11</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Nome</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QLabel" name="lb_descricao">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>11</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Descricao</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1" rowspan="2">
-               <spacer name="verticalSpacer_7">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Fixed</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
+              <item row="3" column="3" colspan="4">
+               <widget class="QComboBox" name="comboBox">
+                <property name="minimumSize">
                  <size>
-                  <width>20</width>
-                  <height>40</height>
+                  <width>0</width>
+                  <height>30</height>
                  </size>
                 </property>
-               </spacer>
+                <property name="styleSheet">
+                 <string notr="true">background:white; border:none;</string>
+                </property>
+               </widget>
               </item>
-              <item row="1" column="2">
+              <item row="6" column="0" colspan="7">
+               <widget class="QPlainTextEdit" name="page_add_album_textEdit_description">
+                <property name="font">
+                 <font>
+                  <family>Yu Gothic UI</family>
+                  <pointsize>10</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background:white; border:none;</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
                <widget class="QLineEdit" name="page_add_album_lineEdit_year">
                 <property name="minimumSize">
                  <size>
-                  <width>20</width>
+                  <width>50</width>
                   <height>30</height>
                  </size>
                 </property>
@@ -2112,19 +2216,40 @@ color: white;</string>
                   <height>16777215</height>
                  </size>
                 </property>
-               </widget>
-              </item>
-              <item row="1" column="4">
-               <widget class="QLineEdit" name="page_add_album_lineEdit_gender">
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>30</height>
-                 </size>
+                <property name="font">
+                 <font>
+                  <family>Yu Gothic UI</family>
+                  <pointsize>10</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background:white;border:none;</string>
+                </property>
+                <property name="maxLength">
+                 <number>4</number>
                 </property>
                </widget>
               </item>
-              <item row="0" column="2" colspan="3">
+              <item row="1" column="0">
+               <widget class="QLabel" name="lb_nome">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Yu Gothic UI</family>
+                  <pointsize>11</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Nome</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1" colspan="6">
                <widget class="QLineEdit" name="page_add_album_lineEdit_name">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -2138,24 +2263,193 @@ color: white;</string>
                   <height>30</height>
                  </size>
                 </property>
-               </widget>
-              </item>
-              <item row="1" column="3">
-               <widget class="QLabel" name="lb_genero">
                 <property name="font">
                  <font>
+                  <family>Yu Gothic UI</family>
+                  <pointsize>10</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background: white; border:none;</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="lb_ano">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Yu Gothic UI</family>
                   <pointsize>11</pointsize>
                  </font>
                 </property>
                 <property name="text">
-                 <string>Género</string>
+                 <string>Ano</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="2" rowspan="3" colspan="3">
-               <widget class="QPlainTextEdit" name="page_add_album_textEdit_description"/>
+              <item row="3" column="2">
+               <widget class="QLabel" name="lb_genero">
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Yu Gothic UI</family>
+                  <pointsize>11</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Género   </string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <spacer name="verticalSpacer_7">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>5</width>
+                  <height>0</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="4" column="0">
+               <spacer name="verticalSpacer_20">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>10</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="5" column="0" colspan="7">
+               <widget class="QLabel" name="lb_descricao_2">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Yu Gothic UI</family>
+                  <pointsize>11</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Descrição</string>
+                </property>
+               </widget>
               </item>
              </layout>
+            </item>
+            <item row="0" column="0" colspan="4">
+             <spacer name="verticalSpacer_19">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Minimum</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>2</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="1" column="4" rowspan="3">
+             <spacer name="horizontalSpacer_23">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>1</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="1" column="2" rowspan="4" colspan="2">
+             <widget class="QLabel" name="page_add_album_label_artwork">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>500</width>
+                <height>500</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>500</width>
+                <height>500</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Box</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Plain</enum>
+              </property>
+              <property name="lineWidth">
+               <number>1</number>
+              </property>
+              <property name="midLineWidth">
+               <number>0</number>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="pixmap">
+               <pixmap resource="icons/img.qrc">:/album_art.png</pixmap>
+              </property>
+              <property name="scaledContents">
+               <bool>true</bool>
+              </property>
+              <property name="wordWrap">
+               <bool>false</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -2164,38 +2458,39 @@ color: white;</string>
             <string>Tab 2</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_17">
-            <item row="0" column="0">
+            <item row="0" column="1">
+             <spacer name="horizontalSpacer_25">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>10</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="0" column="3">
              <layout class="QGridLayout" name="gridLayout_14">
-              <item row="1" column="1">
-               <widget class="QPushButton" name="page_add_album_button_addMusic">
-                <property name="text">
-                 <string>Adicionar Musicas</string>
+              <item row="1" column="0">
+               <spacer name="verticalSpacer_23">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
                 </property>
-               </widget>
-              </item>
-              <item row="1" column="0" rowspan="4">
-               <widget class="QTableWidget" name="page_add_album_tableWidget_toAddMusics">
-                <attribute name="horizontalHeaderDefaultSectionSize">
-                 <number>200</number>
-                </attribute>
-                <attribute name="horizontalHeaderMinimumSectionSize">
-                 <number>200</number>
-                </attribute>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QPushButton" name="page_add_album_button_remove">
-                <property name="text">
-                 <string>Remover</string>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
                 </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QPushButton" name="page_add_album_button_addFolder">
-                <property name="text">
-                 <string>Adicionar Pasta</string>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>10</height>
+                 </size>
                 </property>
-               </widget>
+               </spacer>
               </item>
               <item row="0" column="0">
                <widget class="QLabel" name="label_13">
@@ -2207,11 +2502,115 @@ color: white;</string>
                 </property>
                 <property name="font">
                  <font>
+                  <family>Yu Gothic UI</family>
                   <pointsize>14</pointsize>
                  </font>
                 </property>
                 <property name="text">
                  <string>Músicas</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0" rowspan="7">
+               <widget class="QTableWidget" name="page_add_album_tableWidget_toAddMusics">
+                <property name="font">
+                 <font>
+                  <family>Yu Gothic UI</family>
+                  <pointsize>14</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background:white;
+
+</string>
+                </property>
+                <attribute name="horizontalHeaderVisible">
+                 <bool>false</bool>
+                </attribute>
+                <attribute name="horizontalHeaderDefaultSectionSize">
+                 <number>200</number>
+                </attribute>
+                <attribute name="horizontalHeaderHighlightSections">
+                 <bool>false</bool>
+                </attribute>
+                <attribute name="horizontalHeaderMinimumSectionSize">
+                 <number>200</number>
+                </attribute>
+               </widget>
+              </item>
+              <item row="8" column="4">
+               <widget class="QPushButton" name="page_add_album_button_remove">
+                <property name="maximumSize">
+                 <size>
+                  <width>150</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Remover</string>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="4">
+               <widget class="QPushButton" name="page_add_album_button_remove_2">
+                <property name="maximumSize">
+                 <size>
+                  <width>150</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Seleccionar</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="4" rowspan="2">
+               <widget class="QPushButton" name="page_add_album_button_addFolder">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>150</width>
+                  <height>500</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Yu Gothic UI</family>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Adicionar Pasta</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="4" rowspan="3">
+               <widget class="QPushButton" name="page_add_album_button_addMusic">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>150</width>
+                  <height>500</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Yu Gothic UI</family>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Adicionar Musicas</string>
                 </property>
                </widget>
               </item>
@@ -2226,32 +2625,20 @@ color: white;</string>
            <layout class="QGridLayout" name="gridLayout_16">
             <item row="2" column="0">
              <layout class="QGridLayout" name="gridLayout_15">
-              <item row="1" column="3">
-               <widget class="QLabel" name="page_add_album_label_3">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>14</pointsize>
-                 </font>
+              <item row="2" column="2">
+               <widget class="QPushButton" name="page_add_album_button_newArtist">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>30</height>
+                 </size>
                 </property>
                 <property name="text">
-                 <string>Musicas</string>
+                 <string>Adicionar Novo</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="4">
-               <widget class="QPushButton" name="page_add_album_button_addArtistTo">
-                <property name="text">
-                 <string>Associar Autor a Musica</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
+              <item row="2" column="0">
                <widget class="QLabel" name="page_add_album_label_2">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2261,11 +2648,28 @@ color: white;</string>
                 </property>
                 <property name="font">
                  <font>
+                  <family>Yu Gothic UI</family>
                   <pointsize>14</pointsize>
                  </font>
                 </property>
                 <property name="text">
                  <string>Lista de Autores</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLineEdit" name="page_add_album_lineEdit_searchArtists">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>30</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>200</width>
+                  <height>16777215</height>
+                 </size>
                 </property>
                </widget>
               </item>
@@ -2279,6 +2683,7 @@ color: white;</string>
                 </property>
                 <property name="font">
                  <font>
+                  <family>Yu Gothic UI</family>
                   <pointsize>14</pointsize>
                  </font>
                 </property>
@@ -2287,27 +2692,19 @@ color: white;</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
-               <widget class="QLineEdit" name="page_add_album_lineEdit_searchArtists"/>
-              </item>
-              <item row="3" column="4">
-               <widget class="QPushButton" name="page_add_album_button_addArtistToAll">
-                <property name="text">
-                 <string>Associar mesmo Autor a todas as Musicas</string>
+              <item row="4" column="5" rowspan="7" colspan="3">
+               <widget class="QTableWidget" name="page_add_album_tableWidget_musics">
+                <property name="font">
+                 <font>
+                  <pointsize>10</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background:white;</string>
                 </property>
                </widget>
               </item>
-              <item row="4" column="4">
-               <widget class="QPushButton" name="page_add_album_button_removeArtistFrom">
-                <property name="text">
-                 <string>Remover Autor da Música</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="3" rowspan="4">
-               <widget class="QTableWidget" name="page_add_album_tableWidget_musics"/>
-              </item>
-              <item row="6" column="4">
+              <item row="1" column="0">
                <spacer name="verticalSpacer_12">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
@@ -2323,15 +2720,111 @@ color: white;</string>
                 </property>
                </spacer>
               </item>
-              <item row="6" column="0" colspan="2">
-               <widget class="QPushButton" name="page_add_album_button_newArtist">
+              <item row="2" column="5">
+               <widget class="QLabel" name="page_add_album_label_3">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Yu Gothic UI</family>
+                  <pointsize>14</pointsize>
+                 </font>
+                </property>
                 <property name="text">
-                 <string>Adicionar Novo</string>
+                 <string>Musicas</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="0" rowspan="4" colspan="2">
-               <widget class="QTableWidget" name="page_add_album_tableWidget_artists"/>
+              <item row="5" column="3">
+               <spacer name="horizontalSpacer_22">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="10" column="8">
+               <widget class="QPushButton" name="page_add_album_button_removeArtistFrom">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Desassociar Autor</string>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="8">
+               <widget class="QPushButton" name="page_add_album_button_addArtistToAll">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Retirar Selecções</string>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="8">
+               <widget class="QPushButton" name="page_add_album_button_addArtistToAll_2">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Selecionar Todas</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="8" rowspan="4">
+               <widget class="QPushButton" name="page_add_album_button_addArtistTo">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Associar Autor</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0" rowspan="7" colspan="3">
+               <widget class="QTableWidget" name="page_add_album_tableWidget_artists">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background:white;</string>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>
@@ -2345,30 +2838,39 @@ color: white;</string>
        <layout class="QGridLayout" name="gridLayout_6">
         <item row="0" column="0">
          <layout class="QGridLayout" name="gridLayout_18">
-          <item row="6" column="3">
-           <spacer name="verticalSpacer_21">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
+          <item row="3" column="1">
+           <widget class="QLabel" name="page_add_music_label_3">
+            <property name="font">
+             <font>
+              <family>Yu Gothic UI</family>
+              <pointsize>10</pointsize>
+             </font>
             </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="5" column="3">
-           <widget class="QPushButton" name="page_add_music_button_2">
             <property name="text">
-             <string>Remover</string>
+             <string>Autores</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="0">
+          <item row="4" column="1">
+           <widget class="QLineEdit" name="lineEdit_2"/>
+          </item>
+          <item row="5" column="1">
+           <widget class="QComboBox" name="page_add_music_comboBox_albuns_3">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Yu Gothic UI</family>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" colspan="3">
            <widget class="QLabel" name="page_add_music_label_1">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2378,7 +2880,8 @@ color: white;</string>
             </property>
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <family>Yu Gothic UI</family>
+              <pointsize>22</pointsize>
              </font>
             </property>
             <property name="text">
@@ -2386,62 +2889,167 @@ color: white;</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="4">
-           <widget class="QLabel" name="page_add_music_label_3">
+          <item row="7" column="0">
+           <widget class="QLabel" name="page_add_music_label_7">
+            <property name="font">
+             <font>
+              <family>Yu Gothic UI</family>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
             <property name="text">
-             <string>Autores</string>
+             <string>Músicas</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <widget class="QComboBox" name="page_add_music_comboBox_albuns"/>
+          <item row="5" column="0">
+           <widget class="QComboBox" name="page_add_music_comboBox_albuns">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Yu Gothic UI</family>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+           </widget>
           </item>
           <item row="1" column="0">
-           <widget class="QLabel" name="page_add_music_label_2">
-            <property name="text">
-             <string>Escolher Album para as musicas</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="3">
-           <widget class="QPushButton" name="page_add_music_button_addMusic">
-            <property name="text">
-             <string>Adicionar Musicas</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0" rowspan="3" colspan="3">
-           <widget class="QTableWidget" name="page_add_music_tableWidget_musics"/>
-          </item>
-          <item row="3" column="3">
-           <widget class="QPushButton" name="page_add_music_button_addFolder">
-            <property name="text">
-             <string>Adicionar Pasta</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="4" rowspan="2">
-           <widget class="QTableWidget" name="page_add_music_tableWidget_artists">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="5">
-           <spacer name="horizontalSpacer_15">
+           <spacer name="verticalSpacer_46">
             <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+             <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
              <enum>QSizePolicy::Fixed</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>40</width>
-              <height>20</height>
+              <width>20</width>
+              <height>10</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLineEdit" name="lineEdit"/>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="page_add_music_label_2">
+            <property name="font">
+             <font>
+              <family>Yu Gothic UI</family>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Escolher Album para as musicas</string>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="2">
+           <widget class="QPushButton" name="page_add_music_button_addMusic">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Adicionar Musicas</string>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="2">
+           <widget class="QPushButton" name="page_add_music_button_addFolder">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Adicionar Pasta</string>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="2">
+           <widget class="QPushButton" name="page_add_music_button_4">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Associar Autor</string>
+            </property>
+           </widget>
+          </item>
+          <item row="12" column="2">
+           <widget class="QPushButton" name="page_add_music_button_8">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Seleccionar Todas</string>
+            </property>
+           </widget>
+          </item>
+          <item row="14" column="2">
+           <widget class="QPushButton" name="page_add_music_button_2">
+            <property name="text">
+             <string>Remover</string>
+            </property>
+           </widget>
+          </item>
+          <item row="13" column="2">
+           <widget class="QPushButton" name="page_add_music_button_6">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Desassociar Autor</string>
+            </property>
+           </widget>
+          </item>
+          <item row="15" column="2">
+           <spacer name="verticalSpacer_21">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="8" column="0" rowspan="7" colspan="2">
+           <widget class="QTableWidget" name="page_add_music_tableWidget_musics"/>
+          </item>
+          <item row="6" column="0">
+           <spacer name="verticalSpacer_69">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>10</width>
+              <height>30</height>
              </size>
             </property>
            </spacer>
@@ -2452,6 +3060,34 @@ color: white;</string>
       </widget>
       <widget class="QWidget" name="page_search">
        <layout class="QGridLayout" name="gridLayout_12">
+        <item row="0" column="0">
+         <widget class="QLabel" name="page_search_label_main">
+          <property name="font">
+           <font>
+            <family>Yu Gothic UI</family>
+            <pointsize>22</pointsize>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Resultados para &quot; keyword &quot;</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="page_search_label_musics">
+          <property name="font">
+           <font>
+            <family>Yu Gothic UI</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Musicas</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="1">
          <spacer name="horizontalSpacer_6">
           <property name="orientation">
@@ -2464,69 +3100,6 @@ color: white;</string>
            </size>
           </property>
          </spacer>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="page_search_label_main">
-          <property name="font">
-           <font>
-            <pointsize>22</pointsize>
-            <weight>50</weight>
-            <bold>false</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>Resultados para &quot; keyword&quot;</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="0">
-         <widget class="QLabel" name="page_search_label_musics">
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Musicas</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="0">
-         <widget class="QLabel" name="page_search_label_albuns">
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Albuns</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <spacer name="verticalSpacer_9">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="page_search_label_artists">
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Autores</string>
-          </property>
-         </widget>
         </item>
         <item row="1" column="0">
          <spacer name="verticalSpacer_13">
@@ -2544,13 +3117,39 @@ color: white;</string>
           </property>
          </spacer>
         </item>
-        <item row="5" column="0" colspan="2">
+        <item row="5" column="0">
+         <widget class="QLabel" name="page_search_label_albuns">
+          <property name="font">
+           <font>
+            <family>Yu Gothic UI</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Albuns</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="page_search_label_artists">
+          <property name="font">
+           <font>
+            <family>Yu Gothic UI</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Autores</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0" colspan="2">
          <widget class="QTableWidget" name="page_search_tableWidget_artists"/>
         </item>
-        <item row="7" column="0" colspan="2">
+        <item row="6" column="0" colspan="2">
          <widget class="QTableWidget" name="page_search_tableWidget_albuns"/>
         </item>
-        <item row="9" column="0" colspan="2">
+        <item row="8" column="0" colspan="2">
          <widget class="QTableWidget" name="page_search_tableWidget_musics"/>
         </item>
        </layout>
@@ -2558,218 +3157,275 @@ color: white;</string>
       <widget class="QWidget" name="page_artist">
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <layout class="QGridLayout" name="gridLayout_21">
-          <property name="verticalSpacing">
-           <number>0</number>
-          </property>
-          <item row="0" column="1" colspan="6">
-           <spacer name="verticalSpacer_16">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>10</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="1" column="1" colspan="7">
-           <widget class="QLabel" name="page_artist_label_name">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>18</pointsize>
-              <weight>50</weight>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>Nome do Artista</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="1" colspan="3">
-           <widget class="QPushButton" name="page_artist_button_play">
-            <property name="text">
-             <string>Reproduzir</string>
-            </property>
-            <property name="icon">
-             <iconset resource="icons/img.qrc">
-              <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
-            </property>
-            <property name="flat">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="6">
-           <widget class="QPushButton" name="page_artist_button_select">
-            <property name="text">
-             <string>Selecionar</string>
-            </property>
-            <property name="icon">
-             <iconset resource="icons/img.qrc">
-              <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
-            </property>
-            <property name="flat">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="4">
-           <widget class="QPushButton" name="page_artist_button_addTo">
-            <property name="text">
-             <string>Adicionar a</string>
-            </property>
-            <property name="icon">
-             <iconset resource="icons/img.qrc">
-              <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
-            </property>
-            <property name="flat">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2">
-           <widget class="QLabel" name="page_artist_label_year">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>-</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="5">
-           <widget class="QPushButton" name="page_artist_button_remove">
-            <property name="text">
-             <string>Eliminar</string>
-            </property>
-            <property name="icon">
-             <iconset resource="icons/img.qrc">
-              <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
-            </property>
-            <property name="flat">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1" colspan="7">
-           <spacer name="verticalSpacer_14">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>10</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLabel" name="page_artist_label_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Ano</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="3" colspan="5">
-           <widget class="QLabel" name="page_artist_label_gender">
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Estilo Musical</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="7">
-           <spacer name="horizontalSpacer_13">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>100</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="2" column="1" colspan="7">
-           <widget class="QLabel" name="page_artist_label_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QLabel" name="page_artist_label_3">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
+         <widget class="QFrame" name="">
           <property name="font">
            <font>
-            <pointsize>18</pointsize>
-            <weight>50</weight>
-            <bold>false</bold>
+            <family>Yu Gothic UI</family>
            </font>
           </property>
-          <property name="text">
-           <string>Albuns</string>
+          <property name="styleSheet">
+           <string notr="true">background:rgb(108, 108, 108);
+color: white;</string>
           </property>
+          <layout class="QGridLayout" name="gridLayout_21">
+           <property name="sizeConstraint">
+            <enum>QLayout::SetMaximumSize</enum>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item row="2" column="12" colspan="6">
+            <widget class="QLabel" name="page_artist_label_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="1">
+            <spacer name="verticalSpacer_14">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>15</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="1">
+            <spacer name="verticalSpacer_16">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>15</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="2" column="1" rowspan="5">
+            <widget class="QLabel" name="page_artist_label_name_3">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>150</width>
+               <height>150</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Yu Gothic UI</family>
+               <pointsize>18</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="pixmap">
+              <pixmap resource="icons/img.qrc">:/album_art.png</pixmap>
+             </property>
+             <property name="scaledContents">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="3" rowspan="5">
+            <spacer name="horizontalSpacer_45">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>30</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="4" column="4">
+            <widget class="QLabel" name="page_artist_label_year">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Ano</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" rowspan="6">
+            <spacer name="horizontalSpacer_44">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="3" column="4">
+            <widget class="QLabel" name="page_artist_label_gender">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Nacionalidade</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="4" colspan="7">
+            <widget class="QLabel" name="page_artist_label_name">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <family>Yu Gothic UI</family>
+               <pointsize>18</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Nome do Artista</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="4">
+            <widget class="QPushButton" name="page_artist_button_play">
+             <property name="text">
+              <string>Reproduzir</string>
+             </property>
+             <property name="icon">
+              <iconset resource="icons/img.qrc">
+               <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="5">
+            <widget class="QPushButton" name="page_artist_button_remove">
+             <property name="text">
+              <string>Eliminar</string>
+             </property>
+             <property name="icon">
+              <iconset resource="icons/img.qrc">
+               <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="6">
+            <widget class="QPushButton" name="page_artist_button_addTo">
+             <property name="text">
+              <string>Adicionar a</string>
+             </property>
+             <property name="icon">
+              <iconset resource="icons/img.qrc">
+               <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="7">
+            <widget class="QPushButton" name="page_artist_button_select">
+             <property name="text">
+              <string>Selecionar</string>
+             </property>
+             <property name="icon">
+              <iconset resource="icons/img.qrc">
+               <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_43">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
         <item>
          <widget class="QTableWidget" name="page_artist_tableWidget_albuns">
@@ -2816,138 +3472,164 @@ color: white;</string>
       <widget class="QWidget" name="page_playlist">
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <layout class="QGridLayout" name="gridLayout_22">
-          <property name="verticalSpacing">
-           <number>0</number>
+         <widget class="QFrame" name="frame">
+          <property name="styleSheet">
+           <string notr="true">background:rgb(108, 108, 108);
+color: white;</string>
           </property>
-          <item row="0" column="1" colspan="4">
-           <spacer name="verticalSpacer_17">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>13</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="1" column="1" colspan="5">
-           <widget class="QLabel" name="page_playlist_label_name">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>18</pointsize>
-              <weight>50</weight>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>Nome da PlayList</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="4">
-           <widget class="QPushButton" name="page_playlist_button_remove">
-            <property name="text">
-             <string>Eliminar</string>
-            </property>
-            <property name="icon">
-             <iconset resource="icons/img.qrc">
-              <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
-            </property>
-            <property name="flat">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2">
-           <widget class="QPushButton" name="page_playlist_button_play">
-            <property name="text">
-             <string>Reproduzir</string>
-            </property>
-            <property name="icon">
-             <iconset resource="icons/img.qrc">
-              <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
-            </property>
-            <property name="flat">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLabel" name="page_playlist_label_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1" colspan="5">
-           <widget class="QLabel" name="page_playlist_label_1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="3">
-           <widget class="QPushButton" name="page_playlist_button_addMusic">
-            <property name="text">
-             <string>Adicionar Musicas</string>
-            </property>
-            <property name="icon">
-             <iconset resource="icons/img.qrc">
-              <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
-            </property>
-            <property name="flat">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="5">
-           <spacer name="horizontalSpacer_14">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>100</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
+          <layout class="QGridLayout" name="gridLayout_22">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item row="7" column="1">
+            <widget class="QLabel" name="page_playlist_label_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2" colspan="2">
+            <widget class="QLabel" name="page_playlist_label_name">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>18</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Nome da PlayList</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <spacer name="verticalSpacer_9">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>10</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="7" column="3">
+            <widget class="QPushButton" name="page_playlist_button_addMusic">
+             <property name="text">
+              <string>Adicionar Musicas</string>
+             </property>
+             <property name="icon">
+              <iconset resource="icons/img.qrc">
+               <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="2">
+            <widget class="QPushButton" name="page_playlist_button_play">
+             <property name="text">
+              <string>Reproduzir</string>
+             </property>
+             <property name="icon">
+              <iconset resource="icons/img.qrc">
+               <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="4">
+            <widget class="QPushButton" name="page_playlist_button_remove">
+             <property name="text">
+              <string>Eliminar</string>
+             </property>
+             <property name="icon">
+              <iconset resource="icons/img.qrc">
+               <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="2">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Descrição</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="2" colspan="3">
+            <widget class="QTextEdit" name="textEdit_4">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>60</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="5">
+            <spacer name="horizontalSpacer_14">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
         </item>
         <item>
          <widget class="QLabel" name="page_playlist_label_3">
@@ -2959,6 +3641,7 @@ color: white;</string>
           </property>
           <property name="font">
            <font>
+            <family>Yu Gothic</family>
             <pointsize>18</pointsize>
             <weight>50</weight>
             <bold>false</bold>
@@ -3027,26 +3710,8 @@ color: white;</string>
        <layout class="QGridLayout" name="gridLayout_23">
         <item row="0" column="0">
          <layout class="QGridLayout" name="gridLayout_20">
-          <item row="0" column="0">
-           <widget class="QLabel" name="page_add_playlist_label">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>22</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Adicionar Playlist</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <spacer name="horizontalSpacer_16">
+          <item row="4" column="5" rowspan="4">
+           <spacer name="horizontalSpacer_18">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -3055,82 +3720,31 @@ color: white;</string>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>40</width>
+              <width>10</width>
               <height>20</height>
              </size>
             </property>
            </spacer>
           </item>
-          <item row="1" column="2">
-           <widget class="QLineEdit" name="page_add_playlist_lineEdit_search">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
+          <item row="4" column="7">
+           <widget class="QPushButton" name="page_add_playlist_button_add">
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>30</height>
+              <height>80</height>
              </size>
             </property>
-           </widget>
-          </item>
-          <item row="1" column="3">
-           <widget class="QPushButton" name="page_add_playlist_button_search">
             <property name="text">
-             <string>Pesquisar</string>
+             <string>Adicionar musica a playlist</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="5">
-           <widget class="QPushButton" name="page_add_playlist_button_remove">
-            <property name="text">
-             <string>Remover musica da playlist</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
+          <item row="3" column="1" rowspan="5">
            <layout class="QGridLayout" name="gridLayout_24">
             <property name="sizeConstraint">
              <enum>QLayout::SetDefaultConstraint</enum>
             </property>
-            <item row="2" column="1">
-             <widget class="QLabel" name="page_add_playlist_label_3">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Descricao</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1" rowspan="2">
-             <spacer name="verticalSpacer_15">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Fixed</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="0" column="2" colspan="3">
+            <item row="0" column="1">
              <widget class="QLineEdit" name="page_add_playlist_lineEdit_name">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -3146,32 +3760,7 @@ color: white;</string>
               </property>
              </widget>
             </item>
-            <item row="1" column="2" colspan="3">
-             <widget class="QLineEdit" name="page_add_playlist_lineEdit_gender">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>30</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="2" rowspan="3" colspan="3">
-             <widget class="QPlainTextEdit" name="page_add_playlist_plainText_description"/>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLabel" name="page_add_playlist_label_2">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Género</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
+            <item row="0" column="0">
              <widget class="QLabel" name="page_add_playlist_label_1">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -3189,50 +3778,45 @@ color: white;</string>
               </property>
              </widget>
             </item>
+            <item row="1" column="1">
+             <widget class="QComboBox" name="comboBox_4"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="page_add_playlist_label_2">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Género</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="page_add_playlist_label_3">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Descricao</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0" colspan="2">
+             <widget class="QPlainTextEdit" name="page_add_playlist_plainText_description"/>
+            </item>
            </layout>
           </item>
-          <item row="1" column="4">
-           <spacer name="horizontalSpacer_18">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="2" column="2" colspan="2">
-           <widget class="QTableWidget" name="page_add_playlist_tableWidget_toAdd">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2" colspan="2">
-           <widget class="QLabel" name="page_add_playlist_label_4">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Pesquisar musicas dos albuns</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="5">
+          <item row="4" column="6" rowspan="5">
            <widget class="QTableWidget" name="page_add_playlist_tableWidget_Added">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
@@ -3242,14 +3826,59 @@ color: white;</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="2" colspan="2">
-           <widget class="QPushButton" name="page_add_playlist_button_add">
+          <item row="5" column="7">
+           <widget class="QPushButton" name="page_add_playlist_button_remove">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>80</height>
+             </size>
+            </property>
             <property name="text">
-             <string>Adicionar musica a playlist</string>
+             <string>Remover musica da playlist</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="5">
+          <item row="4" column="2" rowspan="4">
+           <spacer name="horizontalSpacer_16">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>30</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="4" column="3" rowspan="4" colspan="2">
+           <widget class="QTableWidget" name="page_add_playlist_tableWidget_toAdd">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="7">
+           <spacer name="verticalSpacer_15">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="3" column="6">
            <widget class="QLabel" name="page_add_playlist_label_addedMusics">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -3266,6 +3895,74 @@ color: white;</string>
              <string>Musicas adicionadas</string>
             </property>
            </widget>
+          </item>
+          <item row="1" column="0" colspan="2">
+           <widget class="QLabel" name="page_add_playlist_label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>22</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Adicionar Playlist</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="4">
+           <widget class="QLineEdit" name="page_add_playlist_lineEdit_search">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3">
+           <widget class="QLabel" name="page_add_playlist_label_4">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Pesquisar</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <spacer name="verticalSpacer_68">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>10</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </item>
