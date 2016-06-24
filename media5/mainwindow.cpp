@@ -663,6 +663,7 @@ void MainWindow::AddAlbumLineToTable(QTableWidget *table, Album *album)
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_albuns.indexOf(album));
     item->setCheckState(Qt::Unchecked);
+    item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
     table->setItem(newRow, 0, item);
 
     // Artwork
@@ -714,6 +715,7 @@ void MainWindow::AddSongLineToTable(QTableWidget *table, Musica *song)
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_songs.indexOf(song));
     item->setCheckState(Qt::Unchecked);
+    item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
     table->setItem(newRow, 0, item);
 
     // Name
@@ -756,6 +758,7 @@ void MainWindow::AddNewSongLineToTable(QTableWidget *table, Musica *newSong)
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_newSongList.indexOf(newSong));
     item->setCheckState(Qt::Unchecked);
+    item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
     table->setItem(newRow, 0, item);
 
     // Faixa
@@ -797,6 +800,7 @@ void MainWindow::AddSimplifiedSongLineToTable(QTableWidget *table, Musica *song,
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,list->indexOf(song));
     item->setCheckState(Qt::Unchecked);
+    item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
     table->setItem(newRow, 0, item);
 
     // Name
@@ -826,6 +830,7 @@ void MainWindow::AddArtistNameLineToTable(QTableWidget *table, Autor *artist)
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_artists.indexOf(artist));
     item->setCheckState(Qt::Unchecked);
+    item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
     table->setItem(newRow, 0, item);
 
     // Photo
@@ -861,6 +866,7 @@ void MainWindow::AddArtistLineToTable(QTableWidget *table, Autor *artist)
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_artists.indexOf(artist));
     item->setCheckState(Qt::Unchecked);
+    item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
     table->setItem(newRow, 0, item);
 
     // Photo
@@ -916,6 +922,7 @@ void MainWindow::AddPlaylistLineToTable(QTableWidget *table, Playlist *playlist)
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_playlist.indexOf(playlist));
     item->setCheckState(Qt::Unchecked);
+    item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
     table->setItem(newRow, 0, item);
 
     // Name
@@ -1931,11 +1938,13 @@ void MainWindow::on_page_categories_button_select_toggled(bool checked)
         ShowOptionsTab(true);
         ui->page_categories_tableWidget->setColumnHidden(0,false);
         ui->page_categories_tableWidget->clearSelection();
+        ui->page_categories_tableWidget->setEditTriggers(QAbstractItemView::AllEditTriggers);
     }else{
         ShowOptionsTab(false);
         ui->options_button_edit->setChecked(false);
         ui->page_categories_tableWidget->setColumnHidden(0,true);
         ui->page_categories_tableWidget->clearSelection();
+        ui->page_categories_tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
     }
 }
 void MainWindow::on_page_categories_button_random_clicked()
@@ -2134,15 +2143,15 @@ void MainWindow::on_page_album_info_button_select_toggled(bool checked)
     if(checked)
     {
         ShowOptionsTab(true);
-        ui->page_album_info_tableWidget->setSelectionMode(QAbstractItemView::MultiSelection);
         ui->page_album_info_tableWidget->setColumnHidden(0,false);
         ui->page_album_info_tableWidget->clearSelection();
+        ui->page_album_info_tableWidget->setEditTriggers(QAbstractItemView::AllEditTriggers);
     }else{
         ShowOptionsTab(false);
         ui->options_button_edit->setChecked(false);
-        ui->page_album_info_tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
         ui->page_album_info_tableWidget->setColumnHidden(0,true);
         ui->page_album_info_tableWidget->clearSelection();
+        ui->page_album_info_tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
     }
 }
 void MainWindow::on_page_album_info_tableWidget_doubleClicked(const QModelIndex &index)
@@ -2516,15 +2525,15 @@ void MainWindow::on_page_artist_button_select_toggled(bool checked)
     if(checked)
     {
         ShowOptionsTab(true);
-        ui->page_artist_tableWidget_albuns->setSelectionMode(QAbstractItemView::MultiSelection);
         ui->page_artist_tableWidget_albuns->setColumnHidden(0,false);
         ui->page_artist_tableWidget_albuns->clearSelection();
+        ui->page_artist_tableWidget_albuns->setEditTriggers(QAbstractItemView::AllEditTriggers);
     }else{
         ShowOptionsTab(false);
         ui->options_button_edit->setChecked(false);
-        ui->page_artist_tableWidget_albuns->setSelectionMode(QAbstractItemView::SingleSelection);
         ui->page_artist_tableWidget_albuns->setColumnHidden(0,true);
         ui->page_artist_tableWidget_albuns->clearSelection();
+        ui->page_artist_tableWidget_albuns->setEditTriggers(QAbstractItemView::NoEditTriggers);
     }
 }
 void MainWindow::on_page_artist_tableWidget_albuns_doubleClicked(const QModelIndex &index)
@@ -3523,24 +3532,6 @@ void MainWindow::on_options_button_edit_toggled(bool checked)
     {
         switch(ui->pages->currentIndex())
         {
-        case 0:
-            // page_categories
-            ui->page_categories_tableWidget->setEditTriggers(QAbstractItemView::AllEditTriggers);
-            ui->page_categories_tableWidget->clearSelection();
-            break;
-
-        case 1:
-            // page_album_info
-            ui->page_album_info_tableWidget->setEditTriggers(QAbstractItemView::AllEditTriggers);
-            ui->page_album_info_tableWidget->clearSelection();
-            break;
-
-        case 5:
-            // page_artist
-            ui->page_artist_tableWidget_albuns->setEditTriggers(QAbstractItemView::AllEditTriggers);
-            ui->page_artist_tableWidget_albuns->clearSelection();
-            break;
-
         case 6:
             // page_playlist
             ui->page_playlist_tableWidget->setEditTriggers(QAbstractItemView::AllEditTriggers);
@@ -3550,24 +3541,6 @@ void MainWindow::on_options_button_edit_toggled(bool checked)
     }else{
         switch(ui->pages->currentIndex())
         {
-        case 0:
-            // page_categories
-            ui->page_categories_tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
-            ui->page_categories_tableWidget->clearSelection();
-            break;
-
-        case 1:
-            // page_album_info
-            ui->page_album_info_tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
-            ui->page_album_info_tableWidget->clearSelection();
-            break;
-
-        case 5:
-            // page_artist
-            ui->page_artist_tableWidget_albuns->setEditTriggers(QAbstractItemView::NoEditTriggers);
-            ui->page_artist_tableWidget_albuns->clearSelection();
-            break;
-
         case 6:
             // page_playlist
             ui->page_playlist_tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
