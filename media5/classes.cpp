@@ -915,7 +915,7 @@ int Player::silencio(bool silencio)
     if(_silencio != silencio)
     {
         _silencio = silencio;
-        _mediaPlayer->setMuted(true);
+        _mediaPlayer->setMuted(_silencio);
     }
     return 0;
 }

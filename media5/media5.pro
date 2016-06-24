@@ -16,13 +16,15 @@ SOURCES += main.cpp\
     dialog.cpp \
     mainwindow.cpp \
     classes.cpp \
-    database.cpp
+    database.cpp \
+    mydelegate.cpp
 
 HEADERS  += \
     dialog.h \
     mainwindow.h \
     classes.h \
-    database.h
+    database.h \
+    mydelegate.h
 
 FORMS    += mainwindow.ui \
     dialog.ui
