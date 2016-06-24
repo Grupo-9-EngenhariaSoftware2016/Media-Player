@@ -191,7 +191,7 @@ private:
     Dialog * mdialog;
     QFileSystemModel *dirmodel;
     QFileSystemModel *filemodel;
-    MyDelegate *genderDelegate;
+    MyDelegate *genderDelegate, *artistDelegate;
 
     QList<Autor*> getArtistsFrom(Album *album);
     QList<Autor*> getArtistsFrom(Playlist *playlist);

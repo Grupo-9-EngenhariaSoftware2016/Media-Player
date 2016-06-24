@@ -1300,7 +1300,7 @@ QPushButton:checked{ background-color: pink; }</string>
        <string notr="true">background-color:white;</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="page_categories">
        <layout class="QGridLayout" name="gridLayout_4">
@@ -2183,7 +2183,7 @@ color: white;</string>
                <enum>QLayout::SetDefaultConstraint</enum>
               </property>
               <item row="3" column="3" colspan="4">
-               <widget class="QComboBox" name="comboBox">
+               <widget class="QComboBox" name="page_add_album_comboBox_gender">
                 <property name="minimumSize">
                  <size>
                   <width>0</width>

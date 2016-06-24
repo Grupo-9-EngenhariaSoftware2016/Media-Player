@@ -539,6 +539,8 @@ void MainWindow::ShowProgressTab(bool show)
 void MainWindow::FormatTableFor(QTableWidget *table, QString format)
 {
     QStringList options;
+    QStringList artistsNames;
+    artistsNames << "Desconhecido";
     QStringList tableLabels;
     /*
      * Albuns         - 0
@@ -558,8 +560,16 @@ void MainWindow::FormatTableFor(QTableWidget *table, QString format)
         tableLabels << tr(" ") << tr("Capa") << tr("Nome") << tr("Género") << tr("Artistas");
         table->setColumnWidth(1,50);
         table->verticalHeader()->setDefaultSectionSize(50);
+        // Gender Delegate
         genderDelegate = new MyDelegate(Generos,this);
         table->setItemDelegateForColumn(3,genderDelegate);
+        // Artist Delegate
+        for(int i = 0; i < _artists.size(); i++)
+        {
+            artistsNames << _artists[i]->getNome();
+        }
+        artistDelegate = new MyDelegate(artistsNames, this);
+        table->setItemDelegateForColumn(4, artistDelegate);
         break;
 
     case 1:
@@ -579,18 +589,36 @@ void MainWindow::FormatTableFor(QTableWidget *table, QString format)
         // Set labels para a tabela de elementos
         tableLabels << tr(" ") << tr("Nome") << tr("Genero") << tr("Album") << tr("Artistas");
         table->verticalHeader()->setDefaultSectionSize(25);
+        genderDelegate = new MyDelegate(Generos,this);
+        table->setItemDelegateForColumn(2,genderDelegate);
+        // Artist Delegate
+        for(int i = 0; i < _artists.size(); i++)
+        {
+            artistsNames << _artists[i]->getNome();
+        }
+        artistDelegate = new MyDelegate(artistsNames, this);
+        table->setItemDelegateForColumn(4, artistDelegate);
         break;
 
     case 4:
         // Set labels para a tabela de elementos
         tableLabels << tr(" ") << tr("Faixa") << tr("Nome") << tr("Genero") << tr("Diretoria");
         table->verticalHeader()->setDefaultSectionSize(25);
+        genderDelegate = new MyDelegate(Generos,this);
+        table->setItemDelegateForColumn(3,genderDelegate);
         break;
 
     case 5:
         // Set labels para a tabela de elementos
         tableLabels << tr(" ") << tr("Nome") << tr("Artists");
         table->verticalHeader()->setDefaultSectionSize(25);
+        // Artist Delegate
+        for(int i = 0; i < _artists.size(); i++)
+        {
+            artistsNames << _artists[i]->getNome();
+        }
+        artistDelegate = new MyDelegate(artistsNames, this);
+        table->setItemDelegateForColumn(2, artistDelegate);
         break;
 
     case 6:
@@ -1000,7 +1028,8 @@ void MainWindow::MovePageToAddAlbuns()
 
     ui->page_add_album_label_artwork->setPixmap(QPixmap(":/album_art.png"));
     ui->page_add_album_lineEdit_name->setText("");
-    //ui->page_add_album_lineEdit_gender->setText("");
+    ui->page_add_album_comboBox_gender->addItems(Generos);
+    ui->page_add_album_comboBox_gender->setCurrentIndex(0);
     ui->page_add_album_lineEdit_year->setText("");
     _imageURL = "";
     ui->page_add_album_textEdit_description->clear();
@@ -1593,6 +1622,24 @@ void MainWindow::on_categories_cell_changed(int row, int column)
             break;
         case 3:
             _albuns[albumIndex]->setGenero(ui->page_categories_tableWidget->item(row,column)->text());
+            db.connOpen();
+            db.updateAlbum(_albuns[albumIndex]);
+            db.connClose();
+            break;
+        case 4:
+            QList<Autor*> *artist = new QList<Autor*>;
+            for(int i = 0; i < _artists.size(); i++)
+            {
+                if(_artists[i]->procurar(ui->page_categories_tableWidget->item(row,column)->text()))
+                {
+                    artist->append(_artists[i]);
+                }
+            }
+
+            if(!artist->isEmpty())
+            {
+                _albuns[albumIndex]->setAutores(artist);
+            }
             db.connOpen();
             db.updateAlbum(_albuns[albumIndex]);
             db.connClose();
@@ -2771,7 +2818,7 @@ void MainWindow::on_progress_button_save_clicked()
             Album *newAlbum;
             newAlbum = new Album;
             newAlbum->setNome(ui->page_add_album_lineEdit_name->text());
-            //newAlbum->setGenero(ui->page_add_album_lineEdit_gender->text());
+            newAlbum->setGenero(Generos.at(ui->page_add_album_comboBox_gender->currentIndex()));
             newAlbum->setAno(ui->page_add_album_lineEdit_year->text().toInt());
             newAlbum->setImagem(_imageURL);
             newAlbum->setDescricao(ui->page_add_album_textEdit_description->toPlainText());
