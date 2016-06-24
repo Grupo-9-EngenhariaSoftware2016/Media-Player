@@ -15,8 +15,11 @@
 #include <QMessageBox>
 #include <QMenu>
 #include <QAction>
+#include <QItemDelegate>
+#include <QStandardItemModel>
 #include "dialog.h"
 #include "classes.h"
+#include "mydelegate.h"
 
 namespace Ui {
 class MainWindow;
@@ -75,6 +78,8 @@ private slots:
     void on_album_info_cell_changed(int row, int column);
     void on_artist_cell_changed(int row, int column);
     void on_playlist_cell_changed(int row, int column);
+    void on_table_checkBox_pressed(QTableWidgetItem* item);
+    void on_table_cell_activated(int row, int column);
 
 
     // Menu Handlers
@@ -108,7 +113,7 @@ private slots:
     // Page Album Info Handlers
     void on_page_album_info_button_play_clicked();
     void on_page_album_info_button_remove_clicked();
-    void on_page_album_info_button_exploreArtist_clicked();
+    //void on_page_album_info_button_exploreArtist_clicked();
     void on_page_album_info_button_select_toggled(bool checked);
     void on_page_album_info_tableWidget_doubleClicked(const QModelIndex &index);
 
@@ -186,6 +191,7 @@ private:
     Dialog * mdialog;
     QFileSystemModel *dirmodel;
     QFileSystemModel *filemodel;
+    MyDelegate *genderDelegate, *artistDelegate;
 
     QList<Autor*> getArtistsFrom(Album *album);
     QList<Autor*> getArtistsFrom(Playlist *playlist);
@@ -194,6 +200,7 @@ private:
     QList <Album*> getAlbunsFromArtist(Autor *artist);
     QList <Musica*> getSongsFromArtist(Autor *artist);
     Album* getAlbumWith(Musica* song);
+    QStringList Generos;
 
     void CheckMenuButton(QString button);
     void ExpandMenu(bool expand);
