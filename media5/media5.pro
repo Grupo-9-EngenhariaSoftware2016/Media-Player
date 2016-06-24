@@ -17,17 +17,20 @@ SOURCES += main.cpp\
     mainwindow.cpp \
     classes.cpp \
     database.cpp \
-    mydelegate.cpp
+    mydelegate.cpp \
+    searchartist.cpp
 
 HEADERS  += \
     dialog.h \
     mainwindow.h \
     classes.h \
     database.h \
-    mydelegate.h
+    mydelegate.h \
+    searchartist.h
 
 FORMS    += mainwindow.ui \
-    dialog.ui
+    dialog.ui \
+    searchartist.ui
 
 RESOURCES += \
     icons/img.qrc

@@ -18,6 +18,7 @@
 #include <QItemDelegate>
 #include <QStandardItemModel>
 #include "dialog.h"
+#include "searchartist.h"
 #include "classes.h"
 #include "mydelegate.h"
 
@@ -186,9 +187,13 @@ private slots:
 
     void on_page_remove_album_artwork_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     Dialog * mdialog;
+    searchArtist * diagArtist;
+
     QFileSystemModel *dirmodel;
     QFileSystemModel *filemodel;
     MyDelegate *genderDelegate, *artistDelegate;
