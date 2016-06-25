@@ -3575,3 +3575,11 @@ void MainWindow::on_options_button_remove_clicked()
         break;
     }
 }
+
+void MainWindow::on_pushButton_clicked()
+{
+     diagArtist = new searchArtist(this);
+     diagArtist->setWindowTitle("Criar novo artista");
+     diagArtist->getArtists(_artists,_artists); //as duas iguais para teste
+     diagArtist->exec();
+}

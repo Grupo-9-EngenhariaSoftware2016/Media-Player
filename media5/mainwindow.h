@@ -18,6 +18,7 @@
 #include <QItemDelegate>
 #include <QStandardItemModel>
 #include "dialog.h"
+#include "searchartist.h"
 #include "classes.h"
 #include "mydelegate.h"
 
@@ -184,10 +185,15 @@ private slots:
     // Tab Options Handlers
     void on_options_button_play_clicked();
     void on_options_button_remove_clicked();
+    
+    void on_pushButton_clicked();
 
+>>>>>>> refs/remotes/origin/Bruno
 private:
     Ui::MainWindow *ui;
     Dialog * mdialog;
+    searchArtist * diagArtist;
+
     QFileSystemModel *dirmodel;
     QFileSystemModel *filemodel;
     MyDelegate *genderDelegate, *artistDelegate;
