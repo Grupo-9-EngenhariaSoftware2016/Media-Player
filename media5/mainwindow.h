@@ -188,7 +188,6 @@ private slots:
     
     void on_pushButton_clicked();
 
->>>>>>> refs/remotes/origin/Bruno
 private:
     Ui::MainWindow *ui;
     Dialog * mdialog;

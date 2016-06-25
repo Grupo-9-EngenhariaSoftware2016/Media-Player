@@ -16,6 +16,7 @@ public:
     QList<Autor*> _newartists;
     explicit searchArtist(QWidget *parent = 0);
     void getArtists(QList<Autor*> listaAutores,QList<Autor*> AutoresExistentes);
+    QList<Autor*> getNewArtist();
     ~searchArtist();
 
 private slots:

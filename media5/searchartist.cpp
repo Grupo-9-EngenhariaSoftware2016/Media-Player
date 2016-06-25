@@ -39,6 +39,10 @@ void searchArtist::getArtists(QList<Autor*> listaAutores,QList<Autor*> AutoresEx
     }
 
 }
+QList<Autor*> searchArtist::getNewArtist()
+{
+    return _newartists;
+}
 void searchArtist::on_lineEdit_textChanged(const QString &text)
 {
     //Alterar a tabela de Artistas consoate a edicao de texto
