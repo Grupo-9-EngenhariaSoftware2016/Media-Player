@@ -115,16 +115,20 @@ private slots:
     void on_page_album_info_button_remove_clicked();
     //void on_page_album_info_button_exploreArtist_clicked();
     void on_page_album_info_button_select_toggled(bool checked);
+    void on_page_album_info_button_select_3_clicked();
     void on_page_album_info_tableWidget_doubleClicked(const QModelIndex &index);
 
     // Page Add Album Handlers
     void on_page_add_album_button_addArtwork_clicked();
+    void on_page_remove_album_artwork_clicked();
     void on_page_add_album_button_addMusic_clicked();
     void on_page_add_album_button_addFolder_clicked();
     void on_page_add_album_button_remove_clicked();
+    void on_page_add_album_button_selectAll_clicked();
     void on_page_add_album_button_addArtistTo_clicked();
     void on_page_add_album_button_addArtistToAll_clicked();
     void on_page_add_album_button_removeArtistFrom_clicked();
+    void on_page_add_album_button_subArtistToAll_clicked();
     void on_page_add_album_button_newArtist_clicked();
     void on_page_add_album_lineEdit_searchArtists_returnPressed();
     void on_page_add_album_lineEdit_searchArtists_textChanged(const QString &arg1);
@@ -180,11 +184,6 @@ private slots:
     // Tab Options Handlers
     void on_options_button_play_clicked();
     void on_options_button_remove_clicked();
-
-    void on_options_button_edit_toggled(bool checked);
-
-
-    void on_page_remove_album_artwork_clicked();
 
 private:
     Ui::MainWindow *ui;
