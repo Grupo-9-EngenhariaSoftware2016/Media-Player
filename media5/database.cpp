@@ -99,11 +99,39 @@ void Database::CreateTables()
         qDebug() << "Criou Tabela [Tem]" << endl;
 
     table.prepare("INSERT INTO Genero(Nome_Genero) Values(:Nome_Genero)");
+    table.bindValue(":Nome_Genero","Desconhecido");
+    table.exec();
+
+    table.prepare("INSERT INTO Genero(Nome_Genero) Values(:Nome_Genero)");
+    table.bindValue(":Nome_Genero","Clássico");
+    table.exec();
+
+    table.prepare("INSERT INTO Genero(Nome_Genero) Values(:Nome_Genero)");
+    table.bindValue(":Nome_Genero","Electrónica");
+    table.exec();
+
+    table.prepare("INSERT INTO Genero(Nome_Genero) Values(:Nome_Genero)");
+    table.bindValue(":Nome_Genero","HipHop");
+    table.exec();
+
+    table.prepare("INSERT INTO Genero(Nome_Genero) Values(:Nome_Genero)");
+    table.bindValue(":Nome_Genero","Jazz");
+    table.exec();
+
+    table.prepare("INSERT INTO Genero(Nome_Genero) Values(:Nome_Genero)");
+    table.bindValue(":Nome_Genero","Pop");
+    table.exec();
+
+    table.prepare("INSERT INTO Genero(Nome_Genero) Values(:Nome_Genero)");
     table.bindValue(":Nome_Genero","Rock");
     table.exec();
 
     table.prepare("INSERT INTO Genero(Nome_Genero) Values(:Nome_Genero)");
-    table.bindValue(":Nome_Genero","Pimba");
+    table.bindValue(":Nome_Genero","World");
+    table.exec();
+
+    table.prepare("INSERT INTO Genero(Nome_Genero) Values(:Nome_Genero)");
+    table.bindValue(":Nome_Genero","Outro");
     table.exec();
 
 }
