@@ -11,6 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = media4
 TEMPLATE = app
 
+win32: RC_ICONS = ucmusic.ico
 
 SOURCES += main.cpp\
     dialog.cpp \
