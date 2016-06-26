@@ -3,7 +3,7 @@
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
   <property name="windowModality">
-   <enum>Qt::WindowModal</enum>
+   <enum>Qt::ApplicationModal</enum>
   </property>
   <property name="enabled">
    <bool>true</bool>
@@ -23,7 +23,12 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>UCMusic</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normalon>:/icon_ucmusic.png</normalon>
+   </iconset>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>
@@ -1011,6 +1016,26 @@ QPushButton:hover{
           </property>
          </widget>
         </item>
+        <item row="7" column="0">
+         <widget class="QPushButton" name="menu_small_button_play">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="icons/img.qrc">
+            <normaloff>:/circle-1.png</normaloff>:/circle-1.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
         <item row="2" column="0" alignment="Qt::AlignLeft">
          <widget class="QPushButton" name="menu_small_button_search">
           <property name="styleSheet">
@@ -1034,19 +1059,6 @@ QPushButton:hover{
           </property>
          </widget>
         </item>
-        <item row="8" column="0">
-         <spacer name="verticalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
         <item row="6" column="0" alignment="Qt::AlignLeft">
          <widget class="QPushButton" name="menu_small_button_list">
           <property name="text">
@@ -1067,14 +1079,30 @@ QPushButton:hover{
           </property>
          </widget>
         </item>
-        <item row="7" column="0">
-         <widget class="QPushButton" name="menu_small_button_play">
+        <item row="9" column="0">
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="3" column="0" alignment="Qt::AlignLeft">
+         <widget class="QPushButton" name="menu_small_button_album">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
           <property name="text">
            <string/>
           </property>
           <property name="icon">
            <iconset resource="icons/img.qrc">
-            <normaloff>:/circle-1.png</normaloff>:/circle-1.png</iconset>
+            <normaloff>:/music2.png</normaloff>:/music2.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -1086,6 +1114,19 @@ QPushButton:hover{
            <bool>true</bool>
           </property>
          </widget>
+        </item>
+        <item row="9" column="1">
+         <spacer name="horizontalSpacer_24">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
         <item row="4" column="0" alignment="Qt::AlignLeft">
          <widget class="QPushButton" name="menu_small_button_artist">
@@ -1095,39 +1136,6 @@ QPushButton:hover{
           <property name="icon">
            <iconset resource="icons/img.qrc">
             <normaloff>:/social.png</normaloff>:/social.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0" alignment="Qt::AlignLeft">
-         <widget class="QPushButton" name="menu_small_button_album">
-          <property name="styleSheet">
-           <string notr="true">QPushButton:disabled{ background-color: yellow; }
-QPushButton:pressed{ background-color: blue; }
-QPushButton:focus:pressed{ background-color: black; }
-QPushButton:focus{ background-color: green; }
-
-QPushButton:hover{ 
-	background-color: rgb(211, 211, 211); 
-	image :  white; 
-	color:rgb(18, 171, 218);
-}
-QPushButton:checked{ background-color: pink; }</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="icons/img.qrc">
-            <normaloff>:/music2.png</normaloff>:/music2.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -1168,19 +1176,6 @@ QPushButton:checked{ background-color: pink; }</string>
            <bool>true</bool>
           </property>
          </widget>
-        </item>
-        <item row="8" column="1">
-         <spacer name="horizontalSpacer_24">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </widget>
@@ -1415,7 +1410,7 @@ QPushButton:checked{ background-color: pink; }</string>
           </property>
           <property name="icon">
            <iconset resource="icons/img.qrc">
-            <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+            <normaloff>:/interface.png</normaloff>:/interface.png</iconset>
           </property>
           <property name="flat">
            <bool>true</bool>
@@ -1504,6 +1499,26 @@ QPushButton:checked{ background-color: pink; }</string>
            </size>
           </property>
          </spacer>
+        </item>
+        <item row="1" column="9">
+         <widget class="QPushButton" name="pushButton">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="icons/img.qrc">
+            <normaloff>:/helpbt.jpg</normaloff>:/helpbt.jpg</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -1708,7 +1723,7 @@ color: white;</string>
                </property>
                <property name="icon">
                 <iconset resource="icons/img.qrc">
-                 <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+                 <normaloff>:/interface.png</normaloff>:/interface.png</iconset>
                </property>
                <property name="flat">
                 <bool>true</bool>
@@ -1800,7 +1815,7 @@ color: white;</string>
                </property>
                <property name="icon">
                 <iconset resource="icons/img.qrc">
-                 <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+                 <normaloff>:/less.png</normaloff>:/less.png</iconset>
                </property>
                <property name="flat">
                 <bool>true</bool>
@@ -2830,6 +2845,7 @@ color: white;</string>
           </item>
           <item row="4" column="1">
            <widget class="QLineEdit" name="page_add_music_lineEdit_artist"/>
+
           </item>
           <item row="5" column="1">
            <widget class="QComboBox" name="page_add_music_comboBox_albuns_3">
@@ -3342,7 +3358,7 @@ color: white;</string>
              </property>
              <property name="icon">
               <iconset resource="icons/img.qrc">
-               <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+               <normaloff>:/circle-1.png</normaloff>:/circle-1.png</iconset>
              </property>
              <property name="flat">
               <bool>true</bool>
@@ -3350,13 +3366,13 @@ color: white;</string>
             </widget>
            </item>
            <item row="6" column="5">
-            <widget class="QPushButton" name="page_artist_button_remove">
+            <widget class="QPushButton" name="page_artist_button_addTo">
              <property name="text">
-              <string>Eliminar</string>
+              <string>Adicionar a</string>
              </property>
              <property name="icon">
               <iconset resource="icons/img.qrc">
-               <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+               <normaloff>:/playlist.png</normaloff>:/playlist.png</iconset>
              </property>
              <property name="flat">
               <bool>true</bool>
@@ -3364,9 +3380,9 @@ color: white;</string>
             </widget>
            </item>
            <item row="6" column="6">
-            <widget class="QPushButton" name="page_artist_button_addTo">
+            <widget class="QPushButton" name="page_artist_button_select">
              <property name="text">
-              <string>Adicionar a</string>
+              <string>Editar</string>
              </property>
              <property name="icon">
               <iconset resource="icons/img.qrc">
@@ -3378,13 +3394,13 @@ color: white;</string>
             </widget>
            </item>
            <item row="6" column="7">
-            <widget class="QPushButton" name="page_artist_button_select">
+            <widget class="QPushButton" name="page_artist_button_remove">
              <property name="text">
-              <string>Selecionar</string>
+              <string>Eliminar</string>
              </property>
              <property name="icon">
               <iconset resource="icons/img.qrc">
-               <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+               <normaloff>:/less.png</normaloff>:/less.png</iconset>
              </property>
              <property name="flat">
               <bool>true</bool>
@@ -3551,7 +3567,7 @@ color: white;</string>
              </property>
              <property name="icon">
               <iconset resource="icons/img.qrc">
-               <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+               <normaloff>:/circle-1.png</normaloff>:/circle-1.png</iconset>
              </property>
              <property name="flat">
               <bool>true</bool>
@@ -3565,7 +3581,7 @@ color: white;</string>
              </property>
              <property name="icon">
               <iconset resource="icons/img.qrc">
-               <normaloff>:/cross.png</normaloff>:/cross.png</iconset>
+               <normaloff>:/less.png</normaloff>:/less.png</iconset>
              </property>
              <property name="flat">
               <bool>true</bool>
@@ -3762,7 +3778,14 @@ color: white;</string>
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QComboBox" name="page_add_playlist_comboBox_gender"/>
+             <widget class="QComboBox" name="page_add_playlist_comboBox_gender">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
             </item>
             <item row="1" column="0">
              <widget class="QLabel" name="page_add_playlist_label_2">

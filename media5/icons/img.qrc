@@ -19,5 +19,8 @@
         <file>album_art.png</file>
         <file>artist_art.png</file>
         <file>lol.PNG</file>
+        <file>icon_ucmusic.png</file>
+        <file>helpbt.jpg</file>
+        <file>less.png</file>
     </qresource>
 </RCC>
