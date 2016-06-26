@@ -75,6 +75,28 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->page_album_info_textEdit_description, SIGNAL(textChanged()), this, SLOT(on_album_description_changed()));
     connect(ui->page_playlist_textEdit_description, SIGNAL(textChanged()), this, SLOT(on_playlist_description_changed()));
 
+    // Keyboard Shortcuts
+    QShortcut* shortcut = new QShortcut(QKeySequence(tr("Ctrl+N")), this);
+    connect(shortcut, SIGNAL(activated()), this, SLOT(on_player_button_next_clicked()));
+
+    shortcut = new QShortcut(QKeySequence(tr("Ctrl+B")), this);
+    connect(shortcut, SIGNAL(activated()), this, SLOT(on_player_button_previous_clicked()));
+
+    shortcut = new QShortcut(QKeySequence(tr("Ctrl+F")), this);
+    connect(shortcut, SIGNAL(activated()), this, SLOT(on_menu_small_button_search_clicked()));
+
+    shortcut = new QShortcut(QKeySequence(tr("Ctrl+R")), this);
+    connect(shortcut, SIGNAL(activated()), this, SLOT(on_player_button_repeat_clicked()));
+
+    shortcut = new QShortcut(QKeySequence(tr("Ctrl+S")), this);
+    connect(shortcut, SIGNAL(activated()), this, SLOT(on_shortcut_shuffle_pressed()));
+
+    shortcut = new QShortcut(QKeySequence(tr("Ctrl+Space")), this);
+    connect(shortcut, SIGNAL(activated()), this, SLOT(on_shortcut_play_pressed()));
+
+    shortcut = new QShortcut(QKeySequence(tr("Ctrl+A")), this);
+    connect(shortcut, SIGNAL(activated()), this, SLOT(on_menu_full_button_add_song_clicked());
+
     Autor *newArtist;
     Musica *newSong;
     Album *newAlbum;
@@ -3093,6 +3115,13 @@ void MainWindow::on_player_button_previous_clicked()
 {
     _player.anterior();
 }
+void MainWindow::on_shortcut_play_pressed()
+{
+    if(_player.isATocar())
+        _player.pausa();
+    else
+        _player.play();
+}
 void MainWindow::on_player_button_play_toggled(bool checked)
 {
     if(checked)
@@ -3113,6 +3142,10 @@ void MainWindow::on_player_button_stop_clicked()
 void MainWindow::on_player_button_next_clicked()
 {
     _player.seguinte();
+}
+void MainWindow::on_shortcut_shuffle_pressed()
+{
+    _player.aleatorio(!_player.isAleatorio());
 }
 void MainWindow::on_player_button_shuffle_toggled(bool checked)
 {

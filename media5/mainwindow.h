@@ -17,6 +17,7 @@
 #include <QAction>
 #include <QItemDelegate>
 #include <QStandardItemModel>
+#include <QShortcut>
 #include "dialog.h"
 #include "searchartist.h"
 #include "classes.h"
@@ -117,7 +118,6 @@ private slots:
     // Page Album Info Handlers
     void on_page_album_info_button_play_clicked();
     void on_page_album_info_button_remove_clicked();
-    //void on_page_album_info_button_exploreArtist_clicked();
     void on_page_album_info_button_select_toggled(bool checked);
     void on_page_album_info_button_select_3_clicked();
     void on_page_album_info_tableWidget_doubleClicked(const QModelIndex &index);
@@ -176,9 +176,11 @@ private slots:
     void on_player_slider_sliderReleased();
     void on_player_slider_valueChanged(int value);
     void on_player_button_previous_clicked();
+    void on_shortcut_play_pressed();
     void on_player_button_play_toggled(bool checked);
     void on_player_button_stop_clicked();
     void on_player_button_next_clicked();
+    void on_shortcut_shuffle_pressed();
     void on_player_button_shuffle_toggled(bool checked);
     void on_player_button_repeat_clicked();
     void on_player_button_mute_clicked();
