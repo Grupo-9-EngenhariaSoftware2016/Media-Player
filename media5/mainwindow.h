@@ -76,6 +76,8 @@ private slots:
     void on_player_playbackModeChanged(QMediaPlaylist::PlaybackMode mode);
     void on_player_stateChanged(QMediaPlayer::State state);
     void on_playlist_selected(MyAction *action);
+    void on_album_description_changed();
+    void on_playlist_description_changed();
     void on_categories_cell_changed(int row, int column);
     void on_album_info_cell_changed(int row, int column);
     void on_artist_cell_changed(int row, int column);
@@ -197,6 +199,7 @@ private:
     Ui::MainWindow *ui;
     Dialog * mdialog;
     searchArtist * diagArtist;
+    QString _helpLink = "";
 
     QFileSystemModel *dirmodel;
     QFileSystemModel *filemodel;

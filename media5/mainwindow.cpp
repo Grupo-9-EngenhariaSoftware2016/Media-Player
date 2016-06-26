@@ -69,13 +69,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->page_artist_tableWidget_albuns, SIGNAL(cellChanged(int,int)), this, SLOT(on_artist_cell_changed(int,int)));
     connect(ui->page_playlist_tableWidget, SIGNAL(cellChanged(int,int)), this, SLOT(on_playlist_cell_changed(int,int)));
 
+    connect(ui->page_album_info_textEdit_description, SIGNAL(textChanged()), this, SLOT(on_album_description_changed()));
+    connect(ui->page_playlist_textEdit_description, SIGNAL(textChanged()), this, SLOT(on_playlist_description_changed()));
+
     Autor *newArtist;
     Musica *newSong;
     Album *newAlbum;
     Playlist *newPlaylist;
     QList<Musica*> music_list;
-    QList<Autor*> autor_list;
-    QDate date;
 
     //============================================================================
     // Carregar dados Da BD
@@ -1122,6 +1123,8 @@ void MainWindow::MovePageToPlaylistInfo(int index)
     _showingPlaylist = index;
     CheckMenuButton("Playlist");
 
+    ui->page_playlist_textEdit_description->setReadOnly(false);
+
     ui->pages->setCurrentIndex(6);
 
     Refresh();
@@ -1770,6 +1773,24 @@ void MainWindow::on_playlist_selected(MyAction *action)
         }
     }
 }
+void MainWindow::on_album_description_changed()
+{
+    _albuns[_showingAlbum]->setDescricao(ui->page_album_info_textEdit_description->toPlainText());
+
+    Database db;
+    db.connOpen();
+    db.updateAlbum(_albuns[_showingAlbum]);
+    db.connClose();
+}
+void MainWindow::on_playlist_description_changed()
+{
+    _playlist[_showingPlaylist]->setDescricao(ui->page_playlist_textEdit_description->toPlainText());
+
+    Database db;
+    db.connOpen();
+    db.updatePlaylist(_playlist[_showingPlaylist]);
+    db.connClose();
+}
 void MainWindow::on_categories_cell_changed(int row, int column)
 {
     Database db;
@@ -2364,11 +2385,13 @@ void MainWindow::on_page_album_info_button_select_toggled(bool checked)
         ui->page_album_info_tableWidget->setColumnHidden(0,false);
         ui->page_album_info_tableWidget->clearSelection();
         ui->page_album_info_tableWidget->setEditTriggers(QAbstractItemView::AllEditTriggers);
+        ui->page_album_info_textEdit_description->setReadOnly(false);
     }else{
         ShowOptionsTab(false);
         ui->page_album_info_tableWidget->setColumnHidden(0,true);
         ui->page_album_info_tableWidget->clearSelection();
         ui->page_album_info_tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        ui->page_album_info_textEdit_description->setReadOnly(true);
     }
 }
 void MainWindow::on_page_album_info_tableWidget_doubleClicked(const QModelIndex &index)
@@ -3868,6 +3891,5 @@ void MainWindow::on_options_button_remove_clicked()
 
 void MainWindow::on_pushButton_clicked()
 {
-    QString link = "http://www.google.com";
-    QDesktopServices::openUrl(QUrl(link));
+    QDesktopServices::openUrl(QUrl(_helpLink));
 }
