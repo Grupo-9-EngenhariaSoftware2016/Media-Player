@@ -199,7 +199,7 @@ private:
     Ui::MainWindow *ui;
     Dialog * mdialog;
     searchArtist * diagArtist;
-    QString _helpLink = "";
+    QString _helpLink = "https://www.youtube.com/watch?v=ZROi9WSY-Bk";
 
     QFileSystemModel *dirmodel;
     QFileSystemModel *filemodel;
