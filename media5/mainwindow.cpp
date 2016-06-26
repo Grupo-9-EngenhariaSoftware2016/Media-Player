@@ -95,7 +95,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(shortcut, SIGNAL(activated()), this, SLOT(on_shortcut_play_pressed()));
 
     shortcut = new QShortcut(QKeySequence(tr("Ctrl+A")), this);
-    connect(shortcut, SIGNAL(activated()), this, SLOT(on_menu_full_button_add_song_clicked());
+    connect(shortcut, SIGNAL(activated()), this, SLOT(on_menu_full_button_add_song_clicked()));
 
     Autor *newArtist;
     Musica *newSong;
