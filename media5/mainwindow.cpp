@@ -586,7 +586,7 @@ void MainWindow::FormatTableFor(QTableWidget *table, QString format)
 
     case 1:
         // Set labels para a tabela de elementos
-        tableLabels << tr(" ") << tr("Imagem") << tr("Nome") << tr("Nº de Álbuns") << tr("Nº de Musicas");
+        tableLabels << tr(" ") << tr("Imagem") << tr("Nome") << tr("Nacionalidade") << tr("DataNascimento") << tr("Nº de Álbuns") << tr("Nº de Musicas");
         table->setColumnWidth(1,50);
         table->verticalHeader()->setDefaultSectionSize(50);
 
@@ -598,6 +598,26 @@ void MainWindow::FormatTableFor(QTableWidget *table, QString format)
         // Name Delegate
         oldDelegate = table->itemDelegateForColumn(2);
         table->setItemDelegateForColumn(2,0);
+        delete oldDelegate;
+
+        // Nacionalidade Delegate
+        oldDelegate = table->itemDelegateForColumn(2);
+        table->setItemDelegateForColumn(3,0);
+        delete oldDelegate;
+
+        // DataNascimento Delegate
+        oldDelegate = table->itemDelegateForColumn(2);
+        table->setItemDelegateForColumn(4,0);
+        delete oldDelegate;
+
+        // Nº de Álbuns Delegate
+        oldDelegate = table->itemDelegateForColumn(2);
+        table->setItemDelegateForColumn(5,0);
+        delete oldDelegate;
+
+        // Nº de Musicas Delegate
+        oldDelegate = table->itemDelegateForColumn(2);
+        table->setItemDelegateForColumn(6,0);
         delete oldDelegate;
 
         break;
@@ -618,8 +638,6 @@ void MainWindow::FormatTableFor(QTableWidget *table, QString format)
         // Set labels para a tabela de elementos
         tableLabels << tr(" ") << tr("Nome") << tr("Genero") << tr("Album") << tr("Artistas");
         table->verticalHeader()->setDefaultSectionSize(25);
-        genderDelegate = new MyDelegate(Generos,this);
-        table->setItemDelegateForColumn(2,genderDelegate);
 
         // Name Delegate
         oldDelegate = table->itemDelegateForColumn(1);
@@ -645,7 +663,10 @@ void MainWindow::FormatTableFor(QTableWidget *table, QString format)
 
         // Artist Delegate
         oldDelegate = table->itemDelegateForColumn(4);
-        table->setItemDelegateForColumn(4,0);
+        diagArtist = new searchArtist("Associar artistas",_artists,_songs,this);
+        artistDelegate = new MyArtistDelegate(diagArtist,this);
+        //connect(diagArtist, SIGNAL(accepted()), this, SLOT(callRefresh()));
+        table->setItemDelegateForColumn(4,artistDelegate);
         delete oldDelegate;
 
         break;
@@ -685,7 +706,10 @@ void MainWindow::FormatTableFor(QTableWidget *table, QString format)
 
         // Artist Delegate
         oldDelegate = table->itemDelegateForColumn(2);
-        table->setItemDelegateForColumn(2,0);
+        diagArtist = new searchArtist("Associar artistas",_artists,_songs,this);
+        artistDelegate = new MyArtistDelegate(diagArtist,this);
+        //connect(diagArtist, SIGNAL(accepted()), this, SLOT(callRefresh()));
+        table->setItemDelegateForColumn(2,artistDelegate);
         delete oldDelegate;
 
         break;
@@ -973,6 +997,19 @@ void MainWindow::AddArtistLineToTable(QTableWidget *table, Autor *artist)
     item->setData(Qt::DisplayRole,artist->getNome());
     table->setItem(newRow, 2, item);
 
+    // Nacionalidade
+    item = new QTableWidgetItem;
+    item->setData(Qt::WhatsThisRole,_artists.indexOf(artist));
+    item->setData(Qt::DisplayRole,artist->getNacionalidade());
+    table->setItem(newRow, 3, item);
+
+    // DataNascimento
+    item = new QTableWidgetItem;
+    item->setData(Qt::WhatsThisRole,_artists.indexOf(artist));
+    item->setData(Qt::DisplayRole,artist->getDataNascimento());
+    table->setColumnWidth(4,100);
+    table->setItem(newRow, 4, item);
+
     // nº Albuns
     item = new QTableWidgetItem;
     item->setData(Qt::WhatsThisRole,_artists.indexOf(artist));
@@ -980,7 +1017,7 @@ void MainWindow::AddArtistLineToTable(QTableWidget *table, Autor *artist)
     QTextStream(&text) << getAlbunsFromArtist(artist).size() << " albuns";
     item->setData(Qt::DisplayRole,text);
     item->setFlags(Qt::NoItemFlags | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-    table->setItem(newRow, 3, item);
+    table->setItem(newRow, 5, item);
 
     // nº Songs
     item = new QTableWidgetItem;
@@ -989,7 +1026,7 @@ void MainWindow::AddArtistLineToTable(QTableWidget *table, Autor *artist)
     QTextStream(&text) << getSongsFromArtist(artist).size() << " musicas";
     item->setData(Qt::DisplayRole,text);
     item->setFlags(Qt::NoItemFlags | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-    table->setItem(newRow, 4, item);
+    table->setItem(newRow, 6, item);
     table->blockSignals(false);
 
 }
@@ -1512,13 +1549,10 @@ void MainWindow::Refresh()
         ui->page_artist_button_select->setChecked(false);
 
         ui->page_artist_label_name->setText(_artists[_showingArtist]->getNome());
+        ui->page_artist_label_nacionality->setText(_artists[_showingArtist]->getNacionalidade());
+        ui->page_artist_label_year->setText(_artists[_showingArtist]->getDataNascimento().toString("yyyy"));
 
         ui->page_artist_label_name_artwork->setPixmap(QPixmap(":/social.png"));
-
-//        if(!_artists[_showingArtist]->getImagem().isNull())
-//        {
-//            ui->page_artist_label_name_artwork->setPixmap(_artists[_showingArtist]->getImagem());
-//        }
 
         QPixmap pxmap = QPixmap(_artists[_showingArtist]->getImagem());
         if(!pxmap.isNull())
@@ -1632,14 +1666,40 @@ void MainWindow::Refresh()
         }
     }
 }
+
 //==============================================================
 // Handlers para actualizações de barra de player
+void MainWindow::callRefresh()
+{
+    Refresh();
+}
 void MainWindow::on_player_positionChanged(qint64 position)
 {
     ui->player_slider->setValue(position);
 
     QTime duration(0, position / 60000, qRound((position % 60000) / 1000.0));
     ui->player_label_timer->setText(duration.toString(tr("mm:ss")));
+
+    if(_player._mediaPlayer->isAudioAvailable())
+    {
+        int index = _player._mediaPlayer->playlist()->currentIndex();
+        QList<Musica*> playlist;
+        QList<Autor*> autores;
+        QPixmap artwork;
+        _player.getMusicas(&playlist);
+
+        ui->player_label_song->setText(playlist[index]->getNome());
+        playlist[index]->getAutor(&autores);
+        ui->player_label_artist->setText(printArtistList(autores));
+        artwork = QPixmap(getAlbumWith(playlist[index])->getImagem());
+        if(!artwork.isNull())
+        {
+            ui->player_label_artwork->setPixmap(artwork.scaled(50,50));
+        }else{
+            ui->player_label_artwork->setPixmap(QPixmap(":/circle-1.png").scaled(50,50));
+        }
+
+    }
 }
 void MainWindow::on_player_durationChanged(qint64 duration)
 {
@@ -1727,17 +1787,16 @@ void MainWindow::on_categories_cell_changed(int row, int column)
         switch(column){
         case 2:
             _albuns[albumIndex]->setNome(ui->page_categories_tableWidget->item(row,column)->text());
-            db.connOpen();
-            db.updateAlbum(_albuns[albumIndex]);
-            db.connClose();
             break;
         case 3:
             _albuns[albumIndex]->setGenero(ui->page_categories_tableWidget->item(row,column)->text());
-            db.connOpen();
-            db.updateAlbum(_albuns[albumIndex]);
-            db.connClose();
             break;
         }
+
+        db.connOpen();
+        db.updateAlbum(_albuns[albumIndex]);
+        db.connClose();
+
     }else if(ui->menu_small_button_artist->isChecked()) // Artist
     {
         int artistIndex = ui->page_categories_tableWidget->item(row,2)->data(Qt::WhatsThisRole).toInt();
@@ -1746,17 +1805,27 @@ void MainWindow::on_categories_cell_changed(int row, int column)
          *  0       -   check
          *  1       -   imagem
          *  2       -   nome
-         *  3       -   nº albuns
-         *  4       -   nº musicas
+         *  3       -   Nacionalidade
+         *  4       -   Data Nascimento
+         *  5       -   nº albuns
+         *  6       -   nº musicas
         */
         switch(column){
         case 2:
             _artists[artistIndex]->setNome(ui->page_categories_tableWidget->item(row,column)->text());
-            db.connOpen();
-            db.updateArtist(_artists[artistIndex]);
-            db.connClose();
+            break;
+        case 3:
+            _artists[artistIndex]->setNacionalidade(ui->page_categories_tableWidget->item(row,column)->text());
+            break;
+        case 4:
+            _artists[artistIndex]->setDataNascimento(ui->page_categories_tableWidget->item(row,column)->data(Qt::DisplayRole).toDate());
             break;
         }
+
+        db.connOpen();
+        db.updateArtist(_artists[artistIndex]);
+        db.connClose();
+
     }else if(ui->menu_small_button_list->isChecked()) // Playlist
     {
         int playlistIndex = ui->page_categories_tableWidget->item(row,2)->data(Qt::WhatsThisRole).toInt();
@@ -1769,11 +1838,13 @@ void MainWindow::on_categories_cell_changed(int row, int column)
         switch(column){
         case 1:
             _playlist[playlistIndex]->setNome(ui->page_categories_tableWidget->item(row,column)->text());
-            db.connOpen();
-            db.updatePlaylist(_playlist[playlistIndex]);
-            db.connClose();
             break;
         }
+
+        db.connOpen();
+        db.updatePlaylist(_playlist[playlistIndex]);
+        db.connClose();
+
     }else if(ui->menu_small_button_song->isChecked()) // Songs
     {
         int songIndex = ui->page_categories_tableWidget->item(row,2)->data(Qt::WhatsThisRole).toInt();
@@ -1789,27 +1860,14 @@ void MainWindow::on_categories_cell_changed(int row, int column)
         switch(column){
         case 1:
             _songs[songIndex]->setNome(ui->page_categories_tableWidget->item(row,column)->text());
-            db.connOpen();
-            db.updateSong(_songs[songIndex]);
-            db.connClose();
             break;
         case 2:
             _songs[songIndex]->setGenero(ui->page_categories_tableWidget->item(row,column)->text());
-            db.connOpen();
-            db.updateSong(_songs[songIndex]);
-            db.connClose();
             break;
         case 3:
 
             oldAlbumIndex = _albuns.indexOf(getAlbumWith(_songs[songIndex]));
             newAlbumIndex = ui->page_categories_tableWidget->item(row,column)->data(Qt::UserRole).toInt();
-
-            qDebug() << "Mover musica: " << _songs[songIndex]->getNome()
-                     << " de album: "
-                     << _albuns[oldAlbumIndex]->getNome() << " (" << oldAlbumIndex << ")"
-                     << " para album: "
-                     << _albuns[newAlbumIndex]->getNome() << " (" << newAlbumIndex << ")";
-
 
             _albuns[newAlbumIndex]->adicionar(_songs[songIndex]);
 
@@ -1818,86 +1876,24 @@ void MainWindow::on_categories_cell_changed(int row, int column)
             _songs[songIndex]->mover(_albuns[newAlbumIndex]->getIdBD(), _albuns[newAlbumIndex]->getDiretoria());
             break;
         case 4:
+
+            Refresh();
+
             break;
         }
+
+
+        db.connOpen();
+        db.updateSong(_songs[songIndex]);
+        db.connClose();
     }
 }
 void MainWindow::on_album_info_cell_changed(int row, int column)
 {
+    Database db;
+
     int songIndex = ui->page_album_info_tableWidget->item(row,2)->data(Qt::WhatsThisRole).toInt();
-    /*
-     * column   -   Property
-     *  0       -   nome
-     *  1       -   genero
-     *  2       -   album
-     *  3       -   artistas
-    */
-
     int oldAlbumIndex, newAlbumIndex;
-
-    Database db;
-    switch(column){
-    case 0:
-        _songs[songIndex]->setNome(ui->page_album_info_tableWidget->item(row,column)->text());
-        db.connOpen();
-        db.updateSong(_songs[songIndex]);
-        db.connClose();
-        break;
-    case 1:
-        _songs[songIndex]->setGenero(ui->page_album_info_tableWidget->item(row,column)->text());
-        db.connOpen();
-        db.updateSong(_songs[songIndex]);
-        db.connClose();
-        break;
-    case 2:
-
-        oldAlbumIndex = _albuns.indexOf(getAlbumWith(_songs[songIndex]));
-
-        _albuns[oldAlbumIndex]->remover(_songs[songIndex]);
-        db.connOpen();
-        db.updateAlbum(_albuns[oldAlbumIndex]);
-        db.connClose();
-
-        newAlbumIndex = ui->page_album_info_tableWidget->item(row,column)->data(Qt::UserRole).toInt();
-        _albuns[newAlbumIndex]->adicionar(_songs[songIndex]);
-        db.connOpen();
-        db.updateAlbum(_albuns[newAlbumIndex]);
-        db.connClose();
-
-        break;
-    }
-}
-void MainWindow::on_artist_cell_changed(int row, int column)
-{
-    int albumIndex = ui->page_artist_tableWidget_albuns->item(row,2)->data(Qt::WhatsThisRole).toInt();
-    /*
-     * column   -   Property
-     *  0       -   check
-     *  1       -   capa
-     *  2       -   nome
-     *  3       -   genero
-     *  4       -   artistas
-    */
-
-    Database db;
-    switch(column){
-    case 2:
-        _albuns[albumIndex]->setNome(ui->page_artist_tableWidget_albuns->item(row,column)->text());
-        db.connOpen();
-        db.updateAlbum(_albuns[albumIndex]);
-        db.connClose();
-        break;
-    case 3:
-        _albuns[albumIndex]->setGenero(ui->page_artist_tableWidget_albuns->item(row,column)->text());
-        db.connOpen();
-        db.updateAlbum(_albuns[albumIndex]);
-        db.connClose();
-        break;
-    }
-}
-void MainWindow::on_playlist_cell_changed(int row, int column)
-{
-    int songIndex = ui->page_playlist_tableWidget->item(row,2)->data(Qt::WhatsThisRole).toInt();
     /*
      * column   -   Property
      *  0       -   check
@@ -1906,40 +1902,106 @@ void MainWindow::on_playlist_cell_changed(int row, int column)
      *  3       -   album
      *  4       -   artistas
     */
-
-    int oldAlbumIndex, newAlbumIndex;
-
-    Database db;
     switch(column){
     case 1:
-        _songs[songIndex]->setNome(ui->page_playlist_tableWidget->item(row,column)->text());
-        db.connOpen();
-        db.updateSong(_songs[songIndex]);
-        db.connClose();
+        _songs[songIndex]->setNome(ui->page_album_info_tableWidget->item(row,column)->text());
         break;
     case 2:
-        _songs[songIndex]->setGenero(ui->page_playlist_tableWidget->item(row,column)->text());
-        db.connOpen();
-        db.updateSong(_songs[songIndex]);
-        db.connClose();
+        _songs[songIndex]->setGenero(ui->page_album_info_tableWidget->item(row,column)->text());
         break;
     case 3:
 
         oldAlbumIndex = _albuns.indexOf(getAlbumWith(_songs[songIndex]));
+        newAlbumIndex = ui->page_album_info_tableWidget->item(row,column)->data(Qt::UserRole).toInt();
+
+        _albuns[newAlbumIndex]->adicionar(_songs[songIndex]);
 
         _albuns[oldAlbumIndex]->remover(_songs[songIndex]);
-        db.connOpen();
-        db.updateAlbum(_albuns[oldAlbumIndex]);
-        db.connClose();
 
-        newAlbumIndex = ui->page_playlist_tableWidget->item(row,column)->data(Qt::UserRole).toInt();
-        _albuns[newAlbumIndex]->adicionar(_songs[songIndex]);
-        db.connOpen();
-        db.updateAlbum(_albuns[newAlbumIndex]);
-        db.connClose();
+        _songs[songIndex]->mover(_albuns[newAlbumIndex]->getIdBD(), _albuns[newAlbumIndex]->getDiretoria());
+        break;
+    case 4:
+
+        Refresh();
 
         break;
     }
+
+
+    db.connOpen();
+    db.updateSong(_songs[songIndex]);
+    db.connClose();
+}
+void MainWindow::on_artist_cell_changed(int row, int column)
+{
+    Database db;
+
+    int albumIndex = ui->page_artist_tableWidget_albuns->item(row,0)->data(Qt::WhatsThisRole).toInt();
+    /*
+     * column   -   Property
+     *  0       -   check
+     *  1       -   capa
+     *  2       -   nome
+     *  3       -   genero
+     *  4       -   artistas
+    */
+    switch(column){
+    case 2:
+        _albuns[albumIndex]->setNome(ui->page_artist_tableWidget_albuns->item(row,column)->text());
+        break;
+    case 3:
+        _albuns[albumIndex]->setGenero(ui->page_artist_tableWidget_albuns->item(row,column)->text());
+        break;
+    }
+
+    db.connOpen();
+    db.updateAlbum(_albuns[albumIndex]);
+    db.connClose();
+
+}
+void MainWindow::on_playlist_cell_changed(int row, int column)
+{
+    Database db;
+
+    int songIndex = ui->page_playlist_tableWidget->item(row,2)->data(Qt::WhatsThisRole).toInt();
+    int oldAlbumIndex, newAlbumIndex;
+    /*
+     * column   -   Property
+     *  0       -   check
+     *  1       -   nome
+     *  2       -   genero
+     *  3       -   album
+     *  4       -   artistas
+    */
+    switch(column){
+    case 1:
+        _songs[songIndex]->setNome(ui->page_playlist_tableWidget->item(row,column)->text());
+        break;
+    case 2:
+        _songs[songIndex]->setGenero(ui->page_playlist_tableWidget->item(row,column)->text());
+        break;
+    case 3:
+
+        oldAlbumIndex = _albuns.indexOf(getAlbumWith(_songs[songIndex]));
+        newAlbumIndex = ui->page_playlist_tableWidget->item(row,column)->data(Qt::UserRole).toInt();
+
+        _albuns[newAlbumIndex]->adicionar(_songs[songIndex]);
+
+        _albuns[oldAlbumIndex]->remover(_songs[songIndex]);
+
+        _songs[songIndex]->mover(_albuns[newAlbumIndex]->getIdBD(), _albuns[newAlbumIndex]->getDiretoria());
+        break;
+    case 4:
+
+        Refresh();
+
+        break;
+    }
+
+
+    db.connOpen();
+    db.updateSong(_songs[songIndex]);
+    db.connClose();
 }
 void MainWindow::on_table_checkBox_pressed(QTableWidgetItem* item)
 {
@@ -3806,10 +3868,6 @@ void MainWindow::on_options_button_remove_clicked()
 
 void MainWindow::on_pushButton_clicked()
 {
-    diagArtist = new searchArtist(this);
-    diagArtist->setWindowTitle("Criar novo artista");
-    diagArtist->getArtists(_artists,_songs[0]); //as duas iguais para teste
-    diagArtist->exec();
-
+    QString link = "http://www.google.com";
+    QDesktopServices::openUrl(QUrl(link));
 }
-

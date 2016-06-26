@@ -57,12 +57,10 @@ class MyArtistDelegate : public QItemDelegate
     Q_OBJECT
 
 private:
-    QList<Autor*> _listaAutores;
-    Musica *_song;
     searchArtist *_diagArtist;
 
 public:
-    explicit MyArtistDelegate(QList<Autor *> listaAutores, Musica *song, QObject *parent = 0);
+    explicit MyArtistDelegate(searchArtist *dialog, QObject *parent = 0);
 
     QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     void setEditorData(QWidget *editor, const QModelIndex &index) const;

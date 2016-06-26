@@ -2,23 +2,28 @@
 #include "ui_searchartist.h"
 #include <QDebug>
 
-searchArtist::searchArtist(QWidget *parent) :
+searchArtist::searchArtist(QString name, QList<Autor *> listaAutores, QList<Musica *> songs, QWidget *parent) :
     QDialog(parent),
+    _artists(listaAutores),
+    _songs(songs),
     ui(new Ui::searchArtist)
 {
     ui->setupUi(this);
-
+    this->setWindowTitle(name);
 }
 
 searchArtist::~searchArtist()
 {
     delete ui;
 }
-void searchArtist::getArtists(QList<Autor*> listaAutores, Musica *song)
+void searchArtist::getArtists(int song)
 {
-    _artists = listaAutores;
-    _song = song;
-    song->getAutor(&_newartists);
+    qDebug() << "Musica a editar: " << song;
+    _song = _songs[song];
+    _newartists.clear();
+    ui->List_ALL->clear();
+    ui->List_NEW->clear();
+    _song->getAutor(&_newartists);
 
     //Lista de Autores a adicionar e Remover
 
@@ -159,4 +164,14 @@ void searchArtist::on_buttonBox_accepted()
             }
         }
     }
+
+    Database db;
+    db.connOpen();
+    db.updateSong(_song);
+    db.connClose();
+}
+
+void searchArtist::on_buttonBox_rejected()
+{
+    this->destroy();
 }

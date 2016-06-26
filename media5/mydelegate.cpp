@@ -120,24 +120,21 @@ void MyAlbumDelegate::updateEditorGeometry(QWidget *editor,
  * MyArtistDelegate
  *
  * */
-MyArtistDelegate::MyArtistDelegate(QList<Autor*> listaAutores, Musica *song, QObject *parent) :
-    QItemDelegate(parent)
+MyArtistDelegate::MyArtistDelegate(searchArtist *dialog, QObject *parent) :
+    QItemDelegate(parent),
+    _diagArtist(dialog)
 {
-    _listaAutores = listaAutores;
-    _song = song;
+
 }
 
 QWidget* MyArtistDelegate::createEditor(QWidget *parent,
                                       const QStyleOptionViewItem &option,
                                       const QModelIndex &index) const
 {
-//    _diagArtist = new searchArtist(this);
-//    _diagArtist->setWindowTitle("Criar novo artista");
-//    _diagArtist->getArtists(_listaAutores,_song);
-//    _diagArtist->exec();
+    _diagArtist->getArtists(index.data(Qt::WhatsThisRole).toInt());
+    _diagArtist->exec();
 
     return NULL;
-
 }
 void MyArtistDelegate::setEditorData(QWidget *editor,
                                     const QModelIndex &index) const
@@ -154,5 +151,6 @@ void MyArtistDelegate::updateEditorGeometry(QWidget *editor,
                                            const QStyleOptionViewItem &option,
                                            const QModelIndex &index) const
 {
-    editor->setGeometry(option.rect);
+
 }
+

@@ -69,6 +69,7 @@ public:
 
 private slots:
     // Refresh Handlers
+    void callRefresh();
     void on_player_positionChanged(qint64 position);
     void on_player_durationChanged(qint64 duration);
     void on_player_mutedChanged(bool muted);
@@ -189,9 +190,8 @@ private slots:
     // Tab Options Handlers
     void on_options_button_play_clicked();
     void on_options_button_remove_clicked();
-    
-    void on_pushButton_clicked();
 
+    void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -202,6 +202,7 @@ private:
     QFileSystemModel *filemodel;
     MyDelegate *genderDelegate;
     MyAlbumDelegate *albumDelegate;
+    MyArtistDelegate *artistDelegate;
 
     QList<Autor*> getArtistsFrom(Album *album);
     QList<Autor*> getArtistsFrom(Playlist *playlist);

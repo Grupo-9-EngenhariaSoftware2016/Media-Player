@@ -354,11 +354,7 @@ int     Musica::criar(int albumID, QString diretoria)
         _dataAdicao = QDate::currentDate();
         db.addSong(this, albumID);
     }
-    /* else if (remover e voltar a copiar)
-*	 	_diretoria = new_dir;
-        _dataAdicao = QDate::currentDate();
-        db.addSong(this);
-*/
+
     db.connClose();
     return 0;
 }
