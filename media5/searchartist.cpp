@@ -14,10 +14,11 @@ searchArtist::~searchArtist()
 {
     delete ui;
 }
-void searchArtist::getArtists(QList<Autor*> listaAutores,QList<Autor*> AutoresExistentes)
+void searchArtist::getArtists(QList<Autor*> listaAutores, Musica *song)
 {
     _artists = listaAutores;
-    _newartists = AutoresExistentes;
+    _song = song;
+    song->getAutor(&_newartists);
 
     //Lista de Autores a adicionar e Remover
 
@@ -101,8 +102,6 @@ void searchArtist::on_bt_add_clicked()
             item->setData(Qt::UserRole,ID);
             item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
             item->setCheckState(Qt::Unchecked);
-
-            qDebug() << "ID"<< ID << "|Nome" << Nome << endl;
         }
     }
 }
@@ -115,7 +114,6 @@ void searchArtist::on_bt_rmv_clicked()
     for (int idx = 0; idx < ui->List_NEW->count(); idx++)
     {
         ID = ui->List_NEW->item(idx)->data(Qt::UserRole).toInt();
-        qDebug() << ui->List_NEW->item(idx)->checkState() << endl;
 
         if (ui->List_NEW->item(idx)->checkState() == Qt::CheckState(Qt::Checked))
         {
@@ -126,7 +124,7 @@ void searchArtist::on_bt_rmv_clicked()
     //Remover items correspondentes
     for (int i = 0; i < list.size(); ++i)
     {
-        for (int j = 0; j <ui->List_NEW->count(); ++j)
+        for (int j = 0; j < ui->List_NEW->count(); ++j)
         {
             ID = ui->List_NEW->item(j)->data(Qt::UserRole).toInt();
 
@@ -139,4 +137,26 @@ void searchArtist::on_bt_rmv_clicked()
 
     qDebug() <<"===========================" <<endl;
 
+}
+
+void searchArtist::on_buttonBox_accepted()
+{
+    for(int i = 0; i < _artists.size(); i++)
+    {
+        if(_song->hasAutor(_artists[i]))
+        {
+            _song->removeAutor(_artists[i]);
+        }
+    }
+
+    for(int i = 0; i < ui->List_NEW->count(); i++)
+    {
+        for(int j = 0; j < _artists.size(); j++)
+        {
+            if(_artists[j]->getIdBD() == ui->List_NEW->item(i)->data(Qt::UserRole).toInt())
+            {
+                _song->addAutor(_artists[j]);
+            }
+        }
+    }
 }

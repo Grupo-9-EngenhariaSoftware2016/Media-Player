@@ -26,6 +26,7 @@ public:
     bool addSong(Musica *newSong,int album_id);
     bool updateSong(Musica *Song);
     bool removeSong(Musica *Song);
+    bool moveSong(Musica* Song,int newAlbumID);
 
     bool addArtist(Autor *newArtist);
     bool updateArtist(Autor *Artist);

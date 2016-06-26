@@ -3,6 +3,7 @@
 
 #include <QItemDelegate>
 #include <QComboBox>
+#include "searchartist.h"
 
 
 class MyDelegate : public QItemDelegate
@@ -10,7 +11,7 @@ class MyDelegate : public QItemDelegate
     Q_OBJECT
 
 private:
-    QStringList values;
+    QStringList _values;
 
 public:
     explicit MyDelegate(QStringList input, QObject *parent = 0);
@@ -28,5 +29,51 @@ signals:
 public slots:
 
 };
+
+class MyAlbumDelegate : public QItemDelegate
+{
+    Q_OBJECT
+
+private:
+    QStringList _values;
+    QList<int> _IDs;
+
+public:
+    explicit MyAlbumDelegate(QStringList valuesInput, QList<int> idsInput, QObject *parent = 0);
+
+    QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const;
+    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
+    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+
+signals:
+
+public slots:
+
+};
+
+class MyArtistDelegate : public QItemDelegate
+{
+    Q_OBJECT
+
+private:
+    QList<Autor*> _listaAutores;
+    Musica *_song;
+    searchArtist *_diagArtist;
+
+public:
+    explicit MyArtistDelegate(QList<Autor *> listaAutores, Musica *song, QObject *parent = 0);
+
+    QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const;
+    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
+    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+
+signals:
+
+public slots:
+
+};
+
 
 #endif // MYDELEGATE_H

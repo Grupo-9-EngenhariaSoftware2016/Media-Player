@@ -138,6 +138,10 @@ private slots:
     void on_page_add_music_button_addFolder_clicked();
     void on_page_add_music_button_addMusic_clicked();
     void on_page_add_music_comboBox_albuns_currentIndexChanged(int index);
+    void on_page_add_music_button_remove_clicked();
+    void on_page_add_music_button_subAutorTo_clicked();
+    void on_page_add_music_button_selectAll_clicked();
+    void on_page_add_music_button_addAutorTo_clicked();
 
     // Page Search Handlers
     void on_page_search_tableWidget_artists_doubleClicked(const QModelIndex &index);
@@ -188,6 +192,7 @@ private slots:
     
     void on_pushButton_clicked();
 
+
 private:
     Ui::MainWindow *ui;
     Dialog * mdialog;
@@ -195,7 +200,8 @@ private:
 
     QFileSystemModel *dirmodel;
     QFileSystemModel *filemodel;
-    MyDelegate *genderDelegate, *artistDelegate;
+    MyDelegate *genderDelegate;
+    MyAlbumDelegate *albumDelegate;
 
     QList<Autor*> getArtistsFrom(Album *album);
     QList<Autor*> getArtistsFrom(Playlist *playlist);
