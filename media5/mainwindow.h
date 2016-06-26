@@ -69,6 +69,7 @@ public:
 
 private slots:
     // Refresh Handlers
+    void callRefresh();
     void on_player_positionChanged(qint64 position);
     void on_player_durationChanged(qint64 duration);
     void on_player_mutedChanged(bool muted);
@@ -116,16 +117,20 @@ private slots:
     void on_page_album_info_button_remove_clicked();
     //void on_page_album_info_button_exploreArtist_clicked();
     void on_page_album_info_button_select_toggled(bool checked);
+    void on_page_album_info_button_select_3_clicked();
     void on_page_album_info_tableWidget_doubleClicked(const QModelIndex &index);
 
     // Page Add Album Handlers
     void on_page_add_album_button_addArtwork_clicked();
+    void on_page_remove_album_artwork_clicked();
     void on_page_add_album_button_addMusic_clicked();
     void on_page_add_album_button_addFolder_clicked();
     void on_page_add_album_button_remove_clicked();
+    void on_page_add_album_button_selectAll_clicked();
     void on_page_add_album_button_addArtistTo_clicked();
     void on_page_add_album_button_addArtistToAll_clicked();
     void on_page_add_album_button_removeArtistFrom_clicked();
+    void on_page_add_album_button_subArtistToAll_clicked();
     void on_page_add_album_button_newArtist_clicked();
     void on_page_add_album_lineEdit_searchArtists_returnPressed();
     void on_page_add_album_lineEdit_searchArtists_textChanged(const QString &arg1);
@@ -134,6 +139,10 @@ private slots:
     void on_page_add_music_button_addFolder_clicked();
     void on_page_add_music_button_addMusic_clicked();
     void on_page_add_music_comboBox_albuns_currentIndexChanged(int index);
+    void on_page_add_music_button_remove_clicked();
+    void on_page_add_music_button_subAutorTo_clicked();
+    void on_page_add_music_button_selectAll_clicked();
+    void on_page_add_music_button_addAutorTo_clicked();
 
     // Page Search Handlers
     void on_page_search_tableWidget_artists_doubleClicked(const QModelIndex &index);
@@ -182,11 +191,6 @@ private slots:
     void on_options_button_play_clicked();
     void on_options_button_remove_clicked();
 
-    void on_options_button_edit_toggled(bool checked);
-
-
-    void on_page_remove_album_artwork_clicked();
-
     void on_pushButton_clicked();
 
 private:
@@ -196,7 +200,9 @@ private:
 
     QFileSystemModel *dirmodel;
     QFileSystemModel *filemodel;
-    MyDelegate *genderDelegate, *artistDelegate;
+    MyDelegate *genderDelegate;
+    MyAlbumDelegate *albumDelegate;
+    MyArtistDelegate *artistDelegate;
 
     QList<Autor*> getArtistsFrom(Album *album);
     QList<Autor*> getArtistsFrom(Playlist *playlist);

@@ -3,7 +3,7 @@
 MyDelegate::MyDelegate(QStringList input, QObject *parent) :
     QItemDelegate(parent)
 {
-    values << input;
+    _values << input;
 }
 
 QWidget* MyDelegate::createEditor(QWidget *parent,
@@ -11,8 +11,8 @@ QWidget* MyDelegate::createEditor(QWidget *parent,
                                       const QModelIndex &index) const
 {
     QComboBox *editor = new QComboBox(parent);
-
     return editor;
+
 }
 void MyDelegate::setEditorData(QWidget *editor,
                                     const QModelIndex &index) const
@@ -20,9 +20,9 @@ void MyDelegate::setEditorData(QWidget *editor,
     QString value = index.model()->data(index, Qt::DisplayRole).toString();
 
     QComboBox *cBox = static_cast<QComboBox*>(editor);
-    int selectedIndex = values.indexOf(value);
+    int selectedIndex = _values.indexOf(value);
 
-    cBox->addItems(values);
+    cBox->addItems(_values);
 
     if(selectedIndex != -1)
     {
@@ -37,7 +37,7 @@ void MyDelegate::setModelData(QWidget *editor,
     QComboBox *cBox = static_cast<QComboBox*>(editor);
 
     int selectedIndex = cBox->currentIndex();
-    QString selectedValue = values.at(selectedIndex);
+    QString selectedValue = _values.at(selectedIndex);
 
     model->setData(index, selectedValue, Qt::DisplayRole);
 }
@@ -49,9 +49,108 @@ void MyDelegate::updateEditorGeometry(QWidget *editor,
 }
 void MyDelegate::addValues(QString value)
 {
-    values << value;
+    _values << value;
 }
 void MyDelegate::clearValues()
 {
-    values.clear();
+    _values.clear();
 }
+
+/*
+ *
+ * MyAlbumDelegate
+ *
+ * */
+MyAlbumDelegate::MyAlbumDelegate(QStringList valuesInput, QList<int> idsInput, QObject *parent) :
+    QItemDelegate(parent)
+{
+    _values << valuesInput;
+    _IDs = idsInput;
+}
+
+QWidget* MyAlbumDelegate::createEditor(QWidget *parent,
+                                      const QStyleOptionViewItem &option,
+                                      const QModelIndex &index) const
+{
+    QComboBox *editor = new QComboBox(parent);
+    return editor;
+
+}
+void MyAlbumDelegate::setEditorData(QWidget *editor,
+                                    const QModelIndex &index) const
+{
+    QString value = index.model()->data(index, Qt::DisplayRole).toString();
+    int id = index.model()->data(index, Qt::UserRole).toInt();
+
+    QComboBox *cBox = static_cast<QComboBox*>(editor);
+    int selectedIndex = _values.indexOf(value);
+
+    cBox->addItems(_values);
+
+    if(selectedIndex != -1)
+    {
+        cBox->setCurrentIndex(selectedIndex);
+    }
+
+}
+void MyAlbumDelegate::setModelData(QWidget *editor,
+                                   QAbstractItemModel *model,
+                                   const QModelIndex &index) const
+{
+    QComboBox *cBox = static_cast<QComboBox*>(editor);
+
+    int selectedIndex = cBox->currentIndex();
+    QString selectedValue = _values.at(selectedIndex);
+    int selectedID = _IDs.at(selectedIndex);
+
+    model->blockSignals(true);
+    model->setData(index, selectedID, Qt::UserRole);
+    model->blockSignals(false);
+    model->setData(index, selectedValue, Qt::DisplayRole);
+}
+void MyAlbumDelegate::updateEditorGeometry(QWidget *editor,
+                                           const QStyleOptionViewItem &option,
+                                           const QModelIndex &index) const
+{
+    editor->setGeometry(option.rect);
+}
+
+/*
+ *
+ * MyArtistDelegate
+ *
+ * */
+MyArtistDelegate::MyArtistDelegate(searchArtist *dialog, QObject *parent) :
+    QItemDelegate(parent),
+    _diagArtist(dialog)
+{
+
+}
+
+QWidget* MyArtistDelegate::createEditor(QWidget *parent,
+                                      const QStyleOptionViewItem &option,
+                                      const QModelIndex &index) const
+{
+    _diagArtist->getArtists(index.data(Qt::WhatsThisRole).toInt());
+    _diagArtist->exec();
+
+    return NULL;
+}
+void MyArtistDelegate::setEditorData(QWidget *editor,
+                                    const QModelIndex &index) const
+{
+
+}
+void MyArtistDelegate::setModelData(QWidget *editor,
+                                   QAbstractItemModel *model,
+                                   const QModelIndex &index) const
+{
+
+}
+void MyArtistDelegate::updateEditorGeometry(QWidget *editor,
+                                           const QStyleOptionViewItem &option,
+                                           const QModelIndex &index) const
+{
+
+}
+

@@ -87,6 +87,7 @@ public:
     int apagar();
     int play();
     int criar(int albumID, QString diretoria);
+    int mover(int newAlbumID, QString diretoria);
     bool procurar(QString procura);
 
 };

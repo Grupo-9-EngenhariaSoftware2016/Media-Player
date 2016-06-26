@@ -18,5 +18,6 @@
         <file>previous.png</file>
         <file>album_art.png</file>
         <file>artist_art.png</file>
+        <file>lol.PNG</file>
     </qresource>
 </RCC>

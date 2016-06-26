@@ -354,12 +354,26 @@ int     Musica::criar(int albumID, QString diretoria)
         _dataAdicao = QDate::currentDate();
         db.addSong(this, albumID);
     }
-    /* else if (remover e voltar a copiar)
-*	 	_diretoria = new_dir;
-        _dataAdicao = QDate::currentDate();
-        db.addSong(this);
-*/
+
     db.connClose();
+    return 0;
+}
+int     Musica::mover(int newAlbumID, QString diretoria)
+{
+    Database db;
+    db.connOpen();
+    QString file_name, new_dir;
+    file_name = _diretoria.right(_diretoria.size() - _diretoria.lastIndexOf("/"));
+    new_dir   = diretoria + file_name;
+
+    if(QFile::copy(_diretoria, new_dir))
+    {
+        QFile::remove(_diretoria);
+        _diretoria = new_dir;
+        _dataAdicao = QDate::currentDate();
+        db.moveSong(this, newAlbumID);
+    }
+
     return 0;
 }
 bool    Musica::procurar(QString procura)
@@ -582,10 +596,6 @@ int     Album::adicionar(Musica *musica)
         if(!_autor->contains(autores[i]))
             _autor->append(autores[i]);
     }
-
-    /*
-     * Adicionar ligação entre musica e album na BD
-     * */
 
     return 0;
 }
