@@ -195,11 +195,15 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_page_add_music_lineEdit_albuns_editingFinished();
+
+    void on_page_add_music_lineEdit_artist_editingFinished();
+
 private:
     Ui::MainWindow *ui;
     Dialog * mdialog;
     searchArtist * diagArtist;
-    QString _helpLink = "";
+    QString _helpLink = "https://www.youtube.com/watch?v=ZROi9WSY-Bk";
 
     QFileSystemModel *dirmodel;
     QFileSystemModel *filemodel;

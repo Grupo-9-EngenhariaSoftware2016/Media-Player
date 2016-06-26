@@ -7,7 +7,9 @@
 
 
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     //ui->statusBar->showMessage(QDir::currentPath());
@@ -675,7 +677,7 @@ void MainWindow::FormatTableFor(QTableWidget *table, QString format)
     case 4:
         // Set labels para a tabela de elementos
         tableLabels << tr(" ") << tr("Faixa") << tr("Nome") << tr("Genero") << tr("Diretoria");
-        table->verticalHeader()->setDefaultSectionSize(25);
+        table->verticalHeader()->setDefaultSectionSize(50);
 
         // Faixa Delegate
         oldDelegate = table->itemDelegateForColumn(1);
@@ -1471,14 +1473,18 @@ void MainWindow::Refresh()
         ui->page_add_music_comboBox_albuns->setHidden(false);
         for(int i = 0; i < _albuns.size(); i++)
         {
-            ui->page_add_music_comboBox_albuns->insertItem(i,_albuns[i]->getNome());
+            if(_albuns[i]->procurar(ui->page_add_music_lineEdit_albuns->text())){
+                ui->page_add_music_comboBox_albuns->insertItem(i,_albuns[i]->getNome());
+            }
         }
 
         ui->page_add_music_comboBox_albuns_3->clear();
         ui->page_add_music_comboBox_albuns_3->setHidden(false);
         for(int i = 0; i < _artists.size(); i++)
         {
-            ui->page_add_music_comboBox_albuns_3->insertItem(i,_artists[i]->getNome());
+            if(_artists[i]->procurar(ui->page_add_music_lineEdit_artist->text())){
+                ui->page_add_music_comboBox_albuns_3->insertItem(i,_artists[i]->getNome());
+            }
         }
 
         FormatTableFor(ui->page_add_music_tableWidget_musics,"NewSong");
@@ -2801,6 +2807,14 @@ void MainWindow::on_page_add_music_button_addAutorTo_clicked()
         }
     }
 }
+void MainWindow::on_page_add_music_lineEdit_albuns_editingFinished()
+{
+    Refresh();
+}
+void MainWindow::on_page_add_music_lineEdit_artist_editingFinished()
+{
+    Refresh();
+}
 
 //==============================================================
 // Handlers para ações de utilizador (Page Search)
@@ -3182,6 +3196,8 @@ void MainWindow::on_progress_button_save_clicked()
         }
         else
         {
+            ui->statusBar->showMessage("A Guardas musicas. Por favor aguarde um momento.");
+
             // Tudo certo para criar album
             Database db;
             db.connOpen();
@@ -3215,6 +3231,8 @@ void MainWindow::on_progress_button_save_clicked()
                 _newSongList.removeLast();
 
             MovePageToAlbuns();
+
+            ui->statusBar->clearMessage();
 
         }
     }

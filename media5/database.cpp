@@ -191,7 +191,7 @@ bool Database::addAlbum(Album *newAlbum)
 
 
     newAlbum->setIdBD(id);
-    newAlbum->setDiretoria(newAlbum->getDiretoria()+ QString::number(id)+ " - "+ newAlbum->getNome());
+    newAlbum->setDiretoria(newAlbum->getDiretoria()+ QString::number(id));
 
     if(newAlbum->getImagem()!= NULL)
     {
