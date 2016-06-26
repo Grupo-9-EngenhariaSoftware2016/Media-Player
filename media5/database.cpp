@@ -191,7 +191,7 @@ bool Database::addAlbum(Album *newAlbum)
 
 
     newAlbum->setIdBD(id);
-    newAlbum->setDiretoria(newAlbum->getDiretoria()+ QString::number(id)+ " - "+ newAlbum->getNome());
+    newAlbum->setDiretoria(newAlbum->getDiretoria()+ QString::number(id));
 
     if(newAlbum->getImagem()!= NULL)
     {
@@ -492,6 +492,30 @@ bool Database::removeSong(Musica *Song)
     qDebug() <<"=================================";
 
     return false;
+}
+bool Database::moveSong(Musica* Song,int newAlbumID)
+{
+    qDebug() <<"=================================";
+    qDebug() <<"PROCESS: Actualizar Musica" << Song->getNome();
+    QSqlQuery move_song;
+    move_song.prepare("UPDATE Musica SET ID_Album=:ID_Album,Diretoria=:Diretoria  WHERE ID_Musica=:ID_Musica;");
+    move_song.bindValue(":ID_Musica",     Song->getIdBD());
+    move_song.bindValue(":Diretoria",     Song->getDiretoria());
+    move_song.bindValue(":ID_Album",      newAlbumID);
+
+    if(move_song.exec())
+    {
+         qDebug() <<"PROCESS END: Musica " << Song->getNome() << "Movida";
+         qDebug() <<"=================================";
+         return true;
+    }
+
+    qDebug() <<"=================================";
+    qDebug() <<"PROCESS END: Musica " << Song->getNome() << " NAO Movida";
+
+    return false;
+
+
 }
 // ===================================================================
 // Autores

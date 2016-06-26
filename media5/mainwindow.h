@@ -18,6 +18,7 @@
 #include <QItemDelegate>
 #include <QStandardItemModel>
 #include "dialog.h"
+#include "searchartist.h"
 #include "classes.h"
 #include "mydelegate.h"
 
@@ -68,12 +69,15 @@ public:
 
 private slots:
     // Refresh Handlers
+    void callRefresh();
     void on_player_positionChanged(qint64 position);
     void on_player_durationChanged(qint64 duration);
     void on_player_mutedChanged(bool muted);
     void on_player_playbackModeChanged(QMediaPlaylist::PlaybackMode mode);
     void on_player_stateChanged(QMediaPlayer::State state);
     void on_playlist_selected(MyAction *action);
+    void on_album_description_changed();
+    void on_playlist_description_changed();
     void on_categories_cell_changed(int row, int column);
     void on_album_info_cell_changed(int row, int column);
     void on_artist_cell_changed(int row, int column);
@@ -115,16 +119,20 @@ private slots:
     void on_page_album_info_button_remove_clicked();
     //void on_page_album_info_button_exploreArtist_clicked();
     void on_page_album_info_button_select_toggled(bool checked);
+    void on_page_album_info_button_select_3_clicked();
     void on_page_album_info_tableWidget_doubleClicked(const QModelIndex &index);
 
     // Page Add Album Handlers
     void on_page_add_album_button_addArtwork_clicked();
+    void on_page_remove_album_artwork_clicked();
     void on_page_add_album_button_addMusic_clicked();
     void on_page_add_album_button_addFolder_clicked();
     void on_page_add_album_button_remove_clicked();
+    void on_page_add_album_button_selectAll_clicked();
     void on_page_add_album_button_addArtistTo_clicked();
     void on_page_add_album_button_addArtistToAll_clicked();
     void on_page_add_album_button_removeArtistFrom_clicked();
+    void on_page_add_album_button_subArtistToAll_clicked();
     void on_page_add_album_button_newArtist_clicked();
     void on_page_add_album_lineEdit_searchArtists_returnPressed();
     void on_page_add_album_lineEdit_searchArtists_textChanged(const QString &arg1);
@@ -133,6 +141,10 @@ private slots:
     void on_page_add_music_button_addFolder_clicked();
     void on_page_add_music_button_addMusic_clicked();
     void on_page_add_music_comboBox_albuns_currentIndexChanged(int index);
+    void on_page_add_music_button_remove_clicked();
+    void on_page_add_music_button_subAutorTo_clicked();
+    void on_page_add_music_button_selectAll_clicked();
+    void on_page_add_music_button_addAutorTo_clicked();
 
     // Page Search Handlers
     void on_page_search_tableWidget_artists_doubleClicked(const QModelIndex &index);
@@ -181,17 +193,23 @@ private slots:
     void on_options_button_play_clicked();
     void on_options_button_remove_clicked();
 
-    void on_options_button_edit_toggled(bool checked);
+    void on_pushButton_clicked();
 
+    void on_page_add_music_lineEdit_albuns_editingFinished();
 
-    void on_page_remove_album_artwork_clicked();
+    void on_page_add_music_lineEdit_artist_editingFinished();
 
 private:
     Ui::MainWindow *ui;
     Dialog * mdialog;
+    searchArtist * diagArtist;
+    QString _helpLink = "https://www.youtube.com/watch?v=ZROi9WSY-Bk";
+
     QFileSystemModel *dirmodel;
     QFileSystemModel *filemodel;
-    MyDelegate *genderDelegate, *artistDelegate;
+    MyDelegate *genderDelegate;
+    MyAlbumDelegate *albumDelegate;
+    MyArtistDelegate *artistDelegate;
 
     QList<Autor*> getArtistsFrom(Album *album);
     QList<Autor*> getArtistsFrom(Playlist *playlist);
